@@ -1,0 +1,76 @@
+/** IMPORT FONTS */
+@import "assets/fonts.scss";
+
+/**************************************
+ * COLOR VARIABLES
+ */
+
+$color-black: #000000;
+$color-grey-light: #858585;
+$color-white: #ffffff;
+$color-purple: #04395e;
+$color-red: #a72d2d;
+$color-red-light: #d56767;
+
+/**************************************
+ * TEXT VARIABLES
+ */
+
+$font-header: FiraSans;
+$font-regular: Roboto;
+
+@mixin text-title-1() {
+  font-family: $font-header;
+  text-style: normal;
+  text-weight: 900;
+  font-size: 64px;
+}
+
+@mixin text-title-2() {
+  font-family: $font-header;
+  text-style: normal;
+  text-weight: 800;
+  font-size: 48px;
+}
+
+@mixin text-title-3() {
+  font-family: $font-header;
+  text-style: normal;
+  text-weight: 700;
+  font-size: 38px;
+}
+
+@mixin text-title-4() {
+  font-family: $font-header;
+  text-style: normal;
+  text-weight: 700;
+  font-size: 30px;
+}
+
+@mixin text-title-5() {
+  font-family: $font-header;
+  text-style: normal;
+  text-weight: 600;
+  font-size: 24px;
+}
+
+@mixin text-prime() {
+  font-family: $font-regular;
+  text-style: normal;
+  text-weight: 500;
+  font-size: 16px;
+}
+
+@mixin text-small() {
+  font-family: $font-regular;
+  text-style: normal;
+  text-weight: 400;
+  font-size: 14px;
+}
+
+@mixin text-tiny() {
+  font-family: $font-regular;
+  text-style: normal;
+  text-weight: 400;
+  font-size: 12px;
+}
