@@ -6,6 +6,10 @@
   background: $color-white;
   padding: 8px 12px 8px 12px;
   cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    background: darken($color-white, 8%);
+  }
 }
 
 .initial {
@@ -46,4 +50,7 @@
 .itemError {
   background: $color-red-light;
   color: $color-white;
+  &:hover {
+    background: darken($color-red-light, 8%);
+  }
 }
