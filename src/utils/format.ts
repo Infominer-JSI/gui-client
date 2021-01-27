@@ -11,3 +11,14 @@ export const formatNumber = (nDocs: number) => {
     return nDocs;
   }
 };
+
+/**
+ * Formats the date.
+ * @param date - The date.
+ */
+export const formatDate = (date: Date) => {
+  const dateYear = date.getFullYear();
+  const dateMonth = `0${date.getMonth() + 1}`.substring(0, 2);
+  const dateDay = date.getDate();
+  return `${dateYear}-${dateMonth}-${dateDay}`;
+};

@@ -1,11 +1,14 @@
-// src/components/Task.stories.js
-
-import { IDatasetListItemParams } from "Interfaces";
-
+// import interfaces
+import { IDataset } from "Interfaces";
+// import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
-
+// import the component
 import DatasetListItem from "./index";
+
+// ==============================================
+// Configure Story
+// ==============================================
 
 const storyComponent = {
   component: DatasetListItem,
@@ -14,20 +17,13 @@ const storyComponent = {
 
 export default storyComponent;
 
-const Template: Story<IDatasetListItemParams> = (
-  args: IDatasetListItemParams
-) => <DatasetListItem {...args} />;
+// ==============================================
+// Configure Story Versions
+// ==============================================
 
-export const InQueue = Template.bind({});
-InQueue.args = {
-  id: 1,
-  type: "dataset",
-  name: "The Secret Dataset",
-  description: null,
-  nDocuments: null,
-  created: "2021-01-19T12:31:00.071Z",
-  status: "IN_QUEUE",
-};
+const Template: Story<IDataset> = (args: IDataset) => (
+  <DatasetListItem {...args} />
+);
 
 export const Loading = Template.bind({});
 Loading.args = {

@@ -15,8 +15,6 @@ import Login from "./pages/Login";
 // error routes
 import PageNotFound from "./pages/PageNotFound";
 
-import "./App.scss";
-
 export default function App() {
   return (
     <Router>

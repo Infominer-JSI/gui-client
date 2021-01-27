@@ -1,0 +1,205 @@
+/** IMPORT FONTS */
+@import "assets/fonts.scss";
+
+/**************************************
+ * COLOR VARIABLES
+ */
+
+$color-gray-50: #f9fafb;
+$color-gray-100: #f3f4f6;
+$color-gray-200: #e5e7eb;
+$color-gray-300: #d1d5db;
+$color-gray-400: #9ca3af;
+$color-gray-500: #6b7280;
+$color-gray-600: #4b5563;
+$color-gray-700: #374151;
+$color-gray-800: #1f2937;
+$color-gray-900: #111827;
+
+$color-red-50: #fef2f2;
+$color-red-100: #fee2e2;
+$color-red-200: #fecaca;
+$color-red-300: #fca5a5;
+$color-red-400: #f87171;
+$color-red-500: #ef4444;
+$color-red-600: #dc2626;
+$color-red-700: #b91c1c;
+$color-red-800: #991b1b;
+$color-red-900: #7f1d1d;
+
+$color-yellow-50: #fffbeb;
+$color-yellow-100: #fef3c7;
+$color-yellow-200: #fde68a;
+$color-yellow-300: #fcd34d;
+$color-yellow-400: #fbbf24;
+$color-yellow-500: #f59e0b;
+$color-yellow-600: #d97706;
+$color-yellow-700: #b45309;
+$color-yellow-800: #92400e;
+$color-yellow-900: #78350f;
+
+$color-green-50: #ecfdf5;
+$color-green-100: #d1fae5;
+$color-green-200: #a7f3d0;
+$color-green-300: #6ee7b7;
+$color-green-400: #34d399;
+$color-green-500: #10b981;
+$color-green-600: #059669;
+$color-green-700: #047857;
+$color-green-800: #065f46;
+$color-green-900: #064e3b;
+
+$color-blue-50: #eff6ff;
+$color-blue-100: #dbeafe;
+$color-blue-200: #bfdbfe;
+$color-blue-300: #93c5fd;
+$color-blue-400: #60a5fa;
+$color-blue-500: #3b82f6;
+$color-blue-600: #2563eb;
+$color-blue-700: #1d4ed8;
+$color-blue-800: #1e40af;
+$color-blue-900: #1e3a8a;
+
+$color-indigo-50: #eef2ff;
+$color-indigo-100: #e0e7ff;
+$color-indigo-200: #c7d2fe;
+$color-indigo-300: #a5b4fc;
+$color-indigo-400: #818cf8;
+$color-indigo-500: #6366f1;
+$color-indigo-600: #4f46e5;
+$color-indigo-700: #4338ca;
+$color-indigo-800: #3730a3;
+$color-indigo-900: #312e81;
+
+$color-purple-50: #f5f3ff;
+$color-purple-100: #ede9fe;
+$color-purple-200: #ddd6fe;
+$color-purple-300: #c4b5fd;
+$color-purple-400: #a78bfa;
+$color-purple-500: #8b5cf6;
+$color-purple-600: #7c3aed;
+$color-purple-700: #6d28d9;
+$color-purple-800: #5b21b6;
+$color-purple-900: #4c1d95;
+
+$color-pink-50: #fdf2f8;
+$color-pink-100: #fce7f3;
+$color-pink-200: #fbcfe8;
+$color-pink-300: #f9a8d4;
+$color-pink-400: #f472b6;
+$color-pink-500: #ec4899;
+$color-pink-600: #db2777;
+$color-pink-700: #be185d;
+$color-pink-800: #9d174d;
+$color-pink-900: #831843;
+
+/**************************************
+ * BREAKPOINT VARIABLES
+ */
+
+$breakpoint-screen-sm: 640px;
+$breakpoint-screen-md: 768px;
+$breakpoint-screen-lg: 1024px;
+$breakpoint-screen-xl: 1280px;
+$breakpoint-screen-2xl: 1536px;
+
+/**************************************
+ * SPACING VARIABLES
+ */
+
+$spacing-2: 2px;
+$spacing-4: 4px;
+$spacing-8: 8px;
+$spacing-12: 12px;
+$spacing-16: 16px;
+$spacing-24: 24px;
+$spacing-32: 32px;
+$spacing-48: 48px;
+
+/**************************************
+ * BORDER VARIABLES
+ */
+
+$border-radius-4: 4px;
+$border-radius-8: 8px;
+$border-radius-12: 12px;
+
+/**************************************
+ * TEXT VARIABLES
+ */
+
+$font-size-12: 12px;
+$font-size-14: 14px;
+$font-size-16: 16px;
+$font-size-20: 20px;
+$font-size-24: 24px;
+$font-size-32: 32px;
+$font-size-38: 38px;
+$font-size-48: 48px;
+$font-size-64: 64px;
+
+$font-header: FiraSans;
+$font-body: Roboto;
+
+@mixin text-title-1() {
+  font-family: $font-header;
+  font-size: $font-size-64;
+  font-style: normal;
+  font-weight: 900;
+}
+
+@mixin text-title-2() {
+  font-family: $font-header;
+  font-size: $font-size-48;
+  font-style: normal;
+  font-weight: 800;
+}
+
+@mixin text-title-3() {
+  font-family: $font-header;
+  font-size: $font-size-38;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@mixin text-title-4() {
+  font-family: $font-header;
+  font-size: $font-size-32;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@mixin text-title-5() {
+  font-family: $font-header;
+  font-size: $font-size-24;
+  font-style: normal;
+  font-weight: 600;
+}
+
+@mixin text-title-6() {
+  font-family: $font-header;
+  font-size: $font-size-20;
+  font-style: normal;
+  font-weight: 600;
+}
+
+@mixin text-body() {
+  font-family: $font-body;
+  font-size: $font-size-16;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@mixin text-small() {
+  font-family: $font-body;
+  font-size: $font-size-14;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@mixin text-tiny() {
+  font-family: $font-body;
+  font-size: $font-size-12;
+  font-style: normal;
+  font-weight: 300;
+}
