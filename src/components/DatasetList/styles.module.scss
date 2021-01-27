@@ -1,0 +1,14 @@
+@import "assets/definitions.scss";
+
+.list {
+  width: 100%;
+  & > a:not(:first-child) {
+    border-top: 1px solid $color-gray-200;
+  }
+}
+
+@media (min-width: $breakpoint-screen-md) {
+  .list {
+    width: $breakpoint-screen-md;
+  }
+}
