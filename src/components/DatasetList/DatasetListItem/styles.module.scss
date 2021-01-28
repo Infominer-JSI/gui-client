@@ -3,14 +3,14 @@
 .item {
   display: flex;
   flex-direction: row;
-  @include text-body();
+  text-decoration: none;
   padding: $spacing-8 $spacing-12;
-  background: $color-gray-50;
+  background: $color-white;
   cursor: pointer;
   transition: 0.2s;
-  text-decoration: none;
+  @include text-body();
   &:hover {
-    background: $color-gray-200;
+    background: $color-gray-100;
   }
 }
 
@@ -22,6 +22,7 @@
   height: 56px;
   border-radius: $border-radius-12;
   text-align: center;
+  color: $color-white;
   & span {
     display: block;
     @include text-title-4();
@@ -31,12 +32,10 @@
 }
 
 .statusDefault {
-  color: $color-gray-50;
-  background: $color-purple-900;
+  background: $color-blue-700;
 }
 
 .statusError {
-  color: $color-gray-50;
   background: $color-red-700;
 }
 

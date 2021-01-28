@@ -1,0 +1,34 @@
+@import "assets/definitions.scss";
+
+.website {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: $color-gray-100;
+}
+
+.content {
+  flex-grow: 1;
+  margin: $spacing-24;
+}
+
+@media (min-width: $breakpoint-screen-md) {
+  .content {
+    margin: $spacing-24 auto;
+    width: $breakpoint-screen-md;
+  }
+}
+
+@media (min-width: $breakpoint-screen-xl) {
+  .content {
+    width: $breakpoint-screen-xl;
+  }
+}
+
+@media (min-width: $breakpoint-screen-2xl) {
+  .content {
+    width: $breakpoint-screen-2xl;
+  }
+}

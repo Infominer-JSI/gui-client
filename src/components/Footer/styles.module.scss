@@ -1,0 +1,13 @@
+@import "assets/definitions.scss";
+
+.footer {
+  width: 100%;
+  @include text-small();
+  color: $color-white;
+  background: $color-blue-800;
+}
+
+.copyright {
+  text-align: center;
+  padding: $spacing-24 0;
+}

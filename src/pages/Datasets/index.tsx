@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 // import components
 import DatasetList from "components/DatasetList";
 
+import styles from "./styles.module.scss";
+
 export default function Datasets() {
   const [datasets, setDatasets] = useState<IDatasets>({ datasets: [] });
 
@@ -19,8 +21,8 @@ export default function Datasets() {
   }, []);
 
   return (
-    <div>
-      <h1>Datasets</h1>
+    <div className={styles.container}>
+      <h1 className={styles.header}>Datasets</h1>
       <DatasetList {...datasets} />
     </div>
   );

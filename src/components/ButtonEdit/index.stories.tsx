@@ -1,16 +1,18 @@
+// import interfaces
+import { IButton } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import Datasets from "./index";
+import ButtonEdit from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: Datasets,
-  title: "Page Datasets",
+  component: ButtonEdit,
+  title: "Button (Edit)",
 };
 
 export default storyComponent;
@@ -19,6 +21,7 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story = () => <Datasets />;
+const Template: Story<IButton> = (args: IButton) => <ButtonEdit {...args} />;
 
 export const Default = Template.bind({});
+Default.args = {};

@@ -1,0 +1,34 @@
+@import "assets/definitions.scss";
+
+@mixin parent() {
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
+  @include text-small();
+}
+
+.collapsed {
+  @include parent();
+  height: 3.4em;
+}
+
+.extended {
+  @include parent();
+  height: auto;
+}
+
+.content {
+  width: 100%;
+  height: auto;
+}
+
+.button {
+  @include text-body();
+  font-size: $font-size-14;
+  background: none;
+  border: 0;
+  padding: 0;
+  padding-top: $spacing-8;
+  &:focus {
+    outline: 0;
+  }
+}

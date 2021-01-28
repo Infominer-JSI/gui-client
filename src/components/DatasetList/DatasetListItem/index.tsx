@@ -75,7 +75,7 @@ export default function DatasetListItem(props: IDataset) {
   return (
     <Link to={routePath} className={styles.item}>
       <div className={datasetStatus}>
-        <span>{statusSymbol(status)}</span>
+        <span>{statusSymbol(status as string)}</span>
       </div>
       <div className={styles.metadata}>
         <div>

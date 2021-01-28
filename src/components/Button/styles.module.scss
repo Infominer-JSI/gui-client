@@ -1,0 +1,39 @@
+@import "assets/definitions.scss";
+
+@mixin defaultButton() {
+  border-radius: $border-radius-8;
+  border: 0;
+  padding: 0;
+  transition: 0.2s;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: none;
+  @include text-title-6();
+}
+
+@mixin buttonType($baseColor, $textColor) {
+  @include defaultButton();
+  background: $baseColor;
+  color: $textColor;
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    background: darken($baseColor, 40%);
+  }
+  &:active {
+    background: darken($baseColor, 50%);
+  }
+}
+
+.default {
+  @include buttonType($color-blue-200, $color-blue-50);
+}
+
+.edit {
+  @include buttonType($color-green-200, $color-green-50);
+}
+
+.delete {
+  @include buttonType($color-red-200, $color-red-50);
+}

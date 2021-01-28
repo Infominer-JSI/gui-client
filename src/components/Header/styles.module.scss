@@ -1,0 +1,32 @@
+@import "assets/definitions.scss";
+
+.header {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between; // space out brand from logo
+  background: $color-blue-800;
+  @include text-body();
+}
+
+.header * {
+  display: inline-block;
+}
+
+.header ul {
+  padding-inline-start: 0;
+  margin: $spacing-16;
+}
+
+.header li {
+  margin: $spacing-8;
+  color: $color-white;
+  a {
+    color: $color-white;
+    text-decoration: none;
+    &.active {
+      background: $color-blue-900;
+    }
+  }
+}

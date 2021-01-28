@@ -1,0 +1,9 @@
+@import "assets/definitions.scss";
+
+.container {
+  width: 100%;
+}
+
+.header {
+  @include text-title-3();
+}

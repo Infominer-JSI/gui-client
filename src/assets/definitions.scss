@@ -1,9 +1,15 @@
-/** IMPORT FONTS */
+/**************************************
+ * IMPORT FONTS
+ */
+
 @import "assets/fonts.scss";
 
 /**************************************
  * COLOR VARIABLES
  */
+
+$color-white: #ffffff;
+$color-black: #000000;
 
 $color-gray-50: #f9fafb;
 $color-gray-100: #f3f4f6;
@@ -202,4 +208,12 @@ $font-body: Roboto;
   font-size: $font-size-12;
   font-style: normal;
   font-weight: 300;
+}
+
+/**************************************
+ * SHADOW VARIABLES
+ */
+
+@mixin shadow() {
+  box-shadow: 8px 8px 25px rgba($color-gray-500, 0.16), -6px -6px 25px rgba($color-white, 1);
 }

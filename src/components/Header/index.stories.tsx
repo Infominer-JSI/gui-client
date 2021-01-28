@@ -2,15 +2,15 @@
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import Datasets from "./index";
+import Header from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: Datasets,
-  title: "Page Datasets",
+  component: Header,
+  title: "Header",
 };
 
 export default storyComponent;
@@ -19,6 +19,6 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story = () => <Datasets />;
+const Template: Story = () => <Header />;
 
 export const Default = Template.bind({});
