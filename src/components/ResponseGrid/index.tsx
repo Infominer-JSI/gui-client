@@ -1,13 +1,15 @@
+// import modules
 import React, { useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
-
+import cn from "classnames";
 // import defaults
-import { responsivePb, responsiveCols } from "utils/defaults";
+import { responsivePb, responsiveCp, responsiveCols } from "utils/defaults";
 
 // add the responsive react grid style
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "./styles.scss";
+
 // create the responsive grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
 // load the original layouts
@@ -16,23 +18,25 @@ const originalLayouts = getFromLS("layouts") || {};
 export default function ResponsiveGrid(props: any) {
   // set the state
   const [layouts, setLayouts] = useState(originalLayouts);
-
+  // save the layout change
   function onLayoutChange(_layout: any, xlayouts: any) {
     saveToLS("layouts", xlayouts);
     setLayouts(xlayouts);
   }
 
+  const className = cn("layout", props.className);
+
   return (
     <ResponsiveGridLayout
-      className="layout"
+      className={className}
       breakpoints={responsivePb}
       cols={responsiveCols}
+      layouts={layouts}
+      isBounded={true}
       margin={[16, 16]}
       rowHeight={100}
-      containerPadding={[0, 16]}
-      isBounded={true}
+      containerPadding={responsiveCp}
       resizeHandles={["se", "e", "s"]}
-      layouts={layouts}
       onLayoutChange={onLayoutChange}
     >
       {props.children}

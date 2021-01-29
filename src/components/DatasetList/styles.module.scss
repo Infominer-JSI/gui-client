@@ -5,7 +5,11 @@
   background: $color-white;
   border-radius: $border-radius-4;
   @include shadow();
-  & > a:not(:first-child) {
-    border-top: 1px solid $color-gray-200;
+
+  & > a:nth-child(even) {
+    background: $color-gray-50;
+    &:hover {
+      background: $color-gray-100;
+    }
   }
 }

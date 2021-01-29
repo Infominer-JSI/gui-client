@@ -17,18 +17,19 @@
 @media (min-width: $breakpoint-screen-md) {
   .content {
     margin: $spacing-24 auto;
-    width: $breakpoint-screen-md;
+    min-width: $breakpoint-screen-md;
   }
 }
 
 @media (min-width: $breakpoint-screen-xl) {
   .content {
-    width: $breakpoint-screen-xl;
+    min-width: $breakpoint-screen-xl;
   }
 }
 
 @media (min-width: $breakpoint-screen-2xl) {
   .content {
-    width: $breakpoint-screen-2xl;
+    min-width: $breakpoint-screen-2xl;
+    width: 95%;
   }
 }

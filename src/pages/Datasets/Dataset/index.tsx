@@ -50,9 +50,11 @@ export default function Datasets() {
       {loading ? (
         <span>Loading dataset...</span>
       ) : (
-        <div>
-          <DatasetMetadata {...(dataset as IDataset)} />
-          <ResponseGrid>
+        <div className={styles.layout}>
+          <div className={styles.sidebar}>
+            <DatasetMetadata {...(dataset as IDataset)} />
+          </div>
+          <ResponseGrid className={styles.main}>
             <div
               key="1"
               data-grid={{ x: 0, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}

@@ -1,5 +1,25 @@
 @import "assets/definitions.scss";
 
 .container {
+  display: block;
   margin-top: $spacing-24;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: $breakpoint-screen-2xl) {
+  .layout {
+    flex-direction: row;
+  }
+  .sidebar {
+    width: 400px;
+  }
 }
