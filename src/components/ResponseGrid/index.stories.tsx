@@ -1,5 +1,3 @@
-// import interfaces
-import { IButton } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
