@@ -46,12 +46,14 @@ export interface IMethod {
 export interface IButton {
   width?: string | number;
   height?: string | number;
+  className?: any;
   onClick?: any;
   children?: any;
   type?: string;
 }
 
 export interface ICollapse {
+  title?: string;
   collapsed?: boolean;
   maxHeight?: number;
   children: any;

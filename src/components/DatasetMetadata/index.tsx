@@ -14,7 +14,6 @@ export default function DatasetInfo(props: IDataset) {
   // get dataset information and set their state
   const { nDocuments, created } = props;
   const [name] = useState(props.name);
-  const [description] = useState(props.description);
 
   // format values
   const createdDate = formatDate(new Date(created));
@@ -31,23 +30,13 @@ export default function DatasetInfo(props: IDataset) {
       </div>
       <div className={styles.information}>
         <div className={styles.metadata}>
-          <div>{numberDocs} documents</div>
-          <div>Created Date: {createdDate}</div>
-        </div>
-        {description ? (
-          <div className={styles.description}>
-            <b>Description</b>
-            <Collapse>
-              {/* split the description based on its newlines */}
-              {description?.split(/(?:\r\n|\r|\n)/g).map((value, id) => (
-                <Fragment key={id}>
-                  {value}
-                  <br />
-                </Fragment>
-              ))}
-            </Collapse>
+          <div>
+            <b>No. Documents:</b> {numberDocs}
           </div>
-        ) : null}
+          <div>
+            <b>Created Date:</b> {createdDate}
+          </div>
+        </div>
       </div>
     </div>
   );

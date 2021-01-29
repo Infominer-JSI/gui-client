@@ -2,7 +2,9 @@ import { IDataset, ISubset, IMethod } from "Interfaces";
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import DatasetInfo from "components/DatasetInfo";
+// import components
+import DatasetMetadata from "components/DatasetMetadata";
+import ResponseGrid from "components/ResponseGrid";
 
 import styles from "./styles.module.scss";
 
@@ -48,7 +50,35 @@ export default function Datasets() {
       {loading ? (
         <span>Loading dataset...</span>
       ) : (
-        <DatasetInfo {...(dataset as IDataset)} />
+        <div>
+          <DatasetMetadata {...(dataset as IDataset)} />
+          <ResponseGrid>
+            <div
+              key="1"
+              data-grid={{ x: 0, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
+            ></div>
+            <div
+              key="2"
+              data-grid={{ x: 3, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
+            ></div>
+            <div
+              key="3"
+              data-grid={{ x: 6, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
+            ></div>
+            <div
+              key="4"
+              data-grid={{ x: 9, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
+            ></div>
+            <div
+              key="5"
+              data-grid={{ x: 0, y: 2, w: 3, h: 2, minW: 2, minH: 2 }}
+            ></div>
+            <div
+              key="6"
+              data-grid={{ x: 6, y: 2, w: 3, h: 2, minW: 2, minH: 2 }}
+            ></div>
+          </ResponseGrid>
+        </div>
       )}
     </div>
   );

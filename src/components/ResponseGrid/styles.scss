@@ -1,0 +1,65 @@
+@import "assets/definitions.scss";
+
+.layout {
+}
+
+@mixin borderStyle($property) {
+  #{$property}: 2px solid $color-gray-300;
+}
+
+.react-grid-item {
+  background: $color-white;
+  border-radius: $border-radius-4;
+  @include shadow();
+  .react-resizable-handle {
+    background-image: none;
+  }
+  & > .react-resizable-handle {
+    &::after {
+      width: 10px !important;
+      height: 10px !important;
+      @include borderStyle(border-right);
+      @include borderStyle(border-bottom);
+      border-radius: $border-radius-4;
+      clip: rect(5px, 13px, 13px, 5px);
+    }
+
+    &.react-resizable-handle-e,
+    &.react-resizable-handle-s,
+    &.react-resizable-handle-w,
+    &.react-resizable-handle-n {
+      width: 10px;
+      height: 10px;
+      margin: 3px;
+      padding: 0;
+      transform: none !important;
+    }
+    &.react-resizable-handle-e,
+    &.react-resizable-handle-w {
+      top: calc(50% - 10px);
+    }
+    &.react-resizable-handle-n,
+    &.react-resizable-handle-s {
+      left: calc(50% - 10px);
+    }
+    &.react-resizable-handle-e {
+      @include borderStyle(border-right);
+    }
+    &.react-resizable-handle-s {
+      @include borderStyle(border-bottom);
+    }
+    &.react-resizable-handle-w {
+      @include borderStyle(border-left);
+    }
+    &.react-resizable-handle-n {
+      @include borderStyle(border-top);
+    }
+    &.react-resizable-handle-e::after,
+    &.react-resizable-handle-s::after,
+    &.react-resizable-handle-w::after,
+    &.react-resizable-handle-n::after {
+      border: 0 !important;
+      clip: none;
+    }
+  }
+}

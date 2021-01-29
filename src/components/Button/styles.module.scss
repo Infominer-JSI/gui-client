@@ -1,18 +1,16 @@
 @import "assets/definitions.scss";
 
 @mixin defaultButton() {
-  border-radius: $border-radius-8;
   border: 0;
-  padding: 0;
+  border-radius: $border-radius-4;
+  padding: $spacing-12;
   transition: 0.2s;
   cursor: pointer;
-  font-family: inherit;
+  @include text-body();
   text-transform: none;
-  @include text-title-6();
 }
 
 @mixin buttonType($baseColor, $textColor) {
-  @include defaultButton();
   background: $baseColor;
   color: $textColor;
   &:focus {
@@ -27,6 +25,10 @@
 }
 
 .default {
+  @include defaultButton();
+}
+
+.primary {
   @include buttonType($color-blue-200, $color-blue-50);
 }
 

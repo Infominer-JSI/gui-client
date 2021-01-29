@@ -127,7 +127,7 @@ $spacing-48: 48px;
  */
 
 $border-radius-4: 4px;
-$border-radius-8: 8px;
+$border-radius-4: 8px;
 $border-radius-12: 12px;
 
 /**************************************
@@ -215,5 +215,5 @@ $font-body: Roboto;
  */
 
 @mixin shadow() {
-  box-shadow: 8px 8px 25px rgba($color-gray-500, 0.16), -6px -6px 25px rgba($color-white, 1);
+  box-shadow: 8px 8px 20px rgba($color-gray-500, 0.16), -6px -6px 20px rgba($color-white, 1);
 }

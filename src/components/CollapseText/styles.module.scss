@@ -1,33 +1,45 @@
 @import "assets/definitions.scss";
 
-@mixin parent() {
+.container {
+  position: relative;
+  background: $color-white;
+  border-radius: $border-radius-4;
+  height: 100px;
+}
+
+.controller {
+  display: flex;
+  padding-bottom: 0;
+  flex-direction: row;
+  padding-bottom: $spacing-4;
+}
+
+.title {
+  flex: 0;
+  @include text-title-5();
+  margin-right: $spacing-4;
+  margin-bottom: 0;
+}
+
+.parent {
+  position: absolute;
   overflow: hidden;
-  transition: 0.2s ease-in-out;
   @include text-small();
-}
-
-.collapsed {
-  @include parent();
-  height: 3.4em;
-}
-
-.extended {
-  @include parent();
-  height: auto;
-}
-
-.content {
-  width: 100%;
-  height: auto;
+  line-height: 1.5;
+  background: $color-white;
+  border-radius: $border-radius-4;
+  padding-top: 0;
+  transition: 0.2s;
+  z-index: 10;
+  .content {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .button {
-  @include text-body();
   font-size: $font-size-14;
-  background: none;
-  border: 0;
-  padding: 0;
-  padding-top: $spacing-8;
+  padding: $spacing-4 $spacing-8;
   &:focus {
     outline: 0;
   }

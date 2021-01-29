@@ -1,29 +1,23 @@
 // import interfaces
 import { IButton } from "Interfaces";
 // import modules
-import React from "react";
+import classnames from "classnames";
 // import styles and images
 import styles from "./styles.module.scss";
 
 export default function Button(props: IButton) {
   // get dataset information and set their state
-  const { width = "40px", height = "40px", onClick, type, children } = props;
-  // assign the style type
-  let buttonStyle;
-  switch (type) {
-    case "edit":
-      buttonStyle = styles.edit;
-      break;
-    case "delete":
-      buttonStyle = styles.delete;
-      break;
-    default:
-      buttonStyle = styles.default;
-      break;
-  }
+  const { className, onClick, type = "default", children } = props;
+  // assign the button style
+  const buttonStyle = classnames(styles.default, className, {
+    [styles.edit]: type === "edit",
+    [styles.delete]: type === "delete",
+    [styles.primary]: type === "primary",
+  });
 
+  console.log(children);
   return (
-    <button className={buttonStyle} style={{ width, height }} onClick={onClick}>
+    <button className={buttonStyle} onClick={onClick}>
       {children}
     </button>
   );

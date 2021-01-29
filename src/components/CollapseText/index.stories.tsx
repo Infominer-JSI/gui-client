@@ -39,7 +39,7 @@ Well, I didn't vote for you. We found them. Knights of Ni, we are but simple tra
 
 const storyComponent = {
   component: Collapse,
-  title: "Collapse",
+  title: "Collapse Text",
 };
 
 export default storyComponent;
@@ -52,6 +52,7 @@ const Template: Story<ICollapse> = (args: ICollapse) => <Collapse {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
+  title: "Description",
   collapsed: true,
   children: content,
 };
