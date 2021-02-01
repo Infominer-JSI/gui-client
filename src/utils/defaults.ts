@@ -4,8 +4,8 @@ const breakpointValues: {
   breakpoint: number;
   padding: [number, number];
 }[] = [
-  { label: "2xl", cols: 12, breakpoint: 1530, padding: [16, 0] },
-  { label: "xl", cols: 12, breakpoint: 1200, padding: [16, 0] },
+  { label: "2xl", cols: 12, breakpoint: 1530, padding: [16, 16] },
+  { label: "xl", cols: 12, breakpoint: 1200, padding: [16, 16] },
   { label: "lg", cols: 12, breakpoint: 1024, padding: [0, 16] },
   { label: "md", cols: 9, breakpoint: 768, padding: [0, 16] },
   { label: "sm", cols: 6, breakpoint: 640, padding: [0, 16] },

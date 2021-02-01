@@ -1,0 +1,32 @@
+@import "assets/definitions.scss";
+
+.button {
+  width: 100%;
+  padding: $spacing-12 $spacing-16;
+  border: 1px solid $color-gray-200;
+  background: $color-white;
+  text-align: left;
+  &:hover,
+  &:focus {
+    @include shadow-secondary();
+  }
+}
+
+.label {
+  display: inline-block;
+  color: $color-blue-700;
+  font-weight: 600;
+}
+
+.docs {
+  display: inline-block;
+  color: $color-gray-500;
+  font-size: $font-size-12;
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .button {
+    min-width: 280px;
+    max-width: 280px;
+  }
+}

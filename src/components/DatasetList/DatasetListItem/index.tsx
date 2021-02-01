@@ -70,7 +70,7 @@ export default function DatasetListItem(props: IDataset) {
 
   // define where to go when the item is clicked
   const routePath =
-    status === "FINISHED" ? `/datasets/${props.id}` : "/datasets";
+    status === "FINISHED" ? `/datasets/${props.id}/subsets/0` : "/datasets";
 
   return (
     <Link to={routePath} className={styles.item}>

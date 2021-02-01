@@ -10,7 +10,7 @@
 .react-grid-item {
   background: $color-white;
   border-radius: $border-radius-4;
-  @include shadow();
+  @include shadow-default();
   .react-resizable-handle {
     background-image: none;
   }

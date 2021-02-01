@@ -37,7 +37,21 @@ export default function App() {
             {/* Datasets Routes */}
             <Route exact path="/datasets" component={Datasets} />
             <Route exact path="/datasets/upload" component={Upload} />
-            <Route exact path="/datasets/:datasetId" component={Dataset} />
+            <Redirect
+              exact
+              from="/datasets/:datasetId"
+              to="/datasets/:datasetId/subsets/0"
+            />
+            <Redirect
+              exact
+              from="/datasets/:datasetId/subsets"
+              to="/datasets/:datasetId/subsets/0"
+            />
+            <Route
+              exact
+              path="/datasets/:datasetId/subsets/:subsetId"
+              component={Dataset}
+            />
 
             {/* Login Routes */}
             <Route exact path="/login" component={Login} />

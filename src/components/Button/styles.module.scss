@@ -8,14 +8,14 @@
   cursor: pointer;
   @include text-body();
   text-transform: none;
+  &:focus {
+    outline: 0;
+  }
 }
 
 @mixin buttonType($baseColor, $textColor) {
   background: $baseColor;
   color: $textColor;
-  &:focus {
-    outline: 0;
-  }
   &:hover {
     background: darken($baseColor, 40%);
   }

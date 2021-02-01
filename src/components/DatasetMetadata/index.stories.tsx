@@ -4,15 +4,15 @@ import { IDataset } from "Interfaces";
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import DatasetInfo from "./index";
+import DatasetMetadata from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: DatasetInfo,
-  title: "Dataset Info",
+  component: DatasetMetadata,
+  title: "Dataset Metadata",
 };
 
 export default storyComponent;
@@ -21,7 +21,9 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IDataset> = (args: IDataset) => <DatasetInfo {...args} />;
+const Template: Story<IDataset> = (args: IDataset) => (
+  <DatasetMetadata {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

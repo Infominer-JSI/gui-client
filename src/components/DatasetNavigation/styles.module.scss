@@ -1,0 +1,11 @@
+@import "assets/definitions.scss";
+
+.container {
+  display: block;
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .container {
+    display: inline-block;
+  }
+}

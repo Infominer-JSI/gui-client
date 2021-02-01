@@ -4,9 +4,11 @@
  */
 export const formatNumber = (nDocs: number) => {
   if (nDocs / 1e6 > 1) {
-    return `${(nDocs / 1e6).toFixed(0)}M`;
+    const toFixed = (nDocs % 1e6).toString().length === 6 ? 1 : 0;
+    return `${(nDocs / 1e6).toFixed(toFixed)}M`;
   } else if (nDocs / 1e3 > 1) {
-    return `${(nDocs / 1e3).toFixed(0)}k`;
+    const toFixed = (nDocs % 1e6).toString().length === 6 ? 1 : 0;
+    return `${(nDocs / 1e3).toFixed(toFixed)}k`;
   } else {
     return nDocs;
   }

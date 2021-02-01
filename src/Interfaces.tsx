@@ -28,7 +28,7 @@ export interface ISubset {
   usedBy: number[];
   nDocuments: number;
   modified: boolean;
-  metadata: any;
+  metadata?: any;
 }
 
 export interface IMethod {
@@ -43,13 +43,10 @@ export interface IMethod {
   modified: boolean;
 }
 
-export interface IButton {
-  width?: string | number;
-  height?: string | number;
-  className?: any;
-  onClick?: any;
-  children?: any;
-  type?: string;
+export enum EMethodTypes {
+  AGGREGATES = "aggregates.subset",
+  ACTIVE_LEARNING = "classifier.active_learning",
+  KMEANS_CLUSTERING = "clustering.kmeans",
 }
 
 export interface ICollapse {
@@ -57,4 +54,36 @@ export interface ICollapse {
   collapsed?: boolean;
   maxHeight?: number;
   children: any;
+}
+
+export interface IButton {
+  className?: any;
+  onClick?: any;
+  children?: any;
+  type?: string;
+}
+export interface INavigationButton {
+  onClick?: any;
+  data: ISubset | IMethod;
+}
+
+export interface INavigationButtonSubset {
+  onClick?: any;
+  data: ISubset;
+}
+
+export interface INavigationButtonMethod {
+  onClick?: any;
+  data: IMethod;
+}
+
+export interface INavigationDropdown {
+  hidden: boolean;
+  onClick?: any;
+  children?: any;
+}
+
+export interface INavigation {
+  onClick?: any;
+  data: ISubset | IMethod;
 }

@@ -214,6 +214,10 @@ $font-body: Lato;
  * SHADOW VARIABLES
  */
 
-@mixin shadow() {
-  box-shadow: 8px 8px 20px rgba($color-gray-500, 0.16);
+@mixin shadow-default() {
+  box-shadow: 8px 8px 16px rgba($color-gray-500, 0.16), -6px -6px 16px rgba($color-white, 0.4);
+}
+
+@mixin shadow-secondary() {
+  box-shadow: 8px 8px 16px rgba($color-gray-500, 0.16), -6px -6px 16px rgba($color-white, 0.4);
 }
