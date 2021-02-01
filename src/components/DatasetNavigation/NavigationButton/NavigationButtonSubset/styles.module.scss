@@ -8,7 +8,7 @@
   text-align: left;
   &:hover,
   &:focus {
-    @include shadow-secondary();
+    @include shadow-default();
   }
 }
 
