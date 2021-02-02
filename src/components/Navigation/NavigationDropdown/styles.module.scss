@@ -49,7 +49,7 @@ $rotate: 225deg;
 
 .content > .subset {
   & > .label {
-    padding: $spacing-4 $spacing-16;
+    padding: $spacing-8 $spacing-16;
   }
   & > .children {
     margin-left: $spacing-16;
@@ -59,7 +59,7 @@ $rotate: 225deg;
 .subset {
   > .label {
     display: block;
-    padding: $spacing-4 $spacing-8;
+    padding: $spacing-8;
     padding-right: $spacing-16;
     color: $color-blue-700;
     background: $color-white;
@@ -79,9 +79,6 @@ $rotate: 225deg;
     &:hover {
       background: $color-gray-100;
     }
-  }
-  > .children {
-    margin-left: $spacing-8;
   }
   .ndocuments {
     display: block;
