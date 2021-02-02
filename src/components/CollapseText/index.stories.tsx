@@ -39,7 +39,7 @@ Well, I didn't vote for you. We found them. Knights of Ni, we are but simple tra
 
 const storyComponent = {
   component: Collapse,
-  title: "Collapse Text",
+  title: "Components/Collapse Text",
 };
 
 export default storyComponent;
@@ -52,7 +52,6 @@ const Template: Story<ICollapse> = (args: ICollapse) => <Collapse {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  title: "Description",
   collapsed: true,
   children: content,
 };
@@ -67,4 +66,11 @@ export const Extended = Template.bind({});
 Extended.args = {
   collapsed: false,
   children: content,
+};
+
+export const ShortText = Template.bind({});
+ShortText.args = {
+  collapsed: true,
+  children:
+    "Well, we did do the nose. Camelot! Bring her forward! What a strange person. I dunno. Must be a king.",
 };

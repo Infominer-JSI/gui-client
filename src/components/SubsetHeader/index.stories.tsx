@@ -4,15 +4,15 @@ import { ISubset } from "Interfaces";
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import SubsetMetadata from "./index";
+import SubsetHeader from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: SubsetMetadata,
-  title: "Subset Metadata",
+  component: SubsetHeader,
+  title: "Subset/Header",
 };
 
 export default storyComponent;
@@ -21,9 +21,7 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<ISubset> = (args: ISubset) => (
-  <SubsetMetadata {...args} />
-);
+const Template: Story<ISubset> = (args: ISubset) => <SubsetHeader {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

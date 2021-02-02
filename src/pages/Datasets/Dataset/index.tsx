@@ -1,12 +1,16 @@
+// import interfaces
 import { IDataset, ISubset, IMethod } from "Interfaces";
-
+// import modules
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-// import components
-import DatasetMetadata from "components/DatasetMetadata";
-import SubsetMetadata from "components/SubsetMetadata";
-import ResponseGrid from "components/ResponseGrid";
 
+// import components
+import DatasetHeader from "components/DatasetHeader";
+import SubsetHeader from "components/SubsetHeader";
+import ResponseGrid from "components/ResponseGrid";
+// import utils
+import Dataset from "utils/Dataset";
+// import styles
 import styles from "./styles.module.scss";
 
 export default function Datasets() {
@@ -23,9 +27,7 @@ export default function Datasets() {
 
   const [loading, setLoading] = useState(true);
   // dataset, subset and method information
-  const [dataset, setDataset] = useState<IDataset>();
-  const [subsets, setSubsets] = useState<ISubset[]>([]);
-  const [methods, setMethods] = useState<IMethod[]>([]);
+  const [dataset, setDataset] = useState<Dataset>();
 
   // get the data
   useEffect(() => {
@@ -38,17 +40,13 @@ export default function Datasets() {
         methods: IMethod[];
       } = await response.json();
       // set the
-      setDataset(data.datasets);
-      setSubsets(data.subsets);
-      setMethods(data.methods);
+      setDataset(new Dataset(data.datasets, data.subsets, data.methods));
       setLoading(false);
     }
     fetchData();
   }, [datasetId]);
 
   console.log(dataset);
-  console.log(subsets);
-  console.log(methods);
 
   return (
     <div className={styles.container}>
@@ -57,10 +55,10 @@ export default function Datasets() {
       ) : (
         <div className={styles.layout}>
           <div className={styles.sidebar}>
-            <DatasetMetadata {...(dataset as IDataset)} />
+            <DatasetHeader {...(dataset?.getDataset() as IDataset)} />
           </div>
           <div className={styles.main}>
-            <SubsetMetadata {...(subsets[subsetId] as ISubset)} />
+            <SubsetHeader {...(dataset?.getSubset(subsetId) as ISubset)} />
             <ResponseGrid>
               <div
                 key="1"

@@ -4,15 +4,15 @@ import { IDataset } from "Interfaces";
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import DatasetMetadata from "./index";
+import DatasetHeader from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: DatasetMetadata,
-  title: "Dataset Metadata",
+  component: DatasetHeader,
+  title: "Dataset/Header",
 };
 
 export default storyComponent;
@@ -22,7 +22,7 @@ export default storyComponent;
 // ==============================================
 
 const Template: Story<IDataset> = (args: IDataset) => (
-  <DatasetMetadata {...args} />
+  <DatasetHeader {...args} />
 );
 
 export const Default = Template.bind({});

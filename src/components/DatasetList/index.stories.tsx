@@ -12,7 +12,7 @@ import DatasetList from "./index";
 
 const storyComponent = {
   component: DatasetList,
-  title: "Dataset List",
+  title: "Datasets/Dataset List",
 };
 
 export default storyComponent;

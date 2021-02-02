@@ -10,7 +10,7 @@ import Header from "./index";
 
 const storyComponent = {
   component: Header,
-  title: "Header",
+  title: "Components/Header",
 };
 
 export default storyComponent;

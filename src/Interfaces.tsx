@@ -1,3 +1,5 @@
+import Dataset from "utils/Dataset";
+
 interface IDatasetField {
   name: string;
   type: string;
@@ -24,7 +26,7 @@ export interface ISubset {
   type: string;
   label: string;
   description: string | null;
-  resultedIn: number;
+  resultedIn: number | null;
   usedBy: number[];
   nDocuments: number;
   modified: boolean;
@@ -37,14 +39,14 @@ export interface IMethod {
   method: string;
   status: string;
   appliedOn: number;
-  produced?: number[];
+  produced: number[] | null;
   parameters: any;
   result: any;
   modified: boolean;
 }
 
 export enum EMethodTypes {
-  AGGREGATES = "aggregates.subset",
+  AGGREGATE = "aggregate.subset",
   ACTIVE_LEARNING = "classifier.active_learning",
   KMEANS_CLUSTERING = "clustering.kmeans",
 }
@@ -64,26 +66,42 @@ export interface IButton {
 }
 export interface INavigationButton {
   onClick?: any;
-  data: ISubset | IMethod;
+  selected: ISubset | IMethod;
 }
 
-export interface INavigationButtonSubset {
+export interface ISubsetNavigationButton {
+  className: any;
   onClick?: any;
-  data: ISubset;
+  selected: ISubset;
 }
 
-export interface INavigationButtonMethod {
+export interface IMethodNavigationButton {
+  className: any;
   onClick?: any;
-  data: IMethod;
+  selected: IMethod;
 }
 
 export interface INavigationDropdown {
   hidden: boolean;
   onClick?: any;
-  children?: any;
+  dataset: Dataset;
+  selectedId: number;
+}
+
+export interface ISubsetNavigationItem {
+  selectedId: number;
+  dataset: Dataset;
+  subsetId: number;
+}
+
+export interface IMethodNavigationItem {
+  selectedId: number;
+  dataset: Dataset;
+  methodId: number;
 }
 
 export interface INavigation {
+  selectedId: number;
+  dataset: Dataset;
   onClick?: any;
-  data: ISubset | IMethod;
 }

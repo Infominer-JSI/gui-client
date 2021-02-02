@@ -3,6 +3,7 @@ import { INavigationDropdown } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+import { dataset } from "utils/defaults";
 // import the component
 import NavigationDropdown from "./index";
 
@@ -12,7 +13,7 @@ import NavigationDropdown from "./index";
 
 const storyComponent = {
   component: NavigationDropdown,
-  title: "Navigation Dropdown",
+  title: "Dataset/Navigation/Dropdown",
 };
 
 export default storyComponent;
@@ -28,9 +29,11 @@ const Template: Story<INavigationDropdown> = (args: INavigationDropdown) => (
 export const Default = Template.bind({});
 Default.args = {
   hidden: false,
+  dataset,
 };
 
 export const Hidden = Template.bind({});
 Hidden.args = {
   hidden: true,
+  dataset,
 };

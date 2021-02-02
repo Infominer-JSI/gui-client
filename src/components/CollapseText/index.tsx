@@ -8,7 +8,7 @@ import styles from "./styles.module.scss";
 
 export default function Collapse(props: ICollapse) {
   // get the props
-  const { title, collapsed = true, maxHeight = 43, children } = props;
+  const { collapsed = true, maxHeight = 50, children } = props;
   // set the initial states
   const [collapse, setCollapse] = useState(collapsed);
   const [showMore, setShowMore] = useState(false);
@@ -32,10 +32,10 @@ export default function Collapse(props: ICollapse) {
     collapse ? setCollapse(false) : setCollapse(true);
   }
 
-  let height = collapse ? maxHeight + 44 : 100;
+  let height = collapse ? maxHeight : 100;
   if (containerRef.current) {
-    const offsetHeight = containerRef.current?.offsetHeight + 44;
-    height = collapse ? maxHeight + 44 : offsetHeight;
+    const offsetHeight = containerRef.current?.offsetHeight;
+    height = collapse ? maxHeight : offsetHeight;
   }
 
   const showButton = showMore ? (
@@ -46,10 +46,7 @@ export default function Collapse(props: ICollapse) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.controller}>
-        {title ? <h1 className={styles.title}>{title}</h1> : null}
-        {showButton}
-      </div>
+      <div className={styles.controller}>{showButton}</div>
       <div className={styles.parent} style={{ maxHeight: `${height}px` }}>
         <div className={styles.content} ref={containerRef}>
           {children}

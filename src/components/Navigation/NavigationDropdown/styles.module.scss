@@ -1,0 +1,116 @@
+@import "assets/definitions.scss";
+
+.container {
+  position: relative;
+  width: 100%;
+  margin-top: 4px;
+  padding-top: 10px;
+}
+
+.hide {
+  display: none;
+}
+
+$rotate: 225deg;
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  transform: rotate($rotate);
+  -webkit-transform: rotate($rotate);
+  -moz-transform: rotate($rotate);
+  -o-transform: rotate($rotate);
+  -ms-transform: rotate($rotate);
+  border-right: 1px solid $color-gray-200;
+  border-bottom: 1px solid $color-gray-200;
+  background: $color-white;
+}
+
+.content {
+  z-index: 10;
+  padding: $spacing-16 0;
+  border: 1px solid $color-gray-200;
+  border-radius: $border-radius-4;
+  background: $color-white;
+  @include shadow-default();
+  @include text-body();
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .container {
+    width: 400px;
+  }
+}
+
+.content > .subset {
+  & > .label {
+    padding: $spacing-4 $spacing-16;
+  }
+  & > .children {
+    margin-left: $spacing-16;
+  }
+}
+
+.subset {
+  > .label {
+    width: 100%;
+    display: block;
+    padding: $spacing-4 $spacing-8;
+    padding-right: $spacing-16;
+    color: $color-blue-700;
+    background: $color-white;
+    text-transform: none;
+    text-align: left;
+    @include text-body();
+    border: 0;
+    transition: 0.2s;
+    cursor: pointer;
+    &.selected {
+      background: $color-gray-50;
+    }
+    &:focus {
+      outline: 0;
+    }
+    &:hover {
+      background: $color-gray-100;
+    }
+  }
+  > .children {
+    margin-left: $spacing-8;
+  }
+}
+
+.method {
+  > .label {
+    padding: $spacing-2 $spacing-8;
+    padding-right: $spacing-16;
+    font-size: $font-size-12;
+    color: $color-green-800;
+    background: $color-green-100;
+  }
+  > .children {
+    margin-left: $spacing-8;
+  }
+}
+
+.ndocuments {
+  display: block;
+  color: $color-gray-500;
+  @include text-tiny();
+}
+
+.method {
+  > .children {
+    position: relative;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      bottom: 0px;
+      border-left: 1px solid $color-green-200;
+    }
+  }
+}

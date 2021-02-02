@@ -1,5 +1,5 @@
 // import interfaces
-import { INavigation } from "Interfaces";
+import { INavigation, ISubset } from "Interfaces";
 // import modules and components
 import React, { useState, useEffect, useRef } from "react";
 import NavigationButton from "./NavigationButton";
@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 
 export default function Navigation(props: INavigation) {
   // get the metadata for creating the navigation dropdown
-  const { data } = props;
+  const { selectedId, dataset } = props;
 
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,10 +35,16 @@ export default function Navigation(props: INavigation) {
     setHidden(!hidden);
   };
 
+  const selected = dataset.getSubset(selectedId) as ISubset;
+
   return (
     <div className={styles.container} ref={containerRef}>
-      <NavigationButton data={data} onClick={toggleDropdown} />
-      <NavigationDropdown hidden={hidden} />
+      <NavigationButton selected={selected} onClick={toggleDropdown} />
+      <NavigationDropdown
+        hidden={hidden}
+        selectedId={selectedId}
+        dataset={dataset}
+      />
     </div>
   );
 }

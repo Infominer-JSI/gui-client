@@ -1,0 +1,13 @@
+@import "assets/definitions.scss";
+
+.label {
+  display: inline-block;
+  color: $color-blue-700;
+  font-weight: 600;
+}
+
+.docs {
+  display: inline-block;
+  color: $color-gray-500;
+  font-size: $font-size-12;
+}

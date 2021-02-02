@@ -10,7 +10,7 @@ import ResponsiveGrid from "./index";
 
 const storyComponent = {
   component: ResponsiveGrid,
-  title: "Responsive Grid",
+  title: "Layouts/Responsive Grid",
 };
 
 export default storyComponent;
@@ -23,18 +23,18 @@ const Template: Story = (args: any) => <ResponsiveGrid {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  children: <div key="1">1</div>,
+  children: <div key="1"></div>,
 };
 
 export const Multiple = Template.bind({});
 Multiple.args = {
   children: [
-    <div key="1">1</div>,
-    <div key="2">2</div>,
-    <div key="3">3</div>,
-    <div key="4">4</div>,
-    <div key="5">5</div>,
-    <div key="6">6</div>,
+    <div key="1"></div>,
+    <div key="2"></div>,
+    <div key="3"></div>,
+    <div key="4"></div>,
+    <div key="5"></div>,
+    <div key="6"></div>,
   ],
 };
 
