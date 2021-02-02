@@ -41,13 +41,12 @@ function SubsetNavigationItem(props: ISubsetNavigationItem) {
   const { selectedId, dataset, subsetId } = props;
   // get the subset metadata
   const subset = dataset.getSubset(subsetId) as ISubset;
+  // get the number of documents
+  const nDocs = formatNumber(subset.nDocuments);
   // define the label style
   const styleLabel = cn(styles.label, {
     [styles.selected]: selectedId === subset.id,
   });
-  // get the number of documents
-  const nDocs = formatNumber(subset.nDocuments);
-
   return (
     <div className={styles.subset}>
       <button className={styleLabel}>
