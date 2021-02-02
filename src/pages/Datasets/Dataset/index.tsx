@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import DatasetHeader from "components/DatasetHeader";
 import SubsetHeader from "components/SubsetHeader";
 import ResponseGrid from "components/ResponseGrid";
+import Navigation from "components/Navigation";
+
 // import utils
 import Dataset from "utils/Dataset";
 // import styles
@@ -23,7 +25,7 @@ export default function Datasets() {
 
   // set state variables
   const [datasetId] = useState(parseInt(params.datasetId));
-  const [subsetId] = useState(parseInt(params.subsetId));
+  const subsetId = parseInt(params.subsetId);
 
   const [loading, setLoading] = useState(true);
   // dataset, subset and method information
@@ -32,6 +34,8 @@ export default function Datasets() {
   // get the data
   useEffect(() => {
     async function fetchData() {
+      // start loading
+      setLoading(true);
       // get the datasetsa
       const response = await fetch(`/api/v1/datasets/${datasetId}`);
       const data: {
@@ -39,14 +43,13 @@ export default function Datasets() {
         subsets: ISubset[];
         methods: IMethod[];
       } = await response.json();
-      // set the
+      // set the dataset metadata
       setDataset(new Dataset(data.datasets, data.subsets, data.methods));
+      // end loading
       setLoading(false);
     }
     fetchData();
   }, [datasetId]);
-
-  console.log(dataset);
 
   return (
     <div className={styles.container}>
@@ -55,35 +58,41 @@ export default function Datasets() {
       ) : (
         <div className={styles.layout}>
           <div className={styles.sidebar}>
+            <Navigation selectedId={subsetId} dataset={dataset as Dataset} />
             <DatasetHeader {...(dataset?.getDataset() as IDataset)} />
           </div>
           <div className={styles.main}>
-            <SubsetHeader {...(dataset?.getSubset(subsetId) as ISubset)} />
+            <SubsetHeader selectedId={subsetId} dataset={dataset as Dataset} />
             <ResponseGrid>
-              <div
-                key="1"
-                data-grid={{ x: 0, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
-              ></div>
-              <div
-                key="2"
-                data-grid={{ x: 3, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
-              ></div>
-              <div
-                key="3"
-                data-grid={{ x: 6, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
-              ></div>
-              <div
-                key="4"
-                data-grid={{ x: 9, y: 0, w: 3, h: 2, minW: 2, minH: 2 }}
-              ></div>
-              <div
-                key="5"
-                data-grid={{ x: 0, y: 2, w: 3, h: 2, minW: 2, minH: 2 }}
-              ></div>
-              <div
-                key="6"
-                data-grid={{ x: 6, y: 2, w: 3, h: 2, minW: 2, minH: 2 }}
-              ></div>
+              {[
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+              ].map((val, id) => {
+                const x = ((val - 1) * 3) % 12;
+                const y = 2 * Math.floor(val / 12);
+                return (
+                  <div
+                    key={id}
+                    data-grid={{ x, y, w: 3, h: 2, minW: 2, minH: 2 }}
+                  ></div>
+                );
+              })}
             </ResponseGrid>
           </div>
         </div>

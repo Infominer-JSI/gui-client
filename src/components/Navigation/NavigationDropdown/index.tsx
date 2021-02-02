@@ -10,15 +10,16 @@ import {
 
 // import modules
 import React from "react";
-import cn from "classnames";
+import { Link } from "react-router-dom";
 import { formatMethod, formatNumber } from "utils/format";
+import cn from "classnames";
 
 // import styles and images
 import styles from "./styles.module.scss";
 
 export default function NavigationDropdown(props: INavigationDropdown) {
   // get dataset information and set their state
-  const { hidden, selectedId, dataset } = props;
+  const { hidden, selectedId, dataset, onClick } = props;
   // assign the button style
   const dropdownStyle = cn(styles.container, {
     [styles.hide]: hidden === true,
@@ -28,9 +29,10 @@ export default function NavigationDropdown(props: INavigationDropdown) {
       <div className={styles.triangle}></div>
       <div className={styles.content}>
         <SubsetNavigationItem
-          selectedId={selectedId}
           dataset={dataset}
+          selectedId={selectedId}
           subsetId={0}
+          onClick={onClick}
         />
       </div>
     </div>
@@ -38,8 +40,9 @@ export default function NavigationDropdown(props: INavigationDropdown) {
 }
 
 function SubsetNavigationItem(props: ISubsetNavigationItem) {
-  const { selectedId, dataset, subsetId } = props;
+  const { selectedId, dataset, subsetId, onClick } = props;
   // get the subset metadata
+  const datasetId = dataset.getDataset().id;
   const subset = dataset.getSubset(subsetId) as ISubset;
   // get the number of documents
   const nDocs = formatNumber(subset.nDocuments);
@@ -49,19 +52,24 @@ function SubsetNavigationItem(props: ISubsetNavigationItem) {
   });
   return (
     <div className={styles.subset}>
-      <button className={styleLabel}>
+      <Link
+        className={styleLabel}
+        to={`/datasets/${datasetId}/subsets/${subset.id}`}
+        onClick={onClick}
+      >
         <span>{subset?.label} </span>
         <span className={styles.ndocuments}>{nDocs} documents</span>
-      </button>
+      </Link>
       <div className={styles.children}>
         {subset?.usedBy.map((methodId, id) => {
           const method = dataset.getMethod(methodId);
           return method?.method === EMethodTypes.AGGREGATE ? null : (
             <MethodNavigationItem
               key={id}
+              dataset={dataset}
               selectedId={selectedId}
               methodId={methodId}
-              dataset={dataset}
+              onClick={onClick}
             />
           );
         })}
@@ -71,7 +79,7 @@ function SubsetNavigationItem(props: ISubsetNavigationItem) {
 }
 
 function MethodNavigationItem(props: IMethodNavigationItem) {
-  const { selectedId, dataset, methodId } = props;
+  const { selectedId, dataset, methodId, onClick } = props;
   // get the subset metadata
   const method = dataset.getMethod(methodId) as IMethod;
   const label = formatMethod(method.method);
@@ -82,9 +90,10 @@ function MethodNavigationItem(props: IMethodNavigationItem) {
         {method?.produced?.map((subsetId, id) => (
           <SubsetNavigationItem
             key={id}
+            dataset={dataset}
             selectedId={selectedId}
             subsetId={subsetId}
-            dataset={dataset}
+            onClick={onClick}
           />
         ))}
       </div>

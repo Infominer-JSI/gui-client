@@ -9,6 +9,7 @@
   &:hover,
   &:focus {
     @include shadow-default();
+    border: 1px solid $color-gray-300;
   }
 }
 

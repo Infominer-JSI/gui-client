@@ -24,7 +24,7 @@ export const formatNumber = (nDocs: number) => {
 export const formatDate = (date: Date) => {
   const dateYear = date.getFullYear();
   const dateMonth = `0${date.getMonth() + 1}`.substring(0, 2);
-  const dateDay = date.getDate();
+  const dateDay = `0${date.getDate()}`.substring(0, 2);
   return `${dateYear}-${dateMonth}-${dateDay}`;
 };
 

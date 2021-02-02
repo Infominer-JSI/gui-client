@@ -1,19 +1,18 @@
 // import interfaces
-import { ISubsetHeader } from "Interfaces";
+import { IDownloadButton } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
-import { dataset } from "utils/defaults";
 // import the component
-import SubsetHeader from "./index";
+import DownloadButton from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: SubsetHeader,
-  title: "Subset/Header",
+  component: DownloadButton,
+  title: "Components/Button (Download)",
 };
 
 export default storyComponent;
@@ -22,12 +21,12 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<ISubsetHeader> = (args: ISubsetHeader) => (
-  <SubsetHeader {...args} />
+const Template: Story<IDownloadButton> = (args: IDownloadButton) => (
+  <DownloadButton {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  selectedId: 0,
-  dataset,
+  downloadLink:
+    "https://live.staticflickr.com/6014/5891611902_5c529db2cc_b.jpg",
 };

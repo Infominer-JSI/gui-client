@@ -10,7 +10,6 @@ import styles from "./styles.module.scss";
 export default function Navigation(props: INavigation) {
   // get the metadata for creating the navigation dropdown
   const { selectedId, dataset } = props;
-
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,11 +38,13 @@ export default function Navigation(props: INavigation) {
 
   return (
     <div className={styles.container} ref={containerRef}>
+      <h1>Navigation</h1>
       <NavigationButton selected={selected} onClick={toggleDropdown} />
       <NavigationDropdown
         hidden={hidden}
         selectedId={selectedId}
         dataset={dataset}
+        onClick={toggleDropdown}
       />
     </div>
   );

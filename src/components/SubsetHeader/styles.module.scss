@@ -5,7 +5,6 @@
   padding: $spacing-16;
   background: $color-white;
   border-radius: $border-radius-4;
-  background: $color-blue-300;
   @include text-small();
   @include shadow-default();
 }

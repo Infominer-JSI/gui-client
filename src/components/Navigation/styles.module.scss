@@ -2,10 +2,13 @@
 
 .container {
   display: block;
-}
-
-@media (min-width: $breakpoint-screen-sm) {
-  .container {
-    display: inline-block;
+  position: relative;
+  padding: $spacing-16;
+  background: $color-white;
+  border-radius: $border-radius-4;
+  @include shadow-default();
+  h1 {
+    margin-bottom: $spacing-4;
+    @include text-title-5();
   }
 }

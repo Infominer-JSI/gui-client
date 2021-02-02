@@ -64,6 +64,12 @@ export interface IButton {
   children?: any;
   type?: string;
 }
+
+export interface IDownloadButton {
+  downloadLink: string;
+  filename?: string;
+}
+
 export interface INavigationButton {
   onClick?: any;
   selected: ISubset | IMethod;
@@ -83,25 +89,32 @@ export interface IMethodNavigationButton {
 
 export interface INavigationDropdown {
   hidden: boolean;
-  onClick?: any;
   dataset: Dataset;
   selectedId: number;
+  onClick?: any;
 }
 
 export interface ISubsetNavigationItem {
   selectedId: number;
   dataset: Dataset;
   subsetId: number;
+  onClick?: any;
 }
 
 export interface IMethodNavigationItem {
   selectedId: number;
   dataset: Dataset;
   methodId: number;
+  onClick?: any;
 }
 
 export interface INavigation {
   selectedId: number;
   dataset: Dataset;
   onClick?: any;
+}
+
+export interface ISubsetHeader {
+  selectedId: number;
+  dataset: Dataset;
 }

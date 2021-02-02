@@ -68,7 +68,7 @@ const subsets = [
   {
     id: 2,
     type: "subset",
-    label: "This subset has a shorter name",
+    label: "Short",
     description: "The root subset. Contains all records of the dataset.",
     resultedIn: 1,
     usedBy: [3, 5],
