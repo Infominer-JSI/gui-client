@@ -1,8 +1,5 @@
 @import "assets/definitions.scss";
 
-.layout {
-}
-
 @mixin borderStyle($property) {
   #{$property}: 2px solid $color-gray-300;
 }
@@ -11,10 +8,13 @@
   background: $color-white;
   border-radius: $border-radius-4;
   @include shadow-default();
+  & > .react-resizable-handle::after {
+    @include borderStyle(border-right);
+    @include borderStyle(border-bottom);
+  }
+
   .react-resizable-handle {
     background-image: none;
-  }
-  & > .react-resizable-handle {
     &::after {
       width: 10px !important;
       height: 10px !important;
@@ -61,5 +61,10 @@
       border: 0 !important;
       clip: none;
     }
+  }
+
+  .box {
+    margin: $spacing-16;
+    height: -webkit-fill-available;
   }
 }

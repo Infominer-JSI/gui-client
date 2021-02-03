@@ -51,6 +51,21 @@ export enum EMethodTypes {
   KMEANS_CLUSTERING = "clustering.kmeans",
 }
 
+export interface IResponsiveGrid {
+  layoutKey?: string;
+  className?: any;
+  children?: any;
+}
+
+export interface IGridItem {
+  onMouseDown?: any;
+  onMouseUp?: any;
+  onTouchEnd?: any;
+  children?: any;
+  className?: any;
+  style?: any;
+}
+
 export interface ICollapse {
   title?: string;
   collapsed?: boolean;
@@ -68,6 +83,7 @@ export interface IButton {
 export interface IDownloadButton {
   downloadLink: string;
   filename?: string;
+  dark?: boolean;
 }
 
 export interface INavigationButton {
@@ -115,6 +131,16 @@ export interface INavigation {
 }
 
 export interface ISubsetHeader {
-  selectedId: number;
+  subsetId: number;
+  dataset: Dataset;
+}
+
+export interface ISubsetComponent {
+  subsetId: number;
+  dataset: Dataset;
+}
+
+export interface IMethodComponent {
+  methodId: number;
   dataset: Dataset;
 }

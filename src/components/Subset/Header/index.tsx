@@ -10,14 +10,12 @@ import DownloadButton from "components/DownloadButton";
 // import styles and images
 import styles from "./styles.module.scss";
 
-export default function DatasetInfo(props: ISubsetHeader) {
+export default function SubsetHeader(props: ISubsetHeader) {
   // get dataset information and set their state
-  const { selectedId, dataset } = props;
+  const { subsetId, dataset } = props;
   // get dataset and subset metadata
   const { id: datasetId } = dataset.getDataset();
-  const { id: subsetId, label, nDocuments } = dataset.getSubset(
-    selectedId
-  ) as ISubset;
+  const { label, nDocuments } = dataset.getSubset(subsetId) as ISubset;
   // format the number of documents
   const numberDocs = formatNumber(nDocuments as number);
   // create the download link and filename
@@ -29,9 +27,13 @@ export default function DatasetInfo(props: ISubsetHeader) {
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <DownloadButton downloadLink={downloadLink} filename={filename} />
-          <EditButton />
-          {subsetId !== 0 ? <DeleteButton /> : null}
+          <DownloadButton
+            downloadLink={downloadLink}
+            filename={filename}
+            dark={true}
+          />
+          <EditButton dark={true} />
+          {subsetId !== 0 ? <DeleteButton dark={true} /> : null}
         </div>
       </div>
       <div className={styles.information}>

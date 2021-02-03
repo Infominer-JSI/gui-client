@@ -1,19 +1,19 @@
 // import interfaces
-import { ISubsetHeader } from "Interfaces";
+import { IMethodComponent } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 import { dataset } from "utils/defaults";
 // import the component
-import SubsetHeader from "./index";
+import MethodHeader from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: SubsetHeader,
-  title: "Subset/Header",
+  component: MethodHeader,
+  title: "Method/Header",
 };
 
 export default storyComponent;
@@ -22,12 +22,12 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<ISubsetHeader> = (args: ISubsetHeader) => (
-  <SubsetHeader {...args} />
+const Template: Story<IMethodComponent> = (args: IMethodComponent) => (
+  <MethodHeader {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  selectedId: 0,
+  methodId: 0,
   dataset,
 };

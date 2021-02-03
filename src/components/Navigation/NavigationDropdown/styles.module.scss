@@ -21,7 +21,6 @@ $rotate: 225deg;
   right: 0;
   width: 20px;
   height: 20px;
-  z-index: 10;
   transform: rotate($rotate);
   -webkit-transform: rotate($rotate);
   -moz-transform: rotate($rotate);
@@ -37,17 +36,28 @@ $rotate: 225deg;
   border: 1px solid $color-gray-300;
   border-radius: $border-radius-4;
   background: $color-white;
-  @include shadow-default();
+  @include shadow-dark-0();
   @include text-body();
 }
 
-@media (min-width: $breakpoint-screen-sm) {
-  .container {
-    width: 400px;
+.inner {
+  max-height: 300px;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $color-gray-100;
+    border-radius: $border-radius-4;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-blue-500;
+    border: 1px solid $color-gray-100;
+    border-radius: $border-radius-4;
   }
 }
 
-.content > .subset {
+.inner > .subset {
   & > .label {
     padding: $spacing-8 $spacing-16;
   }
@@ -61,12 +71,13 @@ $rotate: 225deg;
     display: block;
     padding: $spacing-8;
     padding-right: $spacing-16;
-    color: $color-blue-700;
+    color: $color-purple-900;
     background: $color-white;
     text-decoration: none;
     text-transform: none;
     text-align: left;
     @include text-body();
+    font-weight: 600;
     border: 0;
     transition: 0.2s;
     cursor: pointer;
@@ -105,5 +116,14 @@ $rotate: 225deg;
       bottom: 0px;
       border-left: 1px solid $color-green-200;
     }
+  }
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .container {
+    width: 400px;
+  }
+  .inner {
+    max-height: 600px;
   }
 }

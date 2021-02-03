@@ -10,5 +10,6 @@
   h1 {
     margin-bottom: $spacing-4;
     @include text-title-5();
+    font-weight: 700;
   }
 }

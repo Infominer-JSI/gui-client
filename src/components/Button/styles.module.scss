@@ -13,14 +13,14 @@
   }
 }
 
-@mixin buttonType($baseColor, $textColor) {
+@mixin buttonType($baseColor, $darkerColor, $textColor) {
   background: $baseColor;
   color: $textColor;
   &:hover {
-    background: darken($baseColor, 40%);
+    background: $darkerColor;
   }
   &:active {
-    background: darken($baseColor, 50%);
+    background: $darkerColor;
   }
 }
 
@@ -29,13 +29,25 @@
 }
 
 .primary {
-  @include buttonType($color-blue-200, $color-blue-50);
+  @include buttonType($color-blue-200, $color-blue-600, $color-blue-50);
+}
+
+.primaryDark {
+  @include buttonType($color-blue-600, $color-blue-700, $color-blue-50);
 }
 
 .edit {
-  @include buttonType($color-green-200, $color-green-50);
+  @include buttonType($color-green-200, $color-green-600, $color-green-50);
+}
+
+.editDark {
+  @include buttonType($color-green-600, $color-green-700, $color-blue-50);
 }
 
 .delete {
-  @include buttonType($color-red-200, $color-red-50);
+  @include buttonType($color-red-200, $color-red-600, $color-red-50);
+}
+
+.deleteDark {
+  @include buttonType($color-red-600, $color-red-700, $color-red-50);
 }

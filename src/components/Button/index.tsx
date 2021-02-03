@@ -10,9 +10,12 @@ export default function Button(props: IButton) {
   const { className, onClick, type = "default", children } = props;
   // assign the button style
   const buttonStyle = cn(styles.default, className, {
-    [styles.edit]: type === "edit",
-    [styles.delete]: type === "delete",
     [styles.primary]: type === "primary",
+    [styles.delete]: type === "delete",
+    [styles.edit]: type === "edit",
+    [styles.primaryDark]: type === "primary-dark",
+    [styles.deleteDark]: type === "delete-dark",
+    [styles.editDark]: type === "edit-dark",
   });
   return (
     <button className={buttonStyle} onClick={onClick}>

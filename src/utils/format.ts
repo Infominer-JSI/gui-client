@@ -1,5 +1,5 @@
 // import interfaces
-import { EMethodTypes } from "Interfaces";
+import { EMethodTypes, IMethod } from "Interfaces";
 
 /**
  * Formats the document number.
@@ -32,7 +32,7 @@ export const formatDate = (date: Date) => {
  * Formats the method type.
  * @param method - The method type.
  */
-export const formatMethod = (method: string) => {
+export const formatMethodType = (method: string) => {
   switch (method) {
     case EMethodTypes.AGGREGATE:
       return "Subset Aggregate";
@@ -43,4 +43,30 @@ export const formatMethod = (method: string) => {
     default:
       return method;
   }
+};
+
+/**
+ * Formats the method type.
+ * @param method - The method type.
+ */
+export const formatMethodLabel = (method: IMethod) => {
+  const type = formatMethodType(method.method);
+  let parameters: string = "";
+  switch (method.method) {
+    case EMethodTypes.ACTIVE_LEARNING:
+      parameters = "(2)";
+      break;
+    case EMethodTypes.KMEANS_CLUSTERING:
+      parameters = `${method.result.clusters.length}`;
+      if (method.result.empty) {
+        // add the empty cluster
+        parameters += " + 1 empty";
+      }
+      parameters = `(${parameters})`;
+      break;
+    case EMethodTypes.AGGREGATE:
+    default:
+      break;
+  }
+  return `${type} ${parameters}`;
 };

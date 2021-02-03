@@ -1,3 +1,5 @@
+// import interfaces
+import { IResponsiveGrid } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
@@ -19,7 +21,9 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story = (args: any) => <ResponsiveGrid {...args} />;
+const Template: Story<IResponsiveGrid> = (args: IResponsiveGrid) => (
+  <ResponsiveGrid {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

@@ -6,9 +6,8 @@ import { useParams } from "react-router-dom";
 
 // import components
 import DatasetHeader from "components/DatasetHeader";
-import SubsetHeader from "components/SubsetHeader";
-import ResponseGrid from "components/ResponseGrid";
 import Navigation from "components/Navigation";
+import Subset from "components/Subset";
 
 // import utils
 import Dataset from "utils/Dataset";
@@ -24,7 +23,7 @@ export default function Datasets() {
   }
 
   // set state variables
-  const [datasetId] = useState(parseInt(params.datasetId));
+  const datasetId = parseInt(params.datasetId);
   const subsetId = parseInt(params.subsetId);
 
   const [loading, setLoading] = useState(true);
@@ -62,38 +61,7 @@ export default function Datasets() {
             <DatasetHeader {...(dataset?.getDataset() as IDataset)} />
           </div>
           <div className={styles.main}>
-            <SubsetHeader selectedId={subsetId} dataset={dataset as Dataset} />
-            <ResponseGrid>
-              {[
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                17,
-                18,
-              ].map((val, id) => {
-                const x = ((val - 1) * 3) % 12;
-                const y = 2 * Math.floor(val / 12);
-                return (
-                  <div
-                    key={id}
-                    data-grid={{ x, y, w: 3, h: 2, minW: 2, minH: 2 }}
-                  ></div>
-                );
-              })}
-            </ResponseGrid>
+            <Subset subsetId={subsetId} dataset={dataset as Dataset} />
           </div>
         </div>
       )}

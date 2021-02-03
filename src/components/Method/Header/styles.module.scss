@@ -1,8 +1,10 @@
 @import "assets/definitions.scss";
 
 .container {
+  margin-top: $spacing-16;
   padding: $spacing-16;
-  background: $color-green-400;
+  color: $color-green-50;
+  background: $color-green-900;
   border-radius: $border-radius-4;
   @include text-small();
   @include shadow-default();
@@ -34,7 +36,16 @@ h1 {
   }
   .metadata {
     line-height: 1.5;
-    min-width: 180px;
+  }
+}
+
+.description {
+  flex: 1;
+}
+
+@media (min-width: $breakpoint-screen-2xl) {
+  .container {
+    margin: 0 $spacing-16;
   }
 }
 
@@ -44,11 +55,5 @@ h1 {
     .metadata {
       margin-right: $spacing-24;
     }
-  }
-}
-
-@media (min-width: $breakpoint-screen-2xl) {
-  .information {
-    flex-direction: column;
   }
 }

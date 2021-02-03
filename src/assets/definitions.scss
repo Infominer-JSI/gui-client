@@ -218,6 +218,10 @@ $font-body: Lato;
   box-shadow: 8px 8px 16px rgba($color-gray-500, 0.16), -6px -6px 16px rgba($color-white, 0.4);
 }
 
-@mixin shadow-secondary() {
+@mixin shadow-dark-0() {
   box-shadow: 8px 8px 16px rgba($color-gray-500, 0.16), -6px -6px 16px rgba($color-gray-500, 0.16);
+}
+
+@mixin shadow-dark-1() {
+  box-shadow: 8px 8px 16px rgba($color-gray-500, 0.4), -6px -6px 16px rgba($color-gray-500, 0.4);
 }

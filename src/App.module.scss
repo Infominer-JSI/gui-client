@@ -21,6 +21,12 @@
   }
 }
 
+@media (min-width: $breakpoint-screen-lg) {
+  .content {
+    min-width: $breakpoint-screen-lg;
+  }
+}
+
 @media (min-width: $breakpoint-screen-xl) {
   .content {
     min-width: $breakpoint-screen-xl;

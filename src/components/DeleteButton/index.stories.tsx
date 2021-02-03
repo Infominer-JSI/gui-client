@@ -10,7 +10,7 @@ import ButtonDelete from "./index";
 
 const storyComponent = {
   component: ButtonDelete,
-  title: "Components/Button (Delete)",
+  title: "Components/Button/Delete",
 };
 
 export default storyComponent;
@@ -19,6 +19,13 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story = () => <ButtonDelete />;
+const Template: Story<{ dark?: boolean }> = (args: { dark?: boolean }) => (
+  <ButtonDelete {...args} />
+);
 
 export const Default = Template.bind({});
+
+export const Dark = Template.bind({});
+Dark.args = {
+  dark: true,
+};

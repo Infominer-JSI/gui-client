@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 export default function ButtonEdit(props: IDownloadButton) {
-  const { downloadLink, filename = "download" } = props;
+  const { downloadLink, filename = "download", dark } = props;
   // downloads from the provided link
   const getFileFromURL = async () => {
     // download from the link and create a blob
@@ -23,13 +23,10 @@ export default function ButtonEdit(props: IDownloadButton) {
     // download
     a.click();
   };
-
+  // set the button type
+  const type = dark ? "primary-dark" : "primary";
   return (
-    <Button
-      className={styles.download}
-      onClick={getFileFromURL}
-      type={"primary"}
-    >
+    <Button className={styles.download} onClick={getFileFromURL} type={type}>
       <FontAwesomeIcon icon={faDownload} />
     </Button>
   );

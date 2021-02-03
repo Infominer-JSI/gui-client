@@ -23,8 +23,8 @@ export default function DatasetInfo(props: IDataset) {
       <div className={styles.controllers}>
         <h1>{name}</h1>
         <div className={styles.buttons}>
-          <EditButton />
-          <DeleteButton />
+          <EditButton dark={true} />
+          <DeleteButton dark={true} />
         </div>
       </div>
       <div className={styles.information}>

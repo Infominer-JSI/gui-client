@@ -1,16 +1,19 @@
+// import interfaces
+import { ISubsetHeader } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+import { dataset } from "utils/defaults";
 // import the component
-import ButtonEdit from "./index";
+import Header from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: ButtonEdit,
-  title: "Components/Button (Edit)",
+  component: Header,
+  title: "Subset/Header",
 };
 
 export default storyComponent;
@@ -19,14 +22,12 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<{ dark?: boolean }> = (args: { dark?: boolean }) => (
-  <ButtonEdit {...args} />
+const Template: Story<ISubsetHeader> = (args: ISubsetHeader) => (
+  <Header {...args} />
 );
 
 export const Default = Template.bind({});
-Default.args = {};
-
-export const Dark = Template.bind({});
-Dark.args = {
-  dark: true,
+Default.args = {
+  subsetId: 0,
+  dataset,
 };

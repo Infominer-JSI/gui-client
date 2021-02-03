@@ -11,7 +11,7 @@ import {
 // import modules
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatMethod, formatNumber } from "utils/format";
+import { formatMethodLabel, formatNumber } from "utils/format";
 import cn from "classnames";
 
 // import styles and images
@@ -28,12 +28,14 @@ export default function NavigationDropdown(props: INavigationDropdown) {
     <div className={dropdownStyle}>
       <div className={styles.triangle}></div>
       <div className={styles.content}>
-        <SubsetNavigationItem
-          dataset={dataset}
-          selectedId={selectedId}
-          subsetId={0}
-          onClick={onClick}
-        />
+        <div className={styles.inner}>
+          <SubsetNavigationItem
+            dataset={dataset}
+            selectedId={selectedId}
+            subsetId={0}
+            onClick={onClick}
+          />
+        </div>
       </div>
     </div>
   );
@@ -82,7 +84,7 @@ function MethodNavigationItem(props: IMethodNavigationItem) {
   const { selectedId, dataset, methodId, onClick } = props;
   // get the subset metadata
   const method = dataset.getMethod(methodId) as IMethod;
-  const label = formatMethod(method.method);
+  const label = formatMethodLabel(method);
   return (
     <div className={styles.method}>
       <div className={styles.label}>{label}</div>
