@@ -64,7 +64,10 @@
   }
 
   .box {
-    margin: $spacing-16;
+    display: flex;
+    flex-flow: column;
+    position: relative;
     height: -webkit-fill-available;
+    margin: $spacing-16;
   }
 }

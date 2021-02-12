@@ -25,8 +25,8 @@ const Template: Story<INavigationButton> = (args: INavigationButton) => (
   <NavigationButton {...args} />
 );
 
-export const Subset = Template.bind({});
-Subset.args = {
+export const Default = Template.bind({});
+Default.args = {
   selected: {
     id: 0,
     type: "subset",
@@ -39,13 +39,13 @@ Subset.args = {
   },
 };
 
-export const SubsetLongName = Template.bind({});
-SubsetLongName.args = {
+export const Subset = Template.bind({});
+Subset.args = {
   selected: {
     id: 0,
     type: "subset",
-    label: "This subset has a long name",
-    description: "The subset containing all of the documents",
+    label: "Long Subset Name",
+    description: null,
     nDocuments: 234,
     resultedIn: 0,
     usedBy: [1, 2],
@@ -53,13 +53,13 @@ SubsetLongName.args = {
   },
 };
 
-export const SubsetALotOfDocuments = Template.bind({});
-SubsetALotOfDocuments.args = {
+export const SubsetDocuments = Template.bind({});
+SubsetDocuments.args = {
   selected: {
     id: 0,
     type: "subset",
-    label: "This subset has a long name",
-    description: "The subset containing all of the documents",
+    label: "Subset",
+    description: null,
     nDocuments: 2340010,
     resultedIn: 0,
     usedBy: [1, 2],
@@ -67,8 +67,8 @@ SubsetALotOfDocuments.args = {
   },
 };
 
-export const MethodAggregates = Template.bind({});
-MethodAggregates.args = {
+export const Aggregates = Template.bind({});
+Aggregates.args = {
   selected: {
     id: 0,
     type: "method",
@@ -82,8 +82,8 @@ MethodAggregates.args = {
   },
 };
 
-export const MethodActiveLearning = Template.bind({});
-MethodActiveLearning.args = {
+export const ActiveLearning = Template.bind({});
+ActiveLearning.args = {
   selected: {
     id: 0,
     type: "method",
@@ -97,8 +97,8 @@ MethodActiveLearning.args = {
   },
 };
 
-export const MethodKMeansClustering = Template.bind({});
-MethodKMeansClustering.args = {
+export const KMeansClustering = Template.bind({});
+KMeansClustering.args = {
   selected: {
     id: 0,
     type: "method",

@@ -4,7 +4,7 @@ import { IMethod, IMethodComponent } from "Interfaces";
 import React from "react";
 
 import MethodHeader from "components/Method/Header";
-import ResponseGrid from "components/ResponseGrid";
+import ResponsiveGrid from "components/ResponsiveGrid";
 
 export default function MethodAggregates(props: IMethodComponent) {
   const { methodId, dataset } = props;
@@ -16,9 +16,9 @@ export default function MethodAggregates(props: IMethodComponent) {
   return (
     <div>
       <MethodHeader methodId={methodId} dataset={dataset} />
-      <ResponseGrid layoutKey={gridLayoutKey}>
+      <ResponsiveGrid layoutKey={gridLayoutKey}>
         {method.result.clusters.map((cluster: any, id: number) => id)}
-      </ResponseGrid>
+      </ResponsiveGrid>
     </div>
   );
 }

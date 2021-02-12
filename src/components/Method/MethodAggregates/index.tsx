@@ -2,8 +2,8 @@
 import { IMethod, IMethodComponent } from "Interfaces";
 // import modules
 import React from "react";
-
-import ResponseGrid from "components/ResponseGrid";
+import ResponsiveGrid from "components/ResponsiveGrid";
+import AggregateComponent from "./AggregateComponent";
 
 export default function MethodAggregates(props: IMethodComponent) {
   const { methodId, dataset } = props;
@@ -11,12 +11,13 @@ export default function MethodAggregates(props: IMethodComponent) {
   const method = dataset.getMethod(methodId) as IMethod;
   const datasetId = dataset.getDataset().id;
   // create the grid layout key
-  const gridLayoutKey = `D${datasetId}M${methodId}`;
+  const gridLayoutKey = `D${datasetId}/Aggregates`;
+
   return (
-    <ResponseGrid layoutKey={gridLayoutKey}>
-      {method.result.aggregates.map(
-        (aggregate: any, id: number) => aggregate.field
-      )}
-    </ResponseGrid>
+    <ResponsiveGrid layoutKey={gridLayoutKey}>
+      {method.result.aggregates.map((aggregate: any, id: number) => (
+        <AggregateComponent key={id} {...aggregate} />
+      ))}
+    </ResponsiveGrid>
   );
 }

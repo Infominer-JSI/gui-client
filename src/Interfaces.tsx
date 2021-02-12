@@ -46,7 +46,7 @@ export interface IMethod {
 }
 
 export enum EMethodTypes {
-  AGGREGATE = "aggregate.subset",
+  AGGREGATE = "aggregates.subset",
   ACTIVE_LEARNING = "classifier.active_learning",
   KMEANS_CLUSTERING = "clustering.kmeans",
 }
@@ -143,4 +143,31 @@ export interface ISubsetComponent {
 export interface IMethodComponent {
   methodId: number;
   dataset: Dataset;
+}
+
+// ==============================================
+// Aggregates
+// ==============================================
+
+export interface IAggregateComponent {
+  field: string;
+  type: string;
+  statistics: { [key: string]: any };
+  className?: any;
+}
+
+// ==============================================
+// Graphs
+// ==============================================
+
+export interface IHierarchy {
+  name: string;
+  frequency: number;
+  precent: number;
+  children?: IHierarchy[];
+}
+
+export interface IGraphSunburst {
+  data: IHierarchy;
+  className?: any;
 }

@@ -28,12 +28,14 @@ const Template: Story<INavigationDropdown> = (args: INavigationDropdown) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  selectedId: 0,
   hidden: false,
   dataset,
 };
 
 export const Hidden = Template.bind({});
 Hidden.args = {
+  selectedId: 2,
   hidden: true,
   dataset,
 };

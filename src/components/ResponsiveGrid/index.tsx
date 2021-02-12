@@ -55,6 +55,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
     saveToLS(layoutKey, "layouts", xlayouts);
     setLayouts(xlayouts);
   }
+
   // set the class name of the responsive layout
   const className = cn("layout", props.className);
 
@@ -72,8 +73,8 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
       onLayoutChange={onLayoutChange}
     >
       {props.children.map((child: any, id: number) => {
-        const x = (id * 3) % 12;
-        const y = Math.floor((3 * id) / 12);
+        // get the x and y coordinates
+        const [x, y] = [(id * 3) % 12, Math.floor((3 * id) / 12)];
         return (
           <div key={id} data-grid={{ x, y, w: 3, h: 3, minW: 2, minH: 2 }}>
             <div className="box">{child}</div>

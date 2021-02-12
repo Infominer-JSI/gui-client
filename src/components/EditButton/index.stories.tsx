@@ -10,7 +10,7 @@ import ButtonEdit from "./index";
 
 const storyComponent = {
   component: ButtonEdit,
-  title: "Components/Button (Edit)",
+  title: "Components/Button/Edit",
 };
 
 export default storyComponent;

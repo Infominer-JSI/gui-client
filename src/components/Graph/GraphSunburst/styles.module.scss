@@ -1,0 +1,15 @@
+@import "assets/definitions.scss";
+
+.container {
+  position: relative;
+  height: 100%;
+  flex: 1;
+
+  svg {
+    position: absolute;
+  }
+}
+
+.text {
+  font-family: $font-body;
+}

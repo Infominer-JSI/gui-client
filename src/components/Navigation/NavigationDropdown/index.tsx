@@ -59,7 +59,7 @@ function SubsetNavigationItem(props: ISubsetNavigationItem) {
         to={`/datasets/${datasetId}/subsets/${subset.id}`}
         onClick={onClick}
       >
-        <span>{subset?.label} </span>
+        <span>{subset?.label}</span>
         <span className={styles.ndocuments}>{nDocs} documents</span>
       </Link>
       <div className={styles.children}>

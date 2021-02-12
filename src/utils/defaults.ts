@@ -11,7 +11,6 @@ const breakpointValues: {
   breakpoint: number;
   padding: [number, number];
 }[] = [
-  { label: "2xl", cols: 12, breakpoint: 1530, padding: [16, 16] },
   { label: "xl", cols: 12, breakpoint: 1200, padding: [16, 16] },
   { label: "lg", cols: 12, breakpoint: 1024, padding: [0, 16] },
   { label: "md", cols: 9, breakpoint: 768, padding: [0, 16] },
@@ -115,12 +114,18 @@ const methods = [
   {
     id: 0,
     type: "method",
-    method: "aggregate.subset",
+    method: "aggregates.subset",
     status: "FINISHED",
     appliedOn: 0,
     produced: null,
     parameters: {},
-    result: {},
+    result: {
+      aggregates: [
+        { field: "Field 1" },
+        { field: "Field 2" },
+        { field: "Field 3" },
+      ],
+    },
     modified: false,
   },
   {
@@ -131,40 +136,63 @@ const methods = [
     appliedOn: 0,
     produced: [1, 2, 3],
     parameters: {},
-    result: {},
+    result: {
+      clusters: [{ subsetId: 1 }, { subsetId: 2 }],
+      empty: {
+        subsetId: 3,
+      },
+    },
     modified: false,
   },
   {
     id: 2,
     type: "method",
-    method: "aggregate.subset",
+    method: "aggregates.subset",
     status: "FINISHED",
     appliedOn: 1,
     produced: null,
     parameters: {},
-    result: {},
+    result: {
+      aggregates: [
+        { field: "Field 1" },
+        { field: "Field 2" },
+        { field: "Field 3" },
+      ],
+    },
     modified: false,
   },
   {
     id: 3,
     type: "method",
-    method: "aggregate.subset",
+    method: "aggregates.subset",
     status: "FINISHED",
     appliedOn: 2,
     produced: null,
     parameters: {},
-    result: {},
+    result: {
+      aggregates: [
+        { field: "Field 1" },
+        { field: "Field 2" },
+        { field: "Field 3" },
+      ],
+    },
     modified: false,
   },
   {
     id: 4,
     type: "method",
-    method: "aggregate.subset",
+    method: "aggregates.subset",
     status: "FINISHED",
     appliedOn: 3,
     produced: null,
     parameters: {},
-    result: {},
+    result: {
+      aggregates: [
+        { field: "Field 1" },
+        { field: "Field 2" },
+        { field: "Field 3" },
+      ],
+    },
     modified: false,
   },
   {
@@ -175,29 +203,45 @@ const methods = [
     appliedOn: 2,
     produced: [4, 5],
     parameters: {},
-    result: {},
+    result: {
+      labelCount: {},
+      positive: {},
+      negative: {},
+    },
     modified: false,
   },
   {
     id: 6,
     type: "method",
-    method: "aggregate.subset",
+    method: "aggregates.subset",
     status: "FINISHED",
     appliedOn: 4,
     produced: null,
     parameters: {},
-    result: {},
+    result: {
+      aggregates: [
+        { field: "Field 1" },
+        { field: "Field 2" },
+        { field: "Field 3" },
+      ],
+    },
     modified: false,
   },
   {
     id: 7,
     type: "method",
-    method: "aggregate.subset",
+    method: "aggregates.subset",
     status: "FINISHED",
     appliedOn: 5,
     produced: null,
     parameters: {},
-    result: {},
+    result: {
+      aggregates: [
+        { field: "Field 1" },
+        { field: "Field 2" },
+        { field: "Field 3" },
+      ],
+    },
     modified: false,
   },
 ];

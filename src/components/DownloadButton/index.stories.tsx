@@ -12,7 +12,7 @@ import DownloadButton from "./index";
 
 const storyComponent = {
   component: DownloadButton,
-  title: "Components/Button (Download)",
+  title: "Components/Button/Download",
 };
 
 export default storyComponent;

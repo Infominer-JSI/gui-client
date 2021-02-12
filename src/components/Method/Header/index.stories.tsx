@@ -31,3 +31,15 @@ Default.args = {
   methodId: 0,
   dataset,
 };
+
+export const Clustering = Template.bind({});
+Clustering.args = {
+  methodId: 1,
+  dataset,
+};
+
+export const ActiveLearning = Template.bind({});
+ActiveLearning.args = {
+  methodId: 5,
+  dataset,
+};

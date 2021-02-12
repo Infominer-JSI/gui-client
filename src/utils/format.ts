@@ -35,7 +35,7 @@ export const formatDate = (date: Date) => {
 export const formatMethodType = (method: string) => {
   switch (method) {
     case EMethodTypes.AGGREGATE:
-      return "Subset Aggregate";
+      return "Subset Aggregates";
     case EMethodTypes.ACTIVE_LEARNING:
       return "Active Learning";
     case EMethodTypes.KMEANS_CLUSTERING:
