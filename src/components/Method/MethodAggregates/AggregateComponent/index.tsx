@@ -7,11 +7,11 @@ import Graph from "components/Graph";
 import styles from "./styles.module.scss";
 
 export default function MethodAggregates(props: IAggregateComponent) {
-  const { field, type, statistics } = props;
+  const { className, field, type, statistics } = props;
   return (
     <React.Fragment>
-      <h2 className={styles.field}>{field}</h2>
-      <Graph type={type} data={statistics} />
+      <h3 className={styles.field}>{field}</h3>
+      <Graph className={className} type={type} data={statistics} />
     </React.Fragment>
   );
 }

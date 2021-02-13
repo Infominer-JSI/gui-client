@@ -181,3 +181,8 @@ export interface IGraphKeywords {
   data: IKeyword[];
   className?: any;
 }
+
+export interface IGraphWordcloud {
+  data: IKeyword[];
+  className?: any;
+}

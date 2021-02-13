@@ -35,7 +35,7 @@ export default function GraphKeywords(props: IGraphKeywords) {
       return;
     }
 
-    const barHeight = 25;
+    const barHeight = 30;
     // prepare static values
     const margin = {
       top: 10,
