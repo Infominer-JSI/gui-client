@@ -11,7 +11,7 @@ export default function MethodAggregates(props: IMethodComponent) {
   const method = dataset.getMethod(methodId) as IMethod;
   const datasetId = dataset.getDataset().id;
   // create the grid layout key
-  const gridLayoutKey = `D${datasetId}/Aggregates`;
+  const gridLayoutKey = `D${datasetId}/AGGREGATES`;
 
   return (
     <ResponsiveGrid layoutKey={gridLayoutKey}>

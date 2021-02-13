@@ -171,3 +171,13 @@ export interface IGraphSunburst {
   data: IHierarchy;
   className?: any;
 }
+
+export interface IKeyword {
+  keyword: string;
+  weight: number;
+}
+
+export interface IGraphKeywords {
+  data: IKeyword[];
+  className?: any;
+}

@@ -2,6 +2,7 @@
 import React from "react";
 // import graph components
 import GraphSunburst from "components/Graph/GraphSunburst";
+import GraphKeywords from "components/Graph/GraphKeywords";
 
 export default function Graph(props: {
   type: string;
@@ -19,6 +20,8 @@ export default function Graph(props: {
     switch (type) {
       case "hierarchy":
         return <GraphSunburst className={className} data={data.values} />;
+      case "keywords":
+        return <GraphKeywords className={className} data={data.values} />;
       default:
         return null;
     }

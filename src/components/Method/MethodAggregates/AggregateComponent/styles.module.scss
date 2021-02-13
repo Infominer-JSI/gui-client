@@ -1,5 +1,6 @@
 @import "assets/definitions.scss";
 
 .field {
-  margin: 0;
+  margin: 0 0 $spacing-8;
+  border-bottom: 1px solid $color-gray-100;
 }

@@ -70,8 +70,7 @@ export default function GraphSunburst(props: IGraphSunburst) {
         .attr("class", "labels")
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
-        .attr("font-size", 10)
-        .attr("font-family", "sans-serif");
+        .attr("font-size", 10);
       setLabels(labels, root);
       // set the initialized value
       setInitialized(true);
@@ -249,6 +248,7 @@ function setLabels(
   labels
     .enter()
     .append("text")
+    .attr("class", styles.label)
     .attr("transform", function (d: any) {
       const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI;
       const y = (d.y0 + d.y1) / 2;
