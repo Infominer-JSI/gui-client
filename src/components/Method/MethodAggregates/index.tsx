@@ -1,5 +1,5 @@
 // import interfaces
-import { IMethod, IMethodComponent } from "Interfaces";
+import { IHierarchy, IMethod, IMethodComponent } from "Interfaces";
 // import modules
 import React from "react";
 import ResponsiveGrid from "components/ResponsiveGrid";
@@ -8,14 +8,36 @@ import AggregateComponent from "./AggregateComponent";
 export default function MethodAggregates(props: IMethodComponent) {
   const { methodId, dataset } = props;
   // get the method parameters and use them to visualize the results
-  const method = dataset.getMethod(methodId) as IMethod;
+  const method1 = dataset.getMethod(methodId) as IMethod;
   const datasetId = dataset.getDataset().id;
+
+  if (methodId !== 0) {
+    // normalize the other methods based on the first aggregate values
+    const method0 = dataset.getMethod(0) as IMethod;
+    // add additional information to the aggregate values
+    for (let i = 0; i < method1.result.aggregates.length; i++) {
+      const type = method1.result.aggregates[i].type;
+      switch (type) {
+        case "hierarchy":
+          // add all of the branch names to the submethod
+          const statistics0 = method0.result.aggregates[i].statistics;
+          const branches = statistics0.values.children.map(
+            (c: IHierarchy) => c.name
+          );
+          method1.result.aggregates[i].statistics.branches = branches;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
   // create the grid layout key
   const gridLayoutKey = `D${datasetId}/AGGREGATES`;
 
   return (
     <ResponsiveGrid layoutKey={gridLayoutKey}>
-      {method.result.aggregates.map((aggregate: any, id: number) => (
+      {method1.result.aggregates.map((aggregate: any, id: number) => (
         <AggregateComponent key={id} {...aggregate} />
       ))}
     </ResponsiveGrid>

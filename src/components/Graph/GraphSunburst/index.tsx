@@ -198,41 +198,41 @@ function setLayers(
   // prepare the layers
   const layers = container.selectAll("path").data(root.descendants().slice(1));
   // set new layers
-  layers
+  const newLayers = layers
     .enter()
     .append("path")
     .attr("fill", (d: any) => {
       while (d.depth > 1) d = d.parent;
       return color(d.data.name);
     })
-    .attr("d", (d: any) => arc(d.current))
-    .append("title")
-    .text(
-      (d: any) =>
-        `${d
-          .ancestors()
-          .map((d: any) => d.data.name)
-          .reverse()
-          .slice(1)
-          .join("/")}\n${format(d.value)}`
-    );
+    .attr("d", (d: any) => arc(d.current));
+
+  newLayers.append("title").text(
+    (d: any) =>
+      `${d
+        .ancestors()
+        .map((d: any) => d.data.name)
+        .reverse()
+        .slice(1)
+        .join("/")}\n${format(d.value)}`
+  );
   // how to update existing layers
   layers
     .attr("fill", (d: any) => {
       while (d.depth > 1) d = d.parent;
       return color(d.data.name);
     })
-    .attr("d", (d: any) => arc(d.current))
-    .selectAll("title")
-    .text(
-      (d: any) =>
-        `${d
-          .ancestors()
-          .map((d: any) => d.data.name)
-          .reverse()
-          .slice(1)
-          .join("/")}\n${format(d.value)}`
-    );
+    .attr("d", (d: any) => arc(d.current));
+
+  layers.selectAll("title").text(
+    (d: any) =>
+      `${d
+        .ancestors()
+        .map((d: any) => d.data.name)
+        .reverse()
+        .slice(1)
+        .join("/")}\n${format(d.value)}`
+  );
   // what to do with removed layers
   layers.exit().remove();
 }
