@@ -62,7 +62,7 @@ export default function GraphKeywords(props: IGraphKeywords) {
       const bars = svg
         .append("g")
         .attr("class", "bars")
-        .attr("fill", "#1d4ed8");
+        .attr("fill", "#3b82f6");
       setBars(bars, props.data, x, y);
       // create the bar labels
       const labels = svg.append("g").attr("class", "labels");
@@ -192,7 +192,8 @@ function setBars(
   container: any,
   data: IKeyword[],
   x: d3.ScaleLinear<number, number, never>,
-  y: d3.ScaleBand<string>
+  y: d3.ScaleBand<string>,
+  duration: number = 500
 ) {
   // prepare the bars
   const bars = container.selectAll("rect").data(data);
@@ -202,14 +203,16 @@ function setBars(
     .append("rect")
     .attr("x", x(0))
     .attr("y", (_d: any, i: number) => y(i.toString()))
-    .attr("width", (d: IKeyword) => x(d.weight) - x(0))
-    .attr("height", y.bandwidth());
+    .attr("height", y.bandwidth())
+    .transition()
+    .duration(duration)
+    .attr("width", (d: IKeyword) => x(d.weight) - x(0));
 
   bars
-    .attr("x", x(0))
+    .transition()
+    .duration(duration)
     .attr("y", (_d: any, i: number) => y(i.toString()))
-    .attr("width", (d: IKeyword) => x(d.weight) - x(0))
-    .attr("height", y.bandwidth());
+    .attr("width", (d: IKeyword) => x(d.weight) - x(0));
 
   bars.exit().remove();
 }
@@ -219,45 +222,51 @@ function setLabels(
   data: IKeyword[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleBand<string>,
-  format: (d: d3.NumberValue) => string
+  format: (d: d3.NumberValue) => string,
+  duration: number = 500
 ) {
   const labels = container.selectAll("text").data(data);
 
   labels
     .enter()
     .append("text")
-    .attr("class", styles.label)
-    .attr("x", (d: IKeyword) => x(d.weight))
+    .attr("class", styles.labelLarge)
+    .attr("x", x(0))
     .attr(
       "y",
       (_d: any, i: number) => (y(i.toString()) as number) + y.bandwidth() / 2
     )
     .attr("dy", "0.35em")
     .attr("dx", -4)
-    .text((d: IKeyword) => format(d.weight))
     .call((text: any) =>
       text
         .filter((d: IKeyword) => x(d.weight) - x(0) < 42) // short bars
         .attr("class", styles.labelSmall)
         .attr("dx", +4)
-    );
+    )
+    .transition()
+    .duration(duration)
+    .attr("x", (d: IKeyword) => x(d.weight))
+    .text((d: IKeyword) => format(d.weight));
 
   labels
-    .attr("class", styles.label)
+    .attr("class", styles.labelLarge)
+    .attr("dx", -4)
+    .call((text: any) =>
+      text
+        .filter((d: IKeyword) => x(d.weight) - x(0) < 42) // short bars
+        .attr("class", styles.labelSmall)
+        .attr("dx", +4)
+    )
+    .transition()
+    .duration(duration)
     .attr("x", (d: IKeyword) => x(d.weight))
     .attr(
       "y",
       (_d: any, i: number) => (y(i.toString()) as number) + y.bandwidth() / 2
     )
     .attr("dy", "0.35em")
-    .attr("dx", -4)
-    .text((d: IKeyword) => format(d.weight))
-    .call((text: any) =>
-      text
-        .filter((d: IKeyword) => x(d.weight) - x(0) < 42) // short bars
-        .attr("class", styles.labelSmall)
-        .attr("dx", +4)
-    );
+    .text((d: IKeyword) => format(d.weight));
 
   labels.exit().remove();
 }

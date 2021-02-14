@@ -168,7 +168,13 @@ export interface IHierarchy {
 }
 
 export interface IGraphSunburst {
-  data: IHierarchy;
+  data: {
+    name: string;
+    frequency: number;
+    precent: number;
+    children: IHierarchy[];
+  };
+  branches?: string[];
   className?: any;
 }
 

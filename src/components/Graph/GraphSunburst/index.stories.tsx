@@ -29,6 +29,14 @@ const Template: Story<IGraphSunburst> = (args: IGraphSunburst) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  branches: [
+    "business",
+    "politics",
+    "markets",
+    "bloomberg",
+    "5262",
+    "businessweek",
+  ],
   data: {
     name: "root",
     frequency: 19878,
@@ -362,6 +370,278 @@ Default.args = {
           },
         ],
       },
+      {
+        name: "markets",
+        frequency: 2583,
+        precent: 0.1299426501660127,
+        children: [
+          {
+            name: "home",
+            frequency: 67,
+            precent: 0.003370560418553174,
+          },
+          {
+            name: "watchlist",
+            frequency: 16,
+            precent: 0.0008049099506992655,
+          },
+          {
+            name: "stocks",
+            frequency: 30,
+            precent: 0.001509206157561123,
+            children: [
+              {
+                name: "futures",
+                frequency: 27,
+                precent: 0.001358285541805011,
+              },
+              {
+                name: "world-indexes",
+                frequency: 3,
+                precent: 0.0001509206157561123,
+                children: [
+                  {
+                    name: "europe-africa-middle-east",
+                    frequency: 3,
+                    precent: 0.0001509206157561123,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "commodities",
+            frequency: 46,
+            precent: 0.002314116108260388,
+            children: [
+              {
+                name: "futures",
+                frequency: 11,
+                precent: 0.000553375591105745,
+                children: [
+                  {
+                    name: "metals",
+                    frequency: 11,
+                    precent: 0.000553375591105745,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "sector",
+            frequency: 1,
+            precent: 0.0000503068719187041,
+            children: [
+              {
+                name: "utilities",
+                frequency: 1,
+                precent: 0.0000503068719187041,
+              },
+            ],
+          },
+          {
+            name: "cic",
+            frequency: 487,
+            precent: 0.02449944662440889,
+            children: [
+              {
+                name: "public",
+                frequency: 56,
+                precent: 0.00281718482744743,
+              },
+              {
+                name: "private",
+                frequency: 318,
+                precent: 0.0159975852701479,
+              },
+              {
+                name: "profile",
+                frequency: 113,
+                precent: 0.005684676526813563,
+              },
+            ],
+          },
+          {
+            name: "economics",
+            frequency: 3,
+            precent: 0.0001509206157561123,
+          },
+          {
+            name: "rates-bonds",
+            frequency: 1,
+            precent: 0.0000503068719187041,
+            children: [
+              {
+                name: "bloomberg-barclays-indices",
+                frequency: 1,
+                precent: 0.0000503068719187041,
+              },
+            ],
+          },
+          {
+            name: "focus_on_markets_personal_finance",
+            frequency: 1,
+            precent: 0.0000503068719187041,
+          },
+          {
+            name: "quote",
+            frequency: 231,
+            precent: 0.01162088741322065,
+          },
+          {
+            name: "article",
+            frequency: 1700,
+            precent: 0.08552168226179696,
+          },
+        ],
+      },
+      {
+        name: "bloomberg",
+        frequency: 3072,
+        precent: 0.154542710534259,
+        children: [
+          {
+            name: "pressrelease",
+            frequency: 34,
+            precent: 0.001710433645235939,
+          },
+          {
+            name: "businessweek",
+            frequency: 1508,
+            precent: 0.07586276285340578,
+          },
+          {
+            name: "live",
+            frequency: 2,
+            precent: 0.0001006137438374082,
+            children: [
+              {
+                name: "schedule-shows",
+                frequency: 2,
+                precent: 0.0001006137438374082,
+              },
+            ],
+          },
+          {
+            name: "author",
+            frequency: 4,
+            precent: 0.0002012274876748164,
+          },
+          {
+            name: "audio",
+            frequency: 3,
+            precent: 0.0001509206157561123,
+            children: [
+              {
+                name: "podcast",
+                frequency: 3,
+                precent: 0.0001509206157561123,
+                children: [
+                  {
+                    name: "decrypted1",
+                    frequency: 1,
+                    precent: 0.0000503068719187041,
+                  },
+                  {
+                    name: "out_of_office",
+                    frequency: 1,
+                    precent: 0.0000503068719187041,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "opinion",
+            frequency: 1521,
+            precent: 0.07651675218834893,
+            children: [
+              {
+                name: "view",
+                frequency: 151,
+                precent: 0.007596337659724318,
+                children: [
+                  {
+                    name: "quicktake",
+                    frequency: 151,
+                    precent: 0.007596337659724318,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: "5262",
+        frequency: 1,
+        precent: 0.0000503068719187041,
+        children: [
+          {
+            name: "business",
+            frequency: 1,
+            precent: 0.0000503068719187041,
+            children: [
+              {
+                name: "news",
+                frequency: 1,
+                precent: 0.0000503068719187041,
+                children: [
+                  {
+                    name: "pursuits",
+                    frequency: 1,
+                    precent: 0.0000503068719187041,
+                    children: [
+                      {
+                        name: "how_did_i_get_here",
+                        frequency: 1,
+                        precent: 0.0000503068719187041,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: "businessweek",
+        frequency: 295,
+        precent: 0.01484052721601771,
+      },
+      {
+        name: "politics",
+        frequency: 3179,
+        precent: 0.1599255458295603,
+        children: [
+          {
+            name: "story",
+            frequency: 3179,
+            precent: 0.1599255458295603,
+          },
+        ],
+      },
+    ],
+  },
+};
+
+export const RemovedOne = Template.bind({});
+RemovedOne.args = {
+  branches: [
+    "business",
+    "politics",
+    "markets",
+    "bloomberg",
+    "5262",
+    "businessweek",
+  ],
+  data: {
+    name: "root",
+    frequency: 19878,
+    precent: 100,
+    children: [
       {
         name: "markets",
         frequency: 2583,

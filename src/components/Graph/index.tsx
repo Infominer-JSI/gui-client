@@ -20,11 +20,17 @@ export default function Graph(props: {
   function selectGraph(type: string, data: any) {
     switch (type) {
       case "hierarchy":
-        return <GraphSunburst className={className} data={data.values} />;
+        return (
+          <GraphSunburst
+            data={data.values}
+            branches={data.branches}
+            className={className}
+          />
+        );
       case "keywords":
-        return <GraphKeywords className={className} data={data.values} />;
+        return <GraphKeywords data={data.values} className={className} />;
       // case "keywords":
-      //   return <GraphWordcloud className={className} data={data.values} />;
+      //   return <GraphWordcloud data={data.values} className={className} />;
       default:
         return null;
     }

@@ -1,7 +1,7 @@
 // import interfaces
 import { IGraphSunburst, IHierarchy } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 // import d3 visualization
 import * as d3 from "d3";
@@ -45,7 +45,9 @@ export default function GraphSunburst(props: IGraphSunburst) {
     root.each((d: any) => (d.current = d));
 
     // get color scale and the arc function
-    const color = createColor(props.data.children?.length as number);
+    const color = createColor(
+      props.branches ?? props.data.children.map((v) => v.name)
+    );
     const arc = createArc(radius);
     // set the graph container
     let svg: any = null;
@@ -109,8 +111,11 @@ function partition(data: IHierarchy, radius: number) {
   );
 }
 
-function createColor(nChildren: number) {
-  return d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, nChildren + 1));
+function createColor(branchNames: string[]) {
+  return d3.scaleOrdinal(
+    branchNames,
+    d3.quantize(d3.interpolateRainbow, branchNames.length + 1)
+  );
 }
 
 function createArc(radius: number) {
