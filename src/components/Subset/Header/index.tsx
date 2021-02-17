@@ -3,6 +3,9 @@ import { ISubset, ISubsetHeader } from "Interfaces";
 // import modules
 import React from "react";
 import { formatNumber } from "utils/format";
+import { download } from "utils/utils";
+
+// import components
 import EditButton from "components/EditButton";
 import DeleteButton from "components/DeleteButton";
 import DownloadButton from "components/DownloadButton";
@@ -18,20 +21,25 @@ export default function SubsetHeader(props: ISubsetHeader) {
   const { label, nDocuments } = dataset.getSubset(subsetId) as ISubset;
   // format the number of documents
   const numberDocs = formatNumber(nDocuments as number);
+
   // create the download link and filename
   const downloadLink = `/api/v1/datasets/${datasetId}/subsets/${subsetId}/download`;
   const formatLabel = label.replace(/[, ]+/g, "-").toLowerCase();
   const filename = `${formatLabel}-D${datasetId}S${subsetId}T${Date.now()}.csv`;
+  // set the download function
+  const getFileFromURL = async () => {
+    // download from the link and create a blob
+    const response = await fetch(downloadLink);
+    const blob = await response.blob();
+    download(filename, blob);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <DownloadButton
-            downloadLink={downloadLink}
-            filename={filename}
-            dark={true}
-          />
+          <DownloadButton onClick={getFileFromURL} dark={true} />
           <EditButton dark={true} />
           {subsetId !== 0 ? <DeleteButton dark={true} /> : null}
         </div>

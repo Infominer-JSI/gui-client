@@ -1,7 +1,7 @@
 // import interfaces
 import { IGraphSunburst, IHierarchy } from "Interfaces";
 // import modules
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 // import d3 visualization
 import * as d3 from "d3";
@@ -9,94 +9,103 @@ import * as d3 from "d3";
 // import styles
 import styles from "./styles.module.scss";
 
-export default function GraphSunburst(props: IGraphSunburst) {
-  // set references
-  const containerRef = useRef<HTMLDivElement>(null);
+const GraphSunburst = React.forwardRef<SVGSVGElement, IGraphSunburst>(
+  (props, graphRef) => {
+    // set references
+    const containerRef = useRef<HTMLDivElement>(null);
 
-  // set the states
-  let [initialized, setInitialized] = useState(false);
-  const [width, setWidth] = useState<number | null | undefined>();
-  const [height, setHeight] = useState<number | null | undefined>();
+    // set the states
+    let [initialized, setInitialized] = useState(false);
+    const [width, setWidth] = useState<number | null | undefined>();
+    const [height, setHeight] = useState<number | null | undefined>();
 
-  useEffect(() => {
-    // update the width and height every 10ms
-    const interval = setInterval(() => {
-      setWidth(containerRef?.current?.offsetWidth);
-      setHeight(containerRef?.current?.offsetHeight);
-    }, 10);
-    // Remove event listener on cleanup
-    return () => clearInterval(interval);
-  }, []);
+    useEffect(() => {
+      // update the width and height every 10ms
+      const interval = setInterval(() => {
+        setWidth(containerRef?.current?.offsetWidth);
+        setHeight(containerRef?.current?.offsetHeight);
+      }, 10);
+      // Remove event listener on cleanup
+      return () => clearInterval(interval);
+    }, []);
 
-  // create the visualization
-  useEffect(() => {
-    // chech if we have everything so that we can start creating the graph
-    if (!props.data || !containerRef.current || !width || !height) {
-      return;
-    }
+    // create the visualization
+    useEffect(() => {
+      // chech if we have everything so that we can start creating the graph
+      if (!props.data || !containerRef.current || !width || !height) {
+        return;
+      }
 
-    // get the radius of the visualization
-    const radius = Math.min(width, height) / 2;
-    // set the format
-    const format = d3.format(",d");
+      // get the radius of the visualization
+      const radius = Math.min(width, height) / 2;
+      // set the format
+      const format = d3.format(",d");
 
-    // assign the partition of the data
-    const root = partition(props.data, radius);
-    root.each((d: any) => (d.current = d));
+      // assign the partition of the data
+      const root = partition(props.data, radius);
+      root.each((d: any) => (d.current = d));
 
-    // get color scale and the arc function
-    const color = createColor(
-      props.branches ?? props.data.children.map((v) => v.name)
+      // get color scale and the arc function
+      const color = createColor(
+        props.branches ?? props.data.children.map((v) => v.name)
+      );
+      const arc = createArc(radius);
+      // set the graph container
+      let svg: any = null;
+
+      if (!initialized) {
+        // create the svg element
+        svg = createSVG(containerRef.current, width, height, {
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: 10,
+        });
+        // set the layers
+        const layers = svg
+          .append("g")
+          .attr("class", "layers")
+          .attr("fill-opacity", 0.6);
+        setLayers(layers, root, arc, color, format);
+        // create the labels container
+        const labels = svg
+          .append("g")
+          .attr("class", "labels")
+          .attr("pointer-events", "none")
+          .attr("text-anchor", "middle")
+          .attr("font-size", 10);
+        setLabels(labels, root);
+        // set the initialized value
+        setInitialized(true);
+      } else {
+        // update the svg element
+        svg = updateSVG(containerRef.current, width, height, {
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: 10,
+        });
+        // update the layers
+        const layers = svg.select("g.layers");
+        setLayers(layers, root, arc, color, format);
+        // update the labels
+        const labels = svg.select("g.labels");
+        setLabels(labels, root);
+      }
+    }, [props, width, height, containerRef, initialized]);
+
+    const containerStyle = classnames(styles.container, props.className);
+
+    return (
+      <div className={containerStyle} ref={containerRef}>
+        <svg ref={graphRef}></svg>
+      </div>
     );
-    const arc = createArc(radius);
-    // set the graph container
-    let svg: any = null;
+  }
+);
 
-    if (!initialized) {
-      // create the svg element
-      svg = createSVG(containerRef.current, width, height, {
-        top: 10,
-        left: 10,
-        right: 10,
-        bottom: 10,
-      });
-      // set the layers
-      const layers = svg
-        .append("g")
-        .attr("class", "layers")
-        .attr("fill-opacity", 0.6);
-      setLayers(layers, root, arc, color, format);
-      // create the labels container
-      const labels = svg
-        .append("g")
-        .attr("class", "labels")
-        .attr("pointer-events", "none")
-        .attr("text-anchor", "middle")
-        .attr("font-size", 10);
-      setLabels(labels, root);
-      // set the initialized value
-      setInitialized(true);
-    } else {
-      // update the svg element
-      svg = updateSVG(containerRef.current, width, height, {
-        top: 10,
-        left: 10,
-        right: 10,
-        bottom: 10,
-      });
-      // update the layers
-      const layers = svg.select("g.layers");
-      setLayers(layers, root, arc, color, format);
-      // update the labels
-      const labels = svg.select("g.labels");
-      setLabels(labels, root);
-    }
-  }, [props, width, height, containerRef, initialized]);
-
-  const containerStyle = classnames(styles.container, props.className);
-
-  return <div className={containerStyle} ref={containerRef}></div>;
-}
+// export the module
+export default GraphSunburst;
 
 // ==============================================
 // Graph Helper Functions
@@ -142,7 +151,7 @@ function createSVG(
 ) {
   return d3
     .select(div)
-    .append("svg")
+    .select("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -254,6 +263,9 @@ function setLabels(
     .enter()
     .append("text")
     .attr("class", styles.label)
+    //* download "style" values
+    .style("font-family", "Lato")
+
     .attr("transform", function (d: any) {
       const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI;
       const y = (d.y0 + d.y1) / 2;

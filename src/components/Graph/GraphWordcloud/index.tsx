@@ -10,102 +10,114 @@ import cloud from "d3-cloud";
 // import styles
 import styles from "./styles.module.scss";
 
-export default function GraphKeywords(props: IGraphWordcloud) {
-  // set references
-  const containerRef = useRef<HTMLDivElement>(null);
+const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
+  (props, graphRef) => {
+    // set references
+    const containerRef = useRef<HTMLDivElement>(null);
 
-  // set the states
-  let [initialized, setInitialized] = useState(false);
-  const [width, setWidth] = useState<number | null | undefined>();
-  const [height, setHeight] = useState<number | null | undefined>();
+    // set the states
+    let [initialized, setInitialized] = useState(false);
+    const [width, setWidth] = useState<number | null | undefined>();
+    const [height, setHeight] = useState<number | null | undefined>();
 
-  useEffect(() => {
-    // update the width and height every 10ms
-    const interval = setInterval(() => {
-      setWidth(containerRef?.current?.offsetWidth);
-      setHeight(containerRef?.current?.offsetHeight);
-    }, 10);
-    // Remove event listener on cleanup
-    return () => clearInterval(interval);
-  }, []);
+    useEffect(() => {
+      // update the width and height every 10ms
+      const interval = setInterval(() => {
+        setWidth(containerRef?.current?.offsetWidth);
+        setHeight(containerRef?.current?.offsetHeight);
+      }, 10);
+      // Remove event listener on cleanup
+      return () => clearInterval(interval);
+    }, []);
 
-  // create the visualization
-  useEffect(() => {
-    // chech if we have everything so that we can start creating the graph
-    if (!props.data || !containerRef.current || !width || !height) {
-      return;
-    }
+    // create the visualization
+    useEffect(() => {
+      // chech if we have everything so that we can start creating the graph
+      if (!props.data || !containerRef.current || !width || !height) {
+        return;
+      }
 
-    // prepare static values
-    const margin = {
-      top: 10,
-      left: 10,
-      right: 10,
-      bottom: 10,
-    };
+      // prepare static values
+      const margin = {
+        top: 10,
+        left: 10,
+        right: 10,
+        bottom: 10,
+      };
 
-    // get he min and maximum weight
-    const weights = props.data.map((val) => val.weight);
-    const minWeight = Math.min(...weights);
-    const maxWeight = Math.max(...weights);
+      // get he min and maximum weight
+      const weights = props.data.map((val) => val.weight);
+      const minWeight = Math.min(...weights);
+      const maxWeight = Math.max(...weights);
 
-    // set the minimum and maximum font size
-    const minFontSize = 10;
-    const maxFontSize = 40;
+      // set the minimum and maximum font size
+      const minFontSize = 10;
+      const maxFontSize = 40;
 
-    // set the css classes
-    const classes = [styles.small, styles.medium, styles.large];
+      // set the css classes and fill
+      const cls = [styles.small, styles.medium, styles.large];
+      //* download "style" values
+      const fills = ["#9ca3af", "#2563eb", "#000000"];
+      // create the font size scale
+      const fontSizeScale = createFontSizeScale(
+        minWeight,
+        maxWeight,
+        minFontSize,
+        maxFontSize
+      );
 
-    // create the font size scale
-    const fontSizeScale = createFontSizeScale(
-      minWeight,
-      maxWeight,
-      minFontSize,
-      maxFontSize
+      // create the class scale
+      const classScale = createClassScale(minWeight, maxWeight, cls);
+      const fillScale = createClassScale(minWeight, maxWeight, fills);
+
+      // format the data
+      const data = props.data.map((d: IKeyword) => ({
+        text: d.keyword ? d.keyword.toUpperCase() : "",
+        size: minWeight === maxWeight ? maxFontSize : fontSizeScale(d.weight),
+        colorClass:
+          minWeight === maxWeight ? cls[cls.length - 1] : classScale(d.weight),
+        fill:
+          minWeight === maxWeight
+            ? fills[fills.length - 1]
+            : fillScale(d.weight),
+      }));
+
+      if (!initialized) {
+        // create the svg element
+        const svg = createSVG(containerRef.current, width, height, margin);
+        const wc = svg.append("g").attr("class", "wordcloud");
+        // calculate and visualize the wordcloud
+        calculateWordcloud(data, width, height)
+          .on("end", (words) => {
+            setWordcloud(wc, words);
+          })
+          .start();
+        setInitialized(true);
+      } else {
+        // update the svg element
+        const svg = updateSVG(containerRef.current, width, height, margin);
+        const wc = svg.select("g.wordcloud");
+        // calculate and visualize the wordcloud
+        calculateWordcloud(data, width, height)
+          .on("end", (words) => {
+            setWordcloud(wc, words);
+          })
+          .start();
+      }
+    }, [props.data, width, height, containerRef, initialized]);
+
+    // assign the container style
+    const containerStyle = classnames(styles.container, props.className);
+
+    return (
+      <div className={containerStyle} ref={containerRef}>
+        <svg ref={graphRef}></svg>
+      </div>
     );
+  }
+);
 
-    // create the class scale
-    const classScale = createClassScale(minWeight, maxWeight, classes);
-
-    // format the data
-    const data = props.data.map((d: IKeyword) => ({
-      text: d.keyword ? d.keyword.toUpperCase() : "",
-      size: minWeight === maxWeight ? maxFontSize : fontSizeScale(d.weight),
-      colorClass:
-        minWeight === maxWeight
-          ? classes[classes.length - 1]
-          : classScale(d.weight),
-    }));
-
-    if (!initialized) {
-      // create the svg element
-      const svg = createSVG(containerRef.current, width, height, margin);
-      const wc = svg.append("g").attr("class", "wordcloud");
-      // calculate and visualize the wordcloud
-      calculateWordcloud(data, width, height)
-        .on("end", (words) => {
-          setWordcloud(wc, words);
-        })
-        .start();
-      setInitialized(true);
-    } else {
-      // update the svg element
-      const svg = updateSVG(containerRef.current, width, height, margin);
-      const wc = svg.select("g.wordcloud");
-      // calculate and visualize the wordcloud
-      calculateWordcloud(data, width, height)
-        .on("end", (words) => {
-          setWordcloud(wc, words);
-        })
-        .start();
-    }
-  }, [props.data, width, height, containerRef, initialized]);
-
-  // assign the container style
-  const containerStyle = classnames(styles.container, props.className);
-
-  return <div className={containerStyle} ref={containerRef}></div>;
-}
+export default GraphWordcloud;
 
 // ==============================================
 // Graph Helper Functions
@@ -156,7 +168,7 @@ function createSVG(
 ) {
   return d3
     .select(div)
-    .append("svg")
+    .select("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -199,6 +211,10 @@ function setWordcloud(container: any, words: cloud.Word[]) {
     .attr("text-anchor", "middle")
     .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
     .style("font-size", (d: any) => `${d.size}dx`)
+    //* download "style" values
+    .style("font-family", "Lato")
+    .style("font-weight", 900)
+    .style("fill", (d: any) => d.fill)
     .text((d: any) => d.text);
 
   wordcloud
@@ -206,6 +222,10 @@ function setWordcloud(container: any, words: cloud.Word[]) {
     .attr("text-anchor", "middle")
     .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
     .style("font-size", (d: any) => `${d.size}px`)
+    //* download "style" values
+    .style("font-family", "Lato")
+    .style("font-weight", 900)
+    .style("fill", (d: any) => d.fill)
     .text((d: any) => d.text);
 
   wordcloud.exit().remove();

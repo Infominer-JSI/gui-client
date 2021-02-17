@@ -81,9 +81,10 @@ export interface IButton {
 }
 
 export interface IDownloadButton {
-  downloadLink: string;
-  filename?: string;
+  className?: string;
+  onClick: any;
   dark?: boolean;
+  size?: string;
 }
 
 export interface INavigationButton {

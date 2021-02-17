@@ -1,7 +1,26 @@
 @import "assets/definitions.scss";
 
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
 .field {
   margin: 0 0 $spacing-8;
-  border-bottom: 1px solid $color-gray-100;
   font-family: $font-header;
+  flex: 1;
+}
+
+.actions {
+  flex-shrink: 0;
+}
+
+.download {
+  border: 1px solid $color-gray-200;
+  background: $color-white;
+  color: $color-gray-300;
+  &:hover {
+    background: $color-gray-200;
+    color: $color-black;
+  }
 }
