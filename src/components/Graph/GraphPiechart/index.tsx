@@ -42,10 +42,10 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
       const radius = Math.min(width, height) / 2;
 
       // get the colors
-      const colors = createColor(props.data);
+      const colors = createColor(props.data.map((d) => d.value));
 
       // define the arc
-      const arc = createArc(radius * 0.3, radius * 0.7);
+      const arc = createArc(radius * 0.4, radius * 0.7);
       const outerArc = createArc(radius * 0.8, radius * 0.8);
 
       // update the svg values
@@ -92,8 +92,11 @@ export default GraphBarchart;
 // Graph Helper Functions
 // ==============================================
 
-function createColor(data: IBarchartRow[]) {
-  return d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.length + 1));
+function createColor(labels: string[]) {
+  return d3.scaleOrdinal(
+    labels,
+    d3.quantize(d3.interpolateRainbow, labels.length + 1)
+  );
 }
 
 function createArc(innerRadius: number, outerRadius: number) {
@@ -146,20 +149,20 @@ function setSlices(
   // prepare the layers
   const slices = container.selectAll("path").data(data);
   // set new layers
-  const newSlices = slices
+  slices
     .enter()
     .append("path")
     .attr("fill", (d: any, i: number) => color(i.toString()))
-    .attr("d", (d: any) => arc(d));
-
-  newSlices.append("title").text((d: any) => d.data.value);
+    .attr("d", (d: any) => arc(d))
+    .append("title")
+    .text((d: any) => d.data.value);
 
   // how to update existing layers
   slices
     .attr("fill", (d: any, i: number) => color(i.toString()))
-    .attr("d", (d: any) => arc(d));
-
-  slices.selectAll("title").text((d: any) => d.data.value);
+    .attr("d", (d: any) => arc(d))
+    .select("title")
+    .text((d: any) => d.data.value);
   // what to do with removed layers
   slices.exit().remove();
 }
