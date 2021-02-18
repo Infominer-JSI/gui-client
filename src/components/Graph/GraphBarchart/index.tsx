@@ -1,21 +1,23 @@
 // import interfaces
-import { IGraphKeywords, IKeyword } from "Interfaces";
+import { IGraphBarchart, IBarchartRow } from "Interfaces";
 // import modules
 import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
+
+import { trimString } from "utils/utils";
+
 // import d3 visualization
 import * as d3 from "d3";
 
 // import styles
 import styles from "./styles.module.scss";
 
-const GraphKeywords = React.forwardRef<SVGSVGElement, IGraphKeywords>(
+const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphBarchart>(
   (props, graphRef) => {
     // set references
     const containerRef = useRef<HTMLDivElement>(null);
 
     // set the states
-    let [initialized, setInitialized] = useState(false);
     const [width, setWidth] = useState<number | null | undefined>();
     const [height, setHeight] = useState<number | null | undefined>();
 
@@ -24,7 +26,7 @@ const GraphKeywords = React.forwardRef<SVGSVGElement, IGraphKeywords>(
       const interval = setInterval(() => {
         setWidth(containerRef?.current?.offsetWidth);
         setHeight(containerRef?.current?.offsetHeight);
-      }, 10);
+      }, 200);
       // Remove event listener on cleanup
       return () => clearInterval(interval);
     }, []);
@@ -36,91 +38,107 @@ const GraphKeywords = React.forwardRef<SVGSVGElement, IGraphKeywords>(
         return;
       }
 
-      const barHeight = 30;
+      let color;
+      switch (props.color) {
+        case "green":
+          color = "#10b981";
+          break;
+        case "blue":
+        default:
+          color = "#3b82f6";
+          break;
+      }
+
+      const barHeight = 28;
+
+      const trimLength = getTrimLength(width);
+
+      const data = JSON.parse(JSON.stringify(props.data));
+      data.forEach(
+        (d: IBarchartRow) => (d.value = trimString(d.value, trimLength))
+      );
+
+      const maxLabelLength = Math.max(
+        ...data.map((d: IBarchartRow) => d.value.length)
+      );
+
       // prepare static values
       const margin = {
         top: 10,
-        left: 40,
-        right: 56,
+        left: Math.max(maxLabelLength * 3.5, 30),
+        right: 20,
         bottom: 10,
       };
 
       const svgHeight =
-        Math.ceil((props.data.length + 0.1) * barHeight) + margin.top * 2;
+        Math.ceil((data.length + 0.1) * barHeight) + margin.top * 2;
 
       if (height < svgHeight) {
-        margin.right = 70;
+        margin.right = 30;
       }
 
       const x = createXScale(width, margin);
-      const y = createYScale(props.data, barHeight, margin);
-
-      const format = x.tickFormat(1000, "%");
+      const y = createYScale(data, barHeight, margin);
 
       // set the graph container
-      let svg: any = null;
-
-      if (!initialized) {
-        // create the svg element
-        svg = createSVG(containerRef.current, width, svgHeight, margin);
-        // create the bars
-        const bars = svg
-          .append("g")
-          .attr("class", "bars")
-          .attr("fill", "#3b82f6");
-        setBars(bars, props.data, x, y);
-        // create the bar labels
-        const labels = svg.append("g").attr("class", "labels");
-        setLabels(labels, props.data, x, y, format);
-        // create the x- and y-axis
-        const xAxis = svg.append("g").attr("class", "xAxis");
-        const yAxis = svg.append("g").attr("class", "yAxis");
-        xAxis.call(setXAxis(x, width, margin));
-        yAxis.call(setYAxis(y, props.data, margin));
-
-        setInitialized(true);
-      } else {
-        // update the svg element
-        svg = updateSVG(containerRef.current, width, svgHeight, margin);
-        // update the bars
-        const bars = svg.select("g.bars");
-        setBars(bars, props.data, x, y);
-        // create the bar labels
-        const labels = svg.select("g.labels");
-        setLabels(labels, props.data, x, y, format);
-        // update the x- and y-axis
-        const xAxis = svg.select("g.xAxis");
-        const yAxis = svg.select("g.yAxis");
-        xAxis.call(setXAxis(x, width, margin));
-        yAxis.call(setYAxis(y, props.data, margin));
-      }
-    }, [props.data, width, height, containerRef, initialized]);
+      const svg = updateSVG(containerRef.current, width, svgHeight, margin);
+      // update the bars
+      const bars = svg.select("g.bars");
+      setBars(bars, data, x, y, color);
+      // create the bar labels
+      const labels = svg.select("g.labels");
+      setLabels(labels, data, x, y);
+      // update the x- and y-axis
+      const xAxis = svg.select("g.xAxis");
+      const yAxis = svg.select("g.yAxis");
+      xAxis.call(setXAxis(x, width, margin));
+      yAxis.call(setYAxis(y, data, margin));
+    }, [props.data, props.color, width, height, containerRef]);
 
     // assign the container style
     const containerStyle = classnames(styles.container, props.className);
 
     return (
       <div className={containerStyle} ref={containerRef}>
-        <svg ref={graphRef}></svg>
+        <svg ref={graphRef}>
+          <g className="graph">
+            <g className="bars"></g>
+            <g className="labels"></g>
+            <g className="xAxis"></g>
+            <g className="yAxis"></g>
+          </g>
+        </svg>
       </div>
     );
   }
 );
 
-export default GraphKeywords;
+export default GraphBarchart;
 
 // ==============================================
 // Graph Helper Functions
 // ==============================================
 
+function getTrimLength(width: number) {
+  return width < 180
+    ? 7
+    : width < 240
+    ? 12
+    : width < 280
+    ? 14
+    : width < 400
+    ? 16
+    : 22;
+}
+
 function createXScale(width: number, margin: any) {
   return d3
     .scaleLinear()
     .domain([0, 1])
-    .range([margin.left, width - margin.right]);
+    .range([margin.left, width - margin.left - margin.right]);
 }
 
-function createYScale(data: IKeyword[], barHeight: number, margin: any) {
+function createYScale(data: IBarchartRow[], barHeight: number, margin: any) {
   const domain = d3.range(data.length);
   return d3
     .scaleBand()
@@ -132,13 +150,14 @@ function createYScale(data: IKeyword[], barHeight: number, margin: any) {
 function setXAxis(
   x: d3.ScaleLinear<number, number, never>,
   width: number,
-  margin: any
+  margin: any,
+  duration: number = 500
 ) {
-  return (g: any) =>
-    g
-      .attr("transform", `translate(0, ${margin.top})`)
+  return (g: any) => {
+    g.transition()
+      .duration(duration)
       .call(d3.axisTop(x).ticks(width / 100, "%"))
-      .call((g: any) => g.select(".domain").remove())
+      .attr("transform", `translate(0, ${margin.top})`)
       .call((g: any) =>
         g
           .selectAll(".tick text")
@@ -147,16 +166,24 @@ function setXAxis(
           .style("font-size", "12px")
           .style("font-family", "Lato")
       );
+    g.select(".domain").remove();
+  };
 }
 
-function setYAxis(y: d3.ScaleBand<string>, data: IKeyword[], margin: any) {
-  return (g: any) =>
-    g
+function setYAxis(
+  y: d3.ScaleBand<string>,
+  data: IBarchartRow[],
+  margin: any,
+  duration: number = 500
+) {
+  return (g: any) => {
+    g.transition()
+      .duration(duration)
       .attr("transform", `translate(${margin.left}, 0)`)
       .call(
         d3
           .axisLeft(y)
-          .tickFormat((_d: string, i: number) => data[i].keyword ?? "N/A")
+          .tickFormat((_d: string, i: number) => data[i].value ?? "N/A")
           .tickSizeOuter(0)
       )
       .call((g: any) =>
@@ -167,29 +194,8 @@ function setYAxis(y: d3.ScaleBand<string>, data: IKeyword[], margin: any) {
           .style("font-size", "12px")
           .style("font-family", "Lato")
       );
-}
-
-function createSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("class", "graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height)
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    g.select(".domain").remove();
+  };
 }
 
 function updateSVG(
@@ -216,11 +222,15 @@ function updateSVG(
 
 function setBars(
   container: any,
-  data: IKeyword[],
+  data: IBarchartRow[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleBand<string>,
+  color: string,
   duration: number = 500
 ) {
+  //* download "style" values
+  container.attr("fill", color);
+
   // prepare the bars
   const bars = container.selectAll("rect").data(data);
 
@@ -232,23 +242,23 @@ function setBars(
     .attr("height", y.bandwidth())
     .transition()
     .duration(duration)
-    .attr("width", (d: IKeyword) => x(d.weight) - x(0));
+    .attr("width", (d: IBarchartRow) => x(d.precent) - x(0));
 
   bars
     .transition()
     .duration(duration)
+    .attr("x", x(0))
     .attr("y", (_d: any, i: number) => y(i.toString()))
-    .attr("width", (d: IKeyword) => x(d.weight) - x(0));
+    .attr("width", (d: IBarchartRow) => x(d.precent) - x(0));
 
   bars.exit().remove();
 }
 
 function setLabels(
   container: any,
-  data: IKeyword[],
+  data: IBarchartRow[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleBand<string>,
-  format: (d: d3.NumberValue) => string,
   duration: number = 500
 ) {
   const labels = container.selectAll("text").data(data);
@@ -271,7 +281,7 @@ function setLabels(
     .attr("dx", -4)
     .call((text: any) =>
       text
-        .filter((d: IKeyword) => x(d.weight) - x(0) < 42) // short bars
+        .filter((d: IBarchartRow) => x(d.precent) - x(0) < 42) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("text-anchor", "start")
@@ -280,8 +290,8 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr("x", (d: IKeyword) => x(d.weight))
-    .text((d: IKeyword) => format(d.weight));
+    .attr("x", (d: IBarchartRow) => x(d.precent))
+    .text((d: IBarchartRow) => d.frequency);
 
   labels
     .attr("class", styles.labelLarge)
@@ -293,7 +303,7 @@ function setLabels(
     .attr("dx", -4)
     .call((text: any) =>
       text
-        .filter((d: IKeyword) => x(d.weight) - x(0) < 42) // short bars
+        .filter((d: IBarchartRow) => x(d.precent) - x(0) < 42) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("text-anchor", "start")
@@ -302,13 +312,13 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr("x", (d: IKeyword) => x(d.weight))
+    .attr("x", (d: IBarchartRow) => x(d.precent))
     .attr(
       "y",
       (_d: any, i: number) => (y(i.toString()) as number) + y.bandwidth() / 2
     )
     .attr("dy", "0.35em")
-    .text((d: IKeyword) => format(d.weight));
+    .text((d: IBarchartRow) => d.frequency);
 
   labels.exit().remove();
 }

@@ -2,13 +2,14 @@
 import React from "react";
 // import graph components
 import GraphSunburst from "components/Graph/GraphSunburst";
-import GraphKeywords from "components/Graph/GraphKeywords";
+import GraphBarchart from "components/Graph/GraphBarchart";
+import GraphPiechart from "components/Graph/GraphPiechart";
 import GraphWordcloud from "components/Graph/GraphWordcloud";
 
 const Graph = React.forwardRef(
   (
     props: {
-      type: string;
+      type: string | null;
       data: any;
       className?: any;
     },
@@ -16,14 +17,15 @@ const Graph = React.forwardRef(
   ) => {
     // get the prop values
     const { type, data, className } = props;
+
     /**
      * Selects and visualize the graph.
      * @param type - The graph type.
      * @param data - The graph data.
      */
-    function selectGraph(type: string, data: any) {
+    function selectGraph(type: string | null, data: any) {
       switch (type) {
-        case "hierarchy":
+        case "sunburst":
           return (
             <GraphSunburst
               data={data.values}
@@ -34,20 +36,38 @@ const Graph = React.forwardRef(
           );
         case "keywords":
           return (
-            <GraphKeywords
+            <GraphBarchart
+              data={data.values}
+              className={className}
+              ref={graphRef}
+              color="blue"
+            />
+          );
+        case "wordcloud":
+          return (
+            <GraphWordcloud
               data={data.values}
               className={className}
               ref={graphRef}
             />
           );
-        // case "keywords":
-        //   return (
-        //     <GraphWordcloud
-        //       data={data.values}
-        //       className={className}
-        //       ref={graphRef}
-        //     />
-        //   );
+        case "barchart":
+          return (
+            <GraphBarchart
+              data={data.values}
+              className={className}
+              ref={graphRef}
+              color="green"
+            />
+          );
+        case "piechart":
+          return (
+            <GraphPiechart
+              data={data.values}
+              className={className}
+              ref={graphRef}
+            />
+          );
         default:
           return null;
       }

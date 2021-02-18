@@ -15,7 +15,6 @@ const GraphSunburst = React.forwardRef<SVGSVGElement, IGraphSunburst>(
     const containerRef = useRef<HTMLDivElement>(null);
 
     // set the states
-    let [initialized, setInitialized] = useState(false);
     const [width, setWidth] = useState<number | null | undefined>();
     const [height, setHeight] = useState<number | null | undefined>();
 
@@ -24,7 +23,7 @@ const GraphSunburst = React.forwardRef<SVGSVGElement, IGraphSunburst>(
       const interval = setInterval(() => {
         setWidth(containerRef?.current?.offsetWidth);
         setHeight(containerRef?.current?.offsetHeight);
-      }, 10);
+      }, 200);
       // Remove event listener on cleanup
       return () => clearInterval(interval);
     }, []);
@@ -51,54 +50,35 @@ const GraphSunburst = React.forwardRef<SVGSVGElement, IGraphSunburst>(
       );
       const arc = createArc(radius);
       // set the graph container
-      let svg: any = null;
-
-      if (!initialized) {
-        // create the svg element
-        svg = createSVG(containerRef.current, width, height, {
-          top: 10,
-          left: 10,
-          right: 10,
-          bottom: 10,
-        });
-        // set the layers
-        const layers = svg
-          .append("g")
-          .attr("class", "layers")
-          .attr("fill-opacity", 0.6);
-        setLayers(layers, root, arc, color, format);
-        // create the labels container
-        const labels = svg
-          .append("g")
-          .attr("class", "labels")
-          .attr("pointer-events", "none")
-          .attr("text-anchor", "middle")
-          .attr("font-size", 10);
-        setLabels(labels, root);
-        // set the initialized value
-        setInitialized(true);
-      } else {
-        // update the svg element
-        svg = updateSVG(containerRef.current, width, height, {
-          top: 10,
-          left: 10,
-          right: 10,
-          bottom: 10,
-        });
-        // update the layers
-        const layers = svg.select("g.layers");
-        setLayers(layers, root, arc, color, format);
-        // update the labels
-        const labels = svg.select("g.labels");
-        setLabels(labels, root);
-      }
-    }, [props, width, height, containerRef, initialized]);
+      const svg = updateSVG(containerRef.current, width, height, {
+        top: 10,
+        left: 10,
+        right: 10,
+        bottom: 10,
+      });
+      // update the layers
+      const layers = svg.select("g.layers");
+      setLayers(layers, root, arc, color, format);
+      // update the labels
+      const labels = svg.select("g.labels");
+      setLabels(labels, root);
+    }, [props, width, height, containerRef]);
 
     const containerStyle = classnames(styles.container, props.className);
 
     return (
       <div className={containerStyle} ref={containerRef}>
-        <svg ref={graphRef}></svg>
+        <svg ref={graphRef}>
+          <g className="graph">
+            <g className="layers" fillOpacity={0.8}></g>
+            <g
+              className="labels"
+              pointerEvents="none"
+              textAnchor="middle"
+              fontSize={10}
+            ></g>
+          </g>
+        </svg>
       </div>
     );
   }
@@ -132,33 +112,11 @@ function createArc(radius: number) {
     .arc<{ x0: number; x1: number; y0: number; y1: number }>()
     .startAngle((d) => d.x0)
     .endAngle((d) => d.x1)
-    .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
+    .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.008))
     .padRadius(radius / 2)
     .innerRadius((d) => d.y0)
-    .outerRadius((d) => d.y1 - 1);
-}
-
-function createSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("class", "graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height - margin.top - margin.bottom)
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+    .outerRadius((d) => d.y1 - 1)
+    .cornerRadius(4);
 }
 
 function updateSVG(
@@ -265,7 +223,6 @@ function setLabels(
     .attr("class", styles.label)
     //* download "style" values
     .style("font-family", "Lato")
-
     .attr("transform", function (d: any) {
       const x = (((d.x0 + d.x1) / 2) * 180) / Math.PI;
       const y = (d.y0 + d.y1) / 2;

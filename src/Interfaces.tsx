@@ -92,6 +92,21 @@ export interface INavigationButton {
   selected: ISubset | IMethod;
 }
 
+export interface IDropdownButton {
+  className?: any;
+  selectedId: number;
+  options: string[];
+  onClick?: any;
+}
+
+export interface IDropdownButtonList {
+  hidden: boolean;
+  selectedId: number;
+  options: string[];
+  toggle?: any;
+  onClick?: any;
+}
+
 export interface ISubsetNavigationButton {
   className: any;
   onClick?: any;
@@ -179,14 +194,26 @@ export interface IGraphSunburst {
   className?: any;
 }
 
+export interface IBarchartRow {
+  value: string;
+  frequency: number;
+  precent: number;
+}
+
+export interface IGraphBarchart {
+  data: IBarchartRow[];
+  className?: any;
+  color?: string;
+}
+
+export interface IGraphPiechart {
+  data: IBarchartRow[];
+  className?: any;
+}
+
 export interface IKeyword {
   keyword: string;
   weight: number;
-}
-
-export interface IGraphKeywords {
-  data: IKeyword[];
-  className?: any;
 }
 
 export interface IGraphWordcloud {

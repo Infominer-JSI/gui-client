@@ -1,7 +1,7 @@
 // import interfaces
 import { IGraphWordcloud, IKeyword } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, ReactText } from "react";
 import classnames from "classnames";
 // import d3 visualization
 import * as d3 from "d3";
@@ -16,16 +16,16 @@ const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
     const containerRef = useRef<HTMLDivElement>(null);
 
     // set the states
-    let [initialized, setInitialized] = useState(false);
     const [width, setWidth] = useState<number | null | undefined>();
     const [height, setHeight] = useState<number | null | undefined>();
+    const [, setCreationTimeout] = useState<any>();
 
     useEffect(() => {
       // update the width and height every 10ms
       const interval = setInterval(() => {
         setWidth(containerRef?.current?.offsetWidth);
         setHeight(containerRef?.current?.offsetHeight);
-      }, 10);
+      }, 200);
       // Remove event listener on cleanup
       return () => clearInterval(interval);
     }, []);
@@ -82,36 +82,53 @@ const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
             : fillScale(d.weight),
       }));
 
-      if (!initialized) {
-        // create the svg element
-        const svg = createSVG(containerRef.current, width, height, margin);
-        const wc = svg.append("g").attr("class", "wordcloud");
-        // calculate and visualize the wordcloud
-        calculateWordcloud(data, width, height)
-          .on("end", (words) => {
-            setWordcloud(wc, words);
-          })
-          .start();
-        setInitialized(true);
-      } else {
-        // update the svg element
-        const svg = updateSVG(containerRef.current, width, height, margin);
-        const wc = svg.select("g.wordcloud");
-        // calculate and visualize the wordcloud
-        calculateWordcloud(data, width, height)
-          .on("end", (words) => {
-            setWordcloud(wc, words);
-          })
-          .start();
+      /**
+       *
+       * @param timeout
+       * @param data
+       * @param width
+       * @param height
+       * @param wc
+       */
+      function createGraph(
+        data: {
+          text: string;
+          size: number;
+          colorClass: ReactText;
+          fill: ReactText;
+        }[],
+        width: number,
+        height: number,
+        wc: any
+      ) {
+        return (prevWordcloud: any) => {
+          if (prevWordcloud) {
+            prevWordcloud.on("end", () => {}).stop();
+          }
+          return calculateWordcloud(data, width, height)
+            .on("end", (words) => setWordcloud(wc, words))
+            .start();
+        };
       }
-    }, [props.data, width, height, containerRef, initialized]);
+      // update the svg element
+      const svg = updateSVG(containerRef.current, width, height, margin);
+      const wc = svg.select("g.wordcloud");
+      // calculate and visualize the wordcloud
+      setCreationTimeout(createGraph(data, width, height, wc));
+
+      // Remove event listener on cleanup
+    }, [props.data, width, height, containerRef]);
 
     // assign the container style
     const containerStyle = classnames(styles.container, props.className);
 
     return (
       <div className={containerStyle} ref={containerRef}>
-        <svg ref={graphRef}></svg>
+        <svg ref={graphRef}>
+          <g className="graph">
+            <g className="wordcloud"></g>
+          </g>
+        </svg>
       </div>
     );
   }
@@ -155,29 +172,6 @@ function calculateWordcloud(data: any, width: number, height: number) {
     .fontSize((d) => d.size as number);
 }
 
-function createSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("class", "graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height - margin.top - margin.bottom)
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
-}
-
 function updateSVG(
   div: HTMLDivElement,
   width: number,
@@ -200,31 +194,40 @@ function updateSVG(
     .attr("transform", `translate(${width / 2}, ${height / 2})`);
 }
 
-function setWordcloud(container: any, words: cloud.Word[]) {
+function setWordcloud(
+  container: any,
+  words: cloud.Word[],
+  duration: number = 500
+) {
   // set the words data
   const wordcloud = container.selectAll("text").data(words);
-  //
   wordcloud
     .enter()
     .append("text")
     .attr("class", (d: any) => d.colorClass)
     .attr("text-anchor", "middle")
     .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
-    .style("font-size", (d: any) => `${d.size}dx`)
+    .attr("font-size", 0)
     //* download "style" values
     .style("font-family", "Lato")
     .style("font-weight", 900)
     .style("fill", (d: any) => d.fill)
-    .text((d: any) => d.text);
+    .text((d: any) => d.text)
+    .transition()
+    .duration(duration)
+    .attr("font-size", (d: any) => `${d.size}px`);
 
   wordcloud
     .attr("class", (d: any) => d.colorClass)
     .attr("text-anchor", "middle")
-    .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
-    .style("font-size", (d: any) => `${d.size}px`)
+
     //* download "style" values
     .style("font-family", "Lato")
     .style("font-weight", 900)
+    .transition()
+    .duration(duration)
+    .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
+    .attr("font-size", (d: any) => `${d.size}px`)
     .style("fill", (d: any) => d.fill)
     .text((d: any) => d.text);
 

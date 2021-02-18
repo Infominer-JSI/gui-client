@@ -3,11 +3,12 @@ import { IAggregateComponent } from "Interfaces";
 
 // import modules
 import React, { useState, useEffect, useRef } from "react";
-import { convertSVG, download } from "utils/utils";
+import { convertData, trimString, convertSVG, download } from "utils/utils";
 import { Canvg, RenderingContext2D } from "canvg";
 
 // import components
 import Graph from "components/Graph";
+import DropdownButton from "components/DropdownButton";
 import DownloadButton from "components/DownloadButton";
 
 // import styles
@@ -32,36 +33,39 @@ export default function MethodAggregates(props: IAggregateComponent) {
     return () => clearInterval(interval);
   }, []);
 
-  /**
-   * Trims the field.
-   * @param field - The field to trim.
-   * @param length - The length of the trimmed field.
-   */
-  function trimField(field: string, length: number = 7) {
-    return `${field.slice(0, length)}${field.length > length ? "..." : ""}`;
-  }
+  // get the graph types
+  const { primaryId, options: graphOptions } = getGraphOptions(type);
+  // set the graph states
+  const [graphId, setGraphId] = useState(primaryId);
 
   // set the attribute name
   const attributeName =
     width < 200
-      ? trimField(field, 5)
-      : width < 230
-      ? trimField(field, 6)
-      : width < 280
-      ? trimField(field)
+      ? trimString(field, 4)
+      : width < 250
+      ? trimString(field, 6)
+      : width < 310
+      ? trimString(field, 8)
       : field;
+
+  function changeGraph(id: number) {
+    setGraphId(id);
+  }
+
+  // set selected graph
+  const selectedGraph = graphOptions[graphId];
 
   async function downloadGraph() {
     if (graphRef?.current) {
       // create the canvas and svg data
       const data = convertSVG(graphRef.current);
-      const c = new OffscreenCanvas(300, 300);
+      const c = new OffscreenCanvas(0, 0);
       const ctx = c.getContext("2d");
       // render the canvas content
       const v = await Canvg.from(ctx as RenderingContext2D, data);
       await v.render();
       // download the canvas
-      const filename = `${field}-${type}-aggregate.png`;
+      const filename = `${field}-${selectedGraph}-aggregate.png`;
       const blob = await c.convertToBlob();
       download(filename, blob);
     }
@@ -72,6 +76,12 @@ export default function MethodAggregates(props: IAggregateComponent) {
       <div className={styles.header} ref={headerRef}>
         <h2 className={styles.field}>{attributeName}</h2>
         <div className={styles.actions}>
+          <DropdownButton
+            className={styles.types}
+            selectedId={graphId}
+            options={graphOptions}
+            onClick={changeGraph}
+          />
           <DownloadButton
             className={styles.download}
             onClick={downloadGraph}
@@ -81,10 +91,34 @@ export default function MethodAggregates(props: IAggregateComponent) {
       </div>
       <Graph
         className={className}
-        type={type}
-        data={statistics}
+        type={selectedGraph}
+        data={convertData(statistics, type, selectedGraph)}
         ref={graphRef}
       />
     </React.Fragment>
   );
+}
+
+/**
+ * Prepares the primary and optional visualizations.
+ * @param type - The aggregate type.
+ */
+function getGraphOptions(type: string) {
+  switch (type) {
+    case "keywords":
+      return { primaryId: 0, options: ["keywords", "wordcloud"] };
+    case "hierarchy":
+      return { primaryId: 0, options: ["sunburst"] };
+    case "count":
+      // TODO: set the graph options
+      return { primaryId: 0, options: ["barchart", "piechart"] };
+    case "histogram":
+      // TODO: set the graph options
+      return { primaryId: 0, options: ["histogram"] };
+    case "timeline":
+      // TODO: set the graph options
+      return { primaryId: 0, options: ["timeline"] };
+    default:
+      return { primaryId: 0, options: [] };
+  }
 }

@@ -15,12 +15,23 @@
   flex-shrink: 0;
 }
 
+.types,
 .download {
+  border-radius: $border-radius-4;
+  margin-left: $spacing-4;
   border: 1px solid $color-gray-200;
   background: $color-white;
-  color: $color-gray-300;
-  &:hover {
+  color: $color-gray-200;
+  &:hover,
+  &:focus {
     background: $color-gray-200;
     color: $color-black;
   }
+}
+
+.types {
+  height: 28px;
+  width: 76px;
+  font-size: 12px;
+  padding: 0 $spacing-8;
 }
