@@ -219,11 +219,7 @@ function setLabels(
   labels
     .enter()
     .append("text")
-    .attr("dy", (d: any) =>
-      Math.PI / 2 <= midAngle(d) && midAngle(d) <= (3 * Math.PI) / 2
-        ? ".95em"
-        : "-.35em"
-    )
+    .attr("dy", "-.35em")
     .html((d: any) => trimString(d.data.value, 18))
     .style("text-anchor", (d: any) => {
       return midAngle(d) < Math.PI ? "end" : "start";
@@ -238,11 +234,7 @@ function setLabels(
     .style("font-family", "Lato");
 
   labels
-    .attr("dy", (d: any) =>
-      Math.PI / 2 <= midAngle(d) && midAngle(d) <= (3 * Math.PI) / 2
-        ? ".95em"
-        : "-.35em"
-    )
+    .attr("dy", "-.35em")
     .html((d: any) => trimString(d.data.value, 18))
     .style("text-anchor", (d: any) => {
       return midAngle(d) < Math.PI ? "end" : "start";
