@@ -90,7 +90,7 @@ function convertHierarchy(data: any, graph: string) {
 function convertCount(data: any, graph: string) {
   switch (graph) {
     case "piechart":
-      return _trimData(data, 10);
+      return { ..._trimData(data, 11), keys: data.keys };
     case "barchart":
       return _trimData(data, 150);
     default:

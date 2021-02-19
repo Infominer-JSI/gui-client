@@ -15,11 +15,11 @@ export default function Subset(props: ISubsetComponent) {
   const subset = dataset.getSubset(subsetId) as ISubset;
 
   return (
-    <>
+    <React.Fragment>
       <SubsetHeader subsetId={subsetId} dataset={dataset as Dataset} />
       {subset.usedBy.map((methodId, idx) => (
         <Method key={idx} methodId={methodId} dataset={dataset} />
       ))}
-    </>
+    </React.Fragment>
   );
 }

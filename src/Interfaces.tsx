@@ -54,7 +54,7 @@ export enum EMethodTypes {
 export interface IResponsiveGrid {
   layoutKey?: string;
   className?: any;
-  children?: any;
+  children: any[];
 }
 
 export interface IGridItem {
@@ -78,6 +78,13 @@ export interface IButton {
   onClick?: any;
   children?: any;
   type?: string;
+}
+
+export interface IDeleteButton {
+  className?: string;
+  onClick: any;
+  dark?: boolean;
+  size?: string;
 }
 
 export interface IDownloadButton {
@@ -169,6 +176,7 @@ export interface IAggregateComponent {
   field: string;
   type: string;
   statistics: { [key: string]: any };
+  onDeleteItem?: any;
   className?: any;
 }
 
@@ -190,7 +198,7 @@ export interface IGraphSunburst {
     precent: number;
     children: IHierarchy[];
   };
-  branches?: string[];
+  keys?: string[];
   className?: any;
 }
 
@@ -208,6 +216,7 @@ export interface IGraphBarchart {
 
 export interface IGraphPiechart {
   data: IBarchartRow[];
+  keys?: string[];
   className?: any;
 }
 

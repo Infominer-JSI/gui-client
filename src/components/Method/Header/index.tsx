@@ -20,7 +20,7 @@ export default function MethodHeader(props: IMethodComponent) {
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <DeleteButton dark={true} />
+          <DeleteButton dark={true} onClick={() => {}} />
         </div>
       </div>
       <div className={styles.information}>

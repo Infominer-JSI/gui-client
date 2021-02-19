@@ -15,8 +15,6 @@
   flex-shrink: 0;
 }
 
-.types,
-.download,
 .delete {
   border-radius: $border-radius-4;
   margin-left: $spacing-4;
@@ -28,11 +26,4 @@
     background: $color-gray-200;
     color: $color-black;
   }
-}
-
-.types {
-  height: 28px;
-  width: 76px;
-  font-size: 12px;
-  padding: 0 $spacing-8;
 }

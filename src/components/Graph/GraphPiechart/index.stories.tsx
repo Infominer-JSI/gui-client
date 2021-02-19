@@ -61,6 +61,7 @@ Default.args = {
       precent: 0.2300245314836502,
     },
   ],
+  keys: ["articles", "features", "trump"],
 };
 
 export const Single = Template.bind({});

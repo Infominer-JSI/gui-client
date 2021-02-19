@@ -23,9 +23,5 @@ export default function Method(props: IMethodComponent) {
       break;
   }
 
-  return (
-    <div>
-      <Component methodId={methodId} dataset={dataset} />
-    </div>
-  );
+  return Component ? <Component methodId={methodId} dataset={dataset} /> : null;
 }

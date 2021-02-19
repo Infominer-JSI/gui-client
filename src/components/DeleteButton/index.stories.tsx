@@ -1,3 +1,4 @@
+import { IDeleteButton } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
@@ -19,7 +20,7 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<{ dark?: boolean }> = (args: { dark?: boolean }) => (
+const Template: Story<IDeleteButton> = (args: IDeleteButton) => (
   <ButtonDelete {...args} />
 );
 

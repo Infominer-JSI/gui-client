@@ -29,7 +29,7 @@ const Graph = React.forwardRef(
           return (
             <GraphSunburst
               data={data.values}
-              branches={data.branches}
+              keys={data.keys}
               className={className}
               ref={graphRef}
             />
@@ -64,6 +64,7 @@ const Graph = React.forwardRef(
           return (
             <GraphPiechart
               data={data.values}
+              keys={data.keys}
               className={className}
               ref={graphRef}
             />

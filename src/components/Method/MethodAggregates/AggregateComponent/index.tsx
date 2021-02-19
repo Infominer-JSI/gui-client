@@ -10,13 +10,13 @@ import { Canvg, RenderingContext2D } from "canvg";
 import Graph from "components/Graph";
 import DropdownButton from "components/DropdownButton";
 import DownloadButton from "components/DownloadButton";
+import DeleteButton from "components/DeleteButton";
 
 // import styles
 import styles from "./styles.module.scss";
 
 export default function MethodAggregates(props: IAggregateComponent) {
-  const { className, field, type, statistics } = props;
-
+  const { className, field, type, statistics, onDeleteItem } = props;
   // define the header ref and width state
   // used for dynamic attribute naming
   const graphRef = useRef<SVGSVGElement>(null);
@@ -87,6 +87,11 @@ export default function MethodAggregates(props: IAggregateComponent) {
             onClick={downloadGraph}
             size="small"
           ></DownloadButton>
+          <DeleteButton
+            className={styles.delete}
+            onClick={onDeleteItem.bind(undefined, field)}
+            size="small"
+          ></DeleteButton>
         </div>
       </div>
       <Graph

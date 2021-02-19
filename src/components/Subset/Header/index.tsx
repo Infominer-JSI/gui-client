@@ -41,7 +41,9 @@ export default function SubsetHeader(props: ISubsetHeader) {
         <div className={styles.buttons}>
           <DownloadButton onClick={getFileFromURL} dark={true} />
           <EditButton dark={true} />
-          {subsetId !== 0 ? <DeleteButton dark={true} /> : null}
+          {subsetId !== 0 ? (
+            <DeleteButton dark={true} onClick={() => {}} />
+          ) : null}
         </div>
       </div>
       <div className={styles.information}>

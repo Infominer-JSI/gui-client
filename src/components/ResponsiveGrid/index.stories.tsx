@@ -28,11 +28,13 @@ const Template: Story<IResponsiveGrid> = (args: IResponsiveGrid) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  layoutKey: "default",
   children: [<div key="1">1</div>],
 };
 
 export const Multiple = Template.bind({});
 Multiple.args = {
+  layoutKey: "default",
   children: [
     <div key="1">1</div>,
     <div key="2">2</div>,
@@ -634,6 +636,7 @@ const graphData = {
 
 export const Graph = Template.bind({});
 Graph.args = {
+  layoutKey: "with-graph",
   children: [
     <GraphSunburst key={0} data={graphData} />,
     <div key="2">2</div>,

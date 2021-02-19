@@ -42,7 +42,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
       const radius = Math.min(width, height) / 2;
 
       // get the colors
-      const colors = createColor(props.data.map((d) => d.value));
+      const colors = createColor(props.keys ?? props.data.map((d) => d.value));
 
       // define the arc
       const arc = createArc(radius * 0.4, radius * 0.7);
@@ -67,7 +67,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
       // create the labels
       const labels = svg.select("g.labels");
       setLabels(labels, data, radius, outerArc);
-    }, [props.data, width, height, containerRef]);
+    }, [props, width, height, containerRef]);
 
     // assign the container style
     const containerStyle = classnames(styles.container, props.className);
@@ -152,14 +152,14 @@ function setSlices(
   slices
     .enter()
     .append("path")
-    .attr("fill", (d: any, i: number) => color(i.toString()))
+    .attr("fill", (d: any, i: number) => color(d.data.value))
     .attr("d", (d: any) => arc(d))
     .append("title")
     .text((d: any) => d.data.value);
 
   // how to update existing layers
   slices
-    .attr("fill", (d: any, i: number) => color(i.toString()))
+    .attr("fill", (d: any, i: number) => color(d.data.value))
     .attr("d", (d: any) => arc(d))
     .select("title")
     .text((d: any) => d.data.value);

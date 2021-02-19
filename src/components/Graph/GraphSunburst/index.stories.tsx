@@ -29,7 +29,7 @@ const Template: Story<IGraphSunburst> = (args: IGraphSunburst) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  branches: [
+  keys: [
     "business",
     "politics",
     "markets",
@@ -629,7 +629,7 @@ Default.args = {
 
 export const RemovedOne = Template.bind({});
 RemovedOne.args = {
-  branches: [
+  keys: [
     "business",
     "politics",
     "markets",

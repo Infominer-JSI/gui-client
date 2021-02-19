@@ -46,8 +46,9 @@ const GraphSunburst = React.forwardRef<SVGSVGElement, IGraphSunburst>(
 
       // get color scale and the arc function
       const color = createColor(
-        props.branches ?? props.data.children.map((v) => v.name)
+        props.keys ?? props.data.children.map((v) => v.name)
       );
+
       const arc = createArc(radius);
       // set the graph container
       const svg = updateSVG(containerRef.current, width, height, {
@@ -100,10 +101,10 @@ function partition(data: IHierarchy, radius: number) {
   );
 }
 
-function createColor(branchNames: string[]) {
+function createColor(labels: string[]) {
   return d3.scaleOrdinal(
-    branchNames,
-    d3.quantize(d3.interpolateRainbow, branchNames.length + 1)
+    labels,
+    d3.quantize(d3.interpolateRainbow, labels.length + 1)
   );
 }
 
