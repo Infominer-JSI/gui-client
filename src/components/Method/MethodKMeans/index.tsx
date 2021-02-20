@@ -18,7 +18,7 @@ export default function MethodKMeans(props: IMethodComponent) {
   return (
     <React.Fragment>
       <MethodHeader methodId={methodId} dataset={dataset} />
-      <ResponsiveGrid layoutKey={gridLayoutKey}>
+      <ResponsiveGrid layoutKey={gridLayoutKey} hasToolbox={true}>
         {method1.result.clusters.map((cluster: any, id: number) => (
           <KMeansCluster key={id} {...cluster} />
         ))}

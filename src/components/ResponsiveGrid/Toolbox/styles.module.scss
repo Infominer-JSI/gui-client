@@ -2,10 +2,9 @@
 
 .toolbox {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  align-content: center;
-  height: 26px;
+  min-height: 33px;
   margin-top: $spacing-16;
   padding: $spacing-16;
   border-radius: $border-radius-8;
@@ -14,15 +13,26 @@
 }
 
 .label {
-  margin: auto;
-  margin-right: $spacing-16;
-  font-family: $font-header;
+  margin-bottom: $spacing-8;
+  @include text-body();
+  font-weight: 600;
 }
 
 .items {
   flex: 1;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .toolbox {
+    flex-direction: row;
+    .label {
+      margin: auto;
+      margin-right: $spacing-16;
+    }
+  }
 }
 
 @media (min-width: $breakpoint-screen-2xl) {

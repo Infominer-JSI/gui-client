@@ -23,7 +23,7 @@ import "./styles.scss";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export default function ResponsiveGrid(props: IResponsiveGrid) {
-  const { layoutKey = "default" } = props;
+  const { layoutKey = "default", hasToolbox = false } = props;
   // ============================================
   // Setup the responsive grid hooks
   // ============================================
@@ -115,8 +115,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
   // ============================================
   return (
     <React.Fragment>
-      <Toolbox items={toolbox} onAddItem={onAddItem} />
-
+      {hasToolbox ? <Toolbox items={toolbox} onAddItem={onAddItem} /> : null}
       <ResponsiveGridLayout
         className={className}
         onBreakpointChange={onBreakpointChange}

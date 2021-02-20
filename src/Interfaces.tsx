@@ -53,6 +53,7 @@ export enum EMethodTypes {
 
 export interface IResponsiveGrid {
   layoutKey?: string;
+  hasToolbox?: boolean;
   className?: any;
   children: any[];
 }

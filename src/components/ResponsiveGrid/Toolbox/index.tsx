@@ -9,7 +9,7 @@ export default function Toolbox(props: any) {
 
   return (
     <div className={styles.toolbox}>
-      <div className={styles.label}>Hidden Statistics</div>
+      <div className={styles.label}>Hidden Graphs</div>
       <div className={styles.items}>
         {items.map((item: any, i: number) => (
           <ToolboxItem key={i} item={item} onAddItem={onAddItem} />

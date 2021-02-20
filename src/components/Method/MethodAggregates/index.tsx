@@ -47,7 +47,7 @@ export default function MethodAggregates(props: IMethodComponent) {
   const gridLayoutKey = `D${datasetId}/AGGREGATES`;
 
   return (
-    <ResponsiveGrid layoutKey={gridLayoutKey}>
+    <ResponsiveGrid layoutKey={gridLayoutKey} hasToolbox={true}>
       {method1.result.aggregates.map((aggregate: any, id: number) => (
         <AggregateComponent key={id} {...aggregate} />
       ))}
