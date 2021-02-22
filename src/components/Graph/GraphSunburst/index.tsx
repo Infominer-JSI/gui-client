@@ -182,7 +182,9 @@ function setLayers(
           .map((d: any) => d.data.name)
           .reverse()
           .slice(1)
-          .join("/")}\n${format(d.value)}`
+          .join("/")}\n${format(d.value)}\n${(d.data.precent * 100).toFixed(
+          2
+        )}%`
     );
   // how to update existing layers
   layers
@@ -199,7 +201,9 @@ function setLayers(
           .map((d: any) => d.data.name)
           .reverse()
           .slice(1)
-          .join("/")}\n${format(d.value)}`
+          .join("/")}\n${format(d.value)}\n${(d.data.precent * 100).toFixed(
+          2
+        )}%`
     );
   // what to do with removed layers
   layers.exit().remove();

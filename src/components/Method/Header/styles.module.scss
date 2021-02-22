@@ -1,7 +1,6 @@
 @import "assets/definitions.scss";
 
 .container {
-  margin-top: $spacing-16;
   padding: $spacing-16;
   color: $color-green-50;
   background: $color-green-900;
@@ -43,17 +42,17 @@ h1 {
   flex: 1;
 }
 
-@media (min-width: $breakpoint-screen-2xl) {
-  .container {
-    margin: 0 $spacing-16;
-  }
-}
-
 @media (min-width: $breakpoint-screen-xl) {
   .information {
     flex-direction: row;
     .metadata {
       margin-right: $spacing-24;
     }
+  }
+}
+
+@media (min-width: $breakpoint-screen-2xl) {
+  .container {
+    margin: 0 $spacing-16;
   }
 }

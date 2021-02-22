@@ -5,6 +5,7 @@ import GraphSunburst from "components/Graph/GraphSunburst";
 import GraphBarchart from "components/Graph/GraphBarchart";
 import GraphPiechart from "components/Graph/GraphPiechart";
 import GraphWordcloud from "components/Graph/GraphWordcloud";
+import GraphHistogram from "components/Graph/GraphHistogram";
 
 const Graph = React.forwardRef(
   (
@@ -68,6 +69,10 @@ const Graph = React.forwardRef(
               className={className}
               ref={graphRef}
             />
+          );
+        case "histogram":
+          return (
+            <GraphHistogram data={data} className={className} ref={graphRef} />
           );
         default:
           return null;

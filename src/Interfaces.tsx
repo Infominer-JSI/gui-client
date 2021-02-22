@@ -230,3 +230,28 @@ export interface IGraphWordcloud {
   data: IKeyword[];
   className?: any;
 }
+
+export interface IHistogramBar {
+  min: number;
+  max: number;
+  frequency: number;
+  precent: number;
+  percentSum: number;
+}
+
+export interface IHistogram {
+  count: number;
+  min: number;
+  max: number;
+  mean: number;
+  stdev: number;
+  median: number;
+  sum: number;
+  values: IHistogramBar[];
+}
+
+export interface IGraphHistogram {
+  data: IHistogram;
+  className?: any;
+  color?: string;
+}

@@ -155,14 +155,20 @@ function setSlices(
     .attr("fill", (d: any, i: number) => color(d.data.value))
     .attr("d", (d: any) => arc(d))
     .append("title")
-    .text((d: any) => d.data.value);
+    .text(
+      (d: any) =>
+        `${d.data.value}\n${d.data.frequency}\n${d.data.precent * 100}%`
+    );
 
   // how to update existing layers
   slices
     .attr("fill", (d: any, i: number) => color(d.data.value))
     .attr("d", (d: any) => arc(d))
     .select("title")
-    .text((d: any) => d.data.value);
+    .text(
+      (d: any) =>
+        `${d.data.value}\n${d.data.frequency}\n${d.data.precent * 100}%`
+    );
   // what to do with removed layers
   slices.exit().remove();
 }
