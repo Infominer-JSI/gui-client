@@ -92,7 +92,7 @@ function convertCount(data: any, graph: string) {
     case "piechart":
       return { ..._trimData(data, 11), keys: data.keys };
     case "barchart":
-      return _trimData(data, 150);
+      return _trimData(data, 100);
     default:
       return data;
   }

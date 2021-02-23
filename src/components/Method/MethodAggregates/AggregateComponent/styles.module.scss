@@ -2,7 +2,7 @@
 
 .header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .field {
@@ -12,27 +12,42 @@
 }
 
 .actions {
+  display: flex;
   flex-shrink: 0;
-}
-
-.types,
-.download,
-.delete {
-  border-radius: $border-radius-4;
-  margin-left: $spacing-4;
-  border: 1px solid $color-gray-200;
-  background: $color-white;
-  color: $color-gray-200;
-  &:hover,
-  &:focus {
-    background: $color-gray-200;
-    color: $color-black;
+  margin-bottom: $spacing-12;
+  button {
+    border-radius: $border-radius-4;
+    border: 1px solid $color-gray-200;
+    background: $color-white;
+    color: $color-gray-200;
+    &:hover,
+    &:focus {
+      background: $color-gray-200;
+      color: $color-black;
+    }
+    &:not(:first-child) {
+      margin-left: $spacing-4;
+    }
+  }
+  > div {
+    flex: 1;
   }
 }
 
 .types {
   height: 28px;
-  width: 76px;
+  width: 100%;
   font-size: 12px;
   padding: 0 $spacing-8;
+}
+
+.headerRow {
+  flex-direction: row;
+  .actions {
+    margin: 0;
+    margin-left: $spacing-4;
+    .types {
+      width: 76px;
+    }
+  }
 }

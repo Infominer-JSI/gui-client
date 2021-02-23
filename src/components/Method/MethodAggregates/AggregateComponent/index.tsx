@@ -6,6 +6,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { convertData, trimString, convertSVG, download } from "utils/utils";
 import { Canvg, RenderingContext2D } from "canvg";
 
+import classnames from "classnames";
+
 // import components
 import Graph from "components/Graph";
 import DropdownButton from "components/DropdownButton";
@@ -40,10 +42,10 @@ export default function MethodAggregates(props: IAggregateComponent) {
 
   // set the attribute name
   const attributeName =
-    width < 200
-      ? trimString(field, 4)
-      : width < 250
-      ? trimString(field, 6)
+    width < 190
+      ? trimString(field, 10)
+      : width < 290
+      ? field
       : width < 310
       ? trimString(field, 8)
       : field;
@@ -71,9 +73,13 @@ export default function MethodAggregates(props: IAggregateComponent) {
     }
   }
 
+  const headerClass = classnames(styles.header, {
+    [styles.headerRow]: width > 290,
+  });
+
   return (
     <React.Fragment>
-      <div className={styles.header} ref={headerRef}>
+      <div className={headerClass} ref={headerRef}>
         <h2 className={styles.field}>{attributeName}</h2>
         <div className={styles.actions}>
           <DropdownButton

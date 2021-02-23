@@ -16,7 +16,7 @@ $rotate: 225deg;
 .triangle {
   position: absolute;
   top: 0;
-  right: 32px;
+  right: 50%;
   width: 8px;
   height: 8px;
   transform: rotate($rotate);
@@ -79,7 +79,7 @@ $rotate: 225deg;
 
 @media (min-width: $breakpoint-screen-sm) {
   .container {
-    width: 76px;
+    width: 100%;
   }
   .inner {
     max-height: 600px;

@@ -4,8 +4,6 @@ import { IGraphHistogram, IHistogramBar } from "Interfaces";
 import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 
-import { trimString } from "utils/utils";
-
 // import d3 visualization
 import * as d3 from "d3";
 
@@ -61,16 +59,13 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphHistogram>(
         d.percentSum = d.percentSum / 100;
       });
 
-      const barWidth = 46;
-      const svgWidth = Math.max(
-        Math.ceil((values.length + 0.1) * barWidth),
-        width
-      );
+      const barWidth = 45;
+      const svgWidth = Math.max(Math.ceil(values.length * barWidth), width);
       // prepare static values
       const margin = {
         top: 10,
         left: 20,
-        right: 10,
+        right: 20,
         bottom: 30,
       };
 
@@ -93,7 +88,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphHistogram>(
       // update the x- and y-axis
       const xAxis = svg.select("g.xAxis");
       const yAxis = svg.select("g.yAxis");
-      xAxis.call(setXAxis(x, svgWidth, height, margin));
+      xAxis.call(setXAxis(x, svgWidth, height, margin, format));
       yAxis.call(setYAxis(y, height, margin));
     }, [props.data, props.color, width, height, containerRef]);
 
@@ -125,6 +120,7 @@ function createXScale(min: number, max: number, width: number, margin: any) {
   return d3
     .scaleLinear()
     .domain([min, max])
+    .nice()
     .range([margin.left, width - margin.left - margin.right]);
 }
 
@@ -141,6 +137,13 @@ function setXAxis(
   width: number,
   height: number,
   margin: any,
+  format: (
+    n:
+      | number
+      | {
+          valueOf(): number;
+        }
+  ) => string,
   duration: number = 500
 ) {
   return (g: any) => {
@@ -148,8 +151,11 @@ function setXAxis(
       .duration(duration)
       .attr("transform", `translate(0, ${height - margin.bottom})`)
       .call(
-        d3.axisBottom(x).ticks(width / 100)
-        // .tickSizeOuter(0)
+        d3
+          .axisBottom(x)
+          .ticks(width / 100)
+          .tickFormat((d: any) => (Math.floor(d / 1000) === 0 ? d : format(d)))
+          .tickSizeOuter(0)
       )
       .call((g: any) =>
         g
@@ -275,8 +281,7 @@ function setLabels(
     .style("fill", "black")
     .attr(
       "x",
-      (d: IHistogramBar, i: number) =>
-        (x(d.max) - x(d.min)) / 2 + i * (x(d.max) - x(d.min)) + 20
+      (d: IHistogramBar, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
     )
     .attr("y", y(0))
     .attr("dy", 16)
@@ -315,8 +320,7 @@ function setLabels(
     .duration(duration)
     .attr(
       "x",
-      (d: IHistogramBar, i: number) =>
-        (x(d.max) - x(d.min)) / 2 + i * (x(d.max) - x(d.min)) + 20
+      (d: IHistogramBar, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
     )
     .attr("y", (d: IHistogramBar) => y(d.precent))
     .text((d: IHistogramBar) =>

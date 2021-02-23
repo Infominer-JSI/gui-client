@@ -157,7 +157,9 @@ function setSlices(
     .append("title")
     .text(
       (d: any) =>
-        `${d.data.value}\n${d.data.frequency}\n${d.data.precent * 100}%`
+        `${d.data.value}\n${d.data.frequency}\n${(d.data.precent * 100).toFixed(
+          2
+        )}%`
     );
 
   // how to update existing layers
@@ -167,7 +169,9 @@ function setSlices(
     .select("title")
     .text(
       (d: any) =>
-        `${d.data.value}\n${d.data.frequency}\n${d.data.precent * 100}%`
+        `${d.data.value}\n${d.data.frequency}\n${(d.data.precent * 100).toFixed(
+          2
+        )}%`
     );
   // what to do with removed layers
   slices.exit().remove();

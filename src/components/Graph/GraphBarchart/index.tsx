@@ -52,7 +52,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphBarchart>(
       const barHeight = 26;
 
       const trimLength = getTrimLength(width);
-
+      const format = d3.format(".3s");
       const data = JSON.parse(JSON.stringify(props.data));
       data.forEach(
         (d: IBarchartRow) => (d.value = trimString(d.value, trimLength))
@@ -87,7 +87,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphBarchart>(
       setBars(bars, data, x, y, color);
       // create the bar labels
       const labels = svg.select("g.labels");
-      setLabels(labels, data, x, y);
+      setLabels(labels, data, x, y, format);
       // update the x- and y-axis
       const xAxis = svg.select("g.xAxis");
       const yAxis = svg.select("g.yAxis");
@@ -259,6 +259,13 @@ function setLabels(
   data: IBarchartRow[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleBand<string>,
+  format: (
+    n:
+      | number
+      | {
+          valueOf(): number;
+        }
+  ) => string,
   duration: number = 500
 ) {
   const labels = container.selectAll("text").data(data);
@@ -291,7 +298,9 @@ function setLabels(
     .transition()
     .duration(duration)
     .attr("x", (d: IBarchartRow) => x(d.precent))
-    .text((d: IBarchartRow) => d.frequency);
+    .text((d: IBarchartRow) =>
+      Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
+    );
 
   labels
     .attr("class", styles.labelLarge)
@@ -318,7 +327,9 @@ function setLabels(
       (_d: any, i: number) => (y(i.toString()) as number) + y.bandwidth() / 2
     )
     .attr("dy", "0.35em")
-    .text((d: IBarchartRow) => d.frequency);
+    .text((d: IBarchartRow) =>
+      Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
+    );
 
   labels.exit().remove();
 }
