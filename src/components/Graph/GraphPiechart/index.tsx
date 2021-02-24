@@ -4,6 +4,8 @@ import { IGraphPiechart, IBarchartRow } from "Interfaces";
 import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 
+import { updateSVG, createColorScale } from "utils/visualization";
+
 import { trimString } from "utils/utils";
 
 // import d3 visualization
@@ -38,34 +40,39 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
         return;
       }
 
+      const margin = {
+        top: 10,
+        left: 10,
+        right: 10,
+        bottom: 10,
+      };
+
       // get the radius of the visualization
       const radius = Math.min(width, height) / 2;
 
       // get the colors
-      const colors = createColor(props.keys ?? props.data.map((d) => d.value));
+      const colors = createColorScale(
+        props.keys ?? props.data.map((d) => d.value)
+      );
 
       // define the arc
       const arc = createArc(radius * 0.4, radius * 0.7);
       const outerArc = createArc(radius * 0.8, radius * 0.8);
 
       // update the svg values
-      const svg = updateSVG(containerRef.current, width, height, {
-        top: 10,
-        left: 10,
-        right: 10,
-        bottom: 10,
-      });
+      const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
+      const graph = updateSVG(svg, width, height, margin, true);
 
       // create the arcs
       const data = createSlices(props.data);
       // update the slices
-      const slices = svg.select("g.slices");
+      const slices = graph.select("g.slices");
       setSlices(slices, data, arc, colors);
       // create the polylines
-      const polylines = svg.select("g.polylines");
+      const polylines = graph.select("g.polylines");
       setPolylines(polylines, data, radius, arc, outerArc);
       // create the labels
-      const labels = svg.select("g.labels");
+      const labels = graph.select("g.labels");
       setLabels(labels, data, radius, outerArc);
     }, [props, width, height, containerRef]);
 
@@ -92,13 +99,6 @@ export default GraphBarchart;
 // Graph Helper Functions
 // ==============================================
 
-function createColor(labels: string[]) {
-  return d3.scaleOrdinal(
-    labels,
-    d3.quantize(d3.interpolateRainbow, labels.length + 1)
-  );
-}
-
 function createArc(innerRadius: number, outerRadius: number) {
   return d3
     .arc<IBarchartRow>()
@@ -116,28 +116,6 @@ function createSlices(data: IBarchartRow[], padAngle: number = 0.008) {
     .padAngle(padAngle);
   const arcs = pie(data);
   return arcs;
-}
-
-function updateSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .select("g.graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height)
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
 }
 
 function setSlices(

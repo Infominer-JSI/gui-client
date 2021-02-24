@@ -4,6 +4,8 @@ import { IGraphHistogram, IHistogramBar } from "Interfaces";
 import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 
+import { updateSVG, createLinearScale } from "utils/visualization";
+
 // import d3 visualization
 import * as d3 from "d3";
 
@@ -66,28 +68,28 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphHistogram>(
         top: 10,
         left: 20,
         right: 20,
-        bottom: 30,
+        bottom: svgWidth > width ? 50 : 30,
       };
 
-      if (svgWidth > width) {
-        margin.bottom = 50;
-      }
-
       const format = d3.format(".3s");
-      const x = createXScale(min, max, svgWidth, margin);
-      const y = createYScale(height, margin);
+      const x = createLinearScale(
+        [min, max],
+        [margin.left, svgWidth - margin.left - margin.right]
+      );
+      const y = createLinearScale([0, 1], [height - margin.bottom, margin.top]);
 
       // set the graph container
-      const svg = updateSVG(containerRef.current, svgWidth, height, margin);
+      const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
+      const graph = updateSVG(svg, svgWidth, height, margin);
       // update the bars
-      const bars = svg.select("g.bars");
+      const bars = graph.select("g.bars");
       setBars(bars, values, x, y, color);
       // create the bar labels
-      const labels = svg.select("g.labels");
+      const labels = graph.select("g.labels");
       setLabels(labels, values, x, y, format);
       // update the x- and y-axis
-      const xAxis = svg.select("g.xAxis");
-      const yAxis = svg.select("g.yAxis");
+      const xAxis = graph.select("g.xAxis");
+      const yAxis = graph.select("g.yAxis");
       xAxis.call(setXAxis(x, svgWidth, height, margin, format));
       yAxis.call(setYAxis(y, height, margin));
     }, [props.data, props.color, width, height, containerRef]);
@@ -115,22 +117,6 @@ export default GraphBarchart;
 // ==============================================
 // Graph Helper Functions
 // ==============================================
-
-function createXScale(min: number, max: number, width: number, margin: any) {
-  return d3
-    .scaleLinear()
-    .domain([min, max])
-    .nice()
-    .range([margin.left, width - margin.left - margin.right]);
-}
-
-function createYScale(height: number, margin: any) {
-  return d3
-    .scaleLinear()
-    .domain([0, 1])
-    .nice()
-    .range([height - margin.bottom, margin.top]);
-}
 
 function setXAxis(
   x: d3.ScaleLinear<number, number, never>,
@@ -197,28 +183,6 @@ function setYAxis(
   };
 }
 
-function updateSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .select("g.graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height)
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
-}
-
 function setBars(
   container: any,
   data: IHistogramBar[],
@@ -268,7 +232,9 @@ function setLabels(
   ) => string,
   duration: number = 500
 ) {
-  const labels = container.selectAll("text").data(data);
+  const labels = container
+    .selectAll("text")
+    .data(data.filter((d) => d.frequency !== 0));
 
   labels
     .enter()

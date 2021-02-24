@@ -2,6 +2,7 @@
 import { IGraphSunburst, IHierarchy } from "Interfaces";
 // import modules
 import React, { useRef, useState, useEffect } from "react";
+import { updateSVG, createColorScale } from "utils/visualization";
 import classnames from "classnames";
 // import d3 visualization
 import * as d3 from "d3";
@@ -40,28 +41,31 @@ const GraphSunburst = React.forwardRef<SVGSVGElement, IGraphSunburst>(
       // set the format
       const format = d3.format(",d");
 
+      const margin = {
+        top: 10,
+        left: 10,
+        right: 10,
+        bottom: 10,
+      };
+
       // assign the partition of the data
       const root = partition(props.data, radius);
       root.each((d: any) => (d.current = d));
 
       // get color scale and the arc function
-      const color = createColor(
+      const color = createColorScale(
         props.keys ?? props.data.children.map((v) => v.name)
       );
 
       const arc = createArc(radius);
       // set the graph container
-      const svg = updateSVG(containerRef.current, width, height, {
-        top: 10,
-        left: 10,
-        right: 10,
-        bottom: 10,
-      });
+      const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
+      const graph = updateSVG(svg, width, height, margin, true);
       // update the layers
-      const layers = svg.select("g.layers");
+      const layers = graph.select("g.layers");
       setLayers(layers, root, arc, color, format);
       // update the labels
-      const labels = svg.select("g.labels");
+      const labels = graph.select("g.labels");
       setLabels(labels, root);
     }, [props, width, height, containerRef]);
 
@@ -101,45 +105,16 @@ function partition(data: IHierarchy, radius: number) {
   );
 }
 
-function createColor(labels: string[]) {
-  return d3.scaleOrdinal(
-    labels,
-    d3.quantize(d3.interpolateRainbow, labels.length + 1)
-  );
-}
-
 function createArc(radius: number) {
   return d3
     .arc<{ x0: number; x1: number; y0: number; y1: number }>()
     .startAngle((d) => d.x0)
     .endAngle((d) => d.x1)
-    .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.008))
+    .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.003))
     .padRadius(radius / 2)
     .innerRadius((d) => d.y0)
-    .outerRadius((d) => d.y1 - 1)
+    .outerRadius((d) => d.y1 - 3)
     .cornerRadius(4);
-}
-
-function updateSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .select("g.graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height - margin.top - margin.bottom)
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
 }
 
 function setLayers(
@@ -218,7 +193,7 @@ function setLabels(
     root
       .descendants()
       .slice(1)
-      .filter((d) => d.depth && ((d.y0 + d.y1) / 2) * (d.x1 - d.x0) > 10)
+      .filter((d) => d.depth && ((d.y0 + d.y1) / 2) * (d.x1 - d.x0) > 14)
   );
 
   // what to do with new labels

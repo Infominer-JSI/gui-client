@@ -4,6 +4,12 @@ import { IGraphBarchart, IBarchartRow } from "Interfaces";
 import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 
+import {
+  updateSVG,
+  createLinearScale,
+  createBandScale,
+} from "utils/visualization";
+
 import { trimString } from "utils/utils";
 
 // import d3 visualization
@@ -77,20 +83,27 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphBarchart>(
         margin.right = 30;
       }
 
-      const x = createXScale(width, margin);
-      const y = createYScale(data, barHeight, margin);
+      const x = createLinearScale(
+        [0, 1],
+        [margin.left, width - margin.left - margin.right]
+      );
+      const y = createBandScale(
+        d3.range(data.length).map((val) => val.toString()),
+        [margin.top, barHeight * data.length + margin.top]
+      );
 
       // set the graph container
-      const svg = updateSVG(containerRef.current, width, svgHeight, margin);
+      const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
+      const graph = updateSVG(svg, width, svgHeight, margin);
       // update the bars
-      const bars = svg.select("g.bars");
+      const bars = graph.select("g.bars");
       setBars(bars, data, x, y, color);
       // create the bar labels
-      const labels = svg.select("g.labels");
+      const labels = graph.select("g.labels");
       setLabels(labels, data, x, y, format);
       // update the x- and y-axis
-      const xAxis = svg.select("g.xAxis");
-      const yAxis = svg.select("g.yAxis");
+      const xAxis = graph.select("g.xAxis");
+      const yAxis = graph.select("g.yAxis");
       xAxis.call(setXAxis(x, width, margin));
       yAxis.call(setYAxis(y, data, margin));
     }, [props.data, props.color, width, height, containerRef]);
@@ -129,22 +142,6 @@ function getTrimLength(width: number) {
     : width < 400
     ? 16
     : 22;
-}
-
-function createXScale(width: number, margin: any) {
-  return d3
-    .scaleLinear()
-    .domain([0, 1])
-    .range([margin.left, width - margin.left - margin.right]);
-}
-
-function createYScale(data: IBarchartRow[], barHeight: number, margin: any) {
-  const domain = d3.range(data.length);
-  return d3
-    .scaleBand()
-    .domain(domain.map((val) => val.toString()))
-    .range([margin.top, barHeight * data.length + margin.top])
-    .padding(0.1);
 }
 
 function setXAxis(
@@ -196,28 +193,6 @@ function setYAxis(
       );
     g.select(".domain").remove();
   };
-}
-
-function updateSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .select("g.graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height)
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 }
 
 function setBars(

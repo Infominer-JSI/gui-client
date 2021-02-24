@@ -3,6 +3,13 @@ import { IGraphWordcloud, IKeyword } from "Interfaces";
 // import modules
 import React, { useRef, useState, useEffect, ReactText } from "react";
 import classnames from "classnames";
+
+import {
+  updateSVG,
+  createLinearScale,
+  createQuantizeScale,
+} from "utils/visualization";
+
 // import d3 visualization
 import * as d3 from "d3";
 import cloud from "d3-cloud";
@@ -59,16 +66,14 @@ const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
       //* download "style" values
       const fills = ["#9ca3af", "#2563eb", "#000000"];
       // create the font size scale
-      const fontSizeScale = createFontSizeScale(
-        minWeight,
-        maxWeight,
-        minFontSize,
-        maxFontSize
+      const fontSizeScale = createLinearScale(
+        [minWeight, maxWeight],
+        [minFontSize, maxFontSize]
       );
 
       // create the class scale
-      const classScale = createClassScale(minWeight, maxWeight, cls);
-      const fillScale = createClassScale(minWeight, maxWeight, fills);
+      const classScale = createQuantizeScale([minWeight, maxWeight], cls);
+      const fillScale = createQuantizeScale([minWeight, maxWeight], fills);
 
       // format the data
       const data = props.data.map((d: IKeyword) => ({
@@ -111,8 +116,9 @@ const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
         };
       }
       // update the svg element
-      const svg = updateSVG(containerRef.current, width, height, margin);
-      const wc = svg.select("g.wordcloud");
+      const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
+      const graph = updateSVG(svg, width, height, margin, true);
+      const wc = graph.select("g.wordcloud");
       // calculate and visualize the wordcloud
       setCreationTimeout(createGraph(data, width, height, wc));
 
@@ -140,26 +146,6 @@ export default GraphWordcloud;
 // Graph Helper Functions
 // ==============================================
 
-function createFontSizeScale(
-  minWeight: number,
-  maxWeight: number,
-  minFontSize: number,
-  maxFontSize: number
-) {
-  return d3
-    .scaleLinear()
-    .domain([minWeight, maxWeight])
-    .range([minFontSize, maxFontSize]);
-}
-
-function createClassScale(
-  minWeight: number,
-  maxWeight: number,
-  classes: any[]
-) {
-  return d3.scaleQuantize().domain([minWeight, maxWeight]).range(classes);
-}
-
 function calculateWordcloud(data: any, width: number, height: number) {
   return cloud()
     .size([width, height])
@@ -170,28 +156,6 @@ function calculateWordcloud(data: any, width: number, height: number) {
     .fontWeight(900)
     .font("Lato")
     .fontSize((d) => d.size as number);
-}
-
-function updateSVG(
-  div: HTMLDivElement,
-  width: number,
-  height: number,
-  margin: {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-  }
-) {
-  return d3
-    .select(div)
-    .select("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .select("g.graph")
-    .attr("width", width - margin.left - margin.right)
-    .attr("height", height - margin.top - margin.bottom)
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
 }
 
 function setWordcloud(
