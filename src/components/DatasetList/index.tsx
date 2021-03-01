@@ -3,7 +3,7 @@ import { IDatasets } from "Interfaces";
 
 // import the modules
 import React from "react";
-import DatasetListItem from "components/DatasetListItem";
+import DatasetListItem from "components/DatasetList/DatasetListItem";
 
 // import styles and images
 import styles from "./styles.module.scss";

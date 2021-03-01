@@ -1,0 +1,89 @@
+@import "assets/definitions.scss";
+
+.item {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  padding: $spacing-8 $spacing-12;
+  background: $color-white;
+  cursor: pointer;
+  transition: 0.2s;
+  @include text-body();
+  &:hover {
+    background: $color-gray-100;
+  }
+}
+
+.statusDefault,
+.statusError {
+  display: block;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: $border-radius-12;
+  text-align: center;
+  color: $color-white;
+  & span {
+    display: block;
+    @include text-title-4();
+    font-weight: 500;
+    margin: 9px;
+  }
+}
+
+.statusDefault {
+  background: $color-blue-700;
+}
+
+.statusError {
+  background: $color-red-700;
+}
+
+.metadata {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 0 12px;
+  color: $color-gray-600;
+  @include text-tiny();
+  .info {
+    padding-top: $spacing-2;
+  }
+  & > div:first-child {
+    flex: none;
+    flex-direction: column;
+  }
+  & > div:last-child {
+    width: 100%;
+    text-align: left;
+    margin-top: auto;
+  }
+}
+
+.title {
+  @include text-title-6();
+  color: $color-gray-900;
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .statusDefault,
+  .statusError {
+    width: 48px;
+    height: 48px;
+    & span {
+      @include text-title-5();
+      margin: 10px;
+    }
+  }
+  .metadata {
+    flex-direction: row;
+    padding: 2px 0 2px 12px;
+    & > div:last-child {
+      text-align: right;
+    }
+  }
+  .title {
+    @include text-title-5();
+    color: $color-gray-900;
+  }
+}

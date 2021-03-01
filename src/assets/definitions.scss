@@ -1,9 +1,15 @@
-/** IMPORT FONTS */
+/**************************************
+ * IMPORT FONTS
+ */
+
 @import "assets/fonts.scss";
 
 /**************************************
  * COLOR VARIABLES
  */
+
+$color-white: #ffffff;
+$color-black: #000000;
 
 $color-gray-50: #f9fafb;
 $color-gray-100: #f3f4f6;
@@ -100,7 +106,7 @@ $color-pink-900: #831843;
 $breakpoint-screen-sm: 640px;
 $breakpoint-screen-md: 768px;
 $breakpoint-screen-lg: 1024px;
-$breakpoint-screen-xl: 1280px;
+$breakpoint-screen-xl: 1200px;
 $breakpoint-screen-2xl: 1536px;
 
 /**************************************
@@ -139,7 +145,7 @@ $font-size-48: 48px;
 $font-size-64: 64px;
 
 $font-header: FiraSans;
-$font-body: Roboto;
+$font-body: Lato;
 
 @mixin text-title-1() {
   font-family: $font-header;
@@ -201,5 +207,21 @@ $font-body: Roboto;
   font-family: $font-body;
   font-size: $font-size-12;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
+}
+
+/**************************************
+ * SHADOW VARIABLES
+ */
+
+@mixin shadow-default() {
+  box-shadow: 8px 8px 16px rgba($color-gray-500, 0.16), -6px -6px 16px rgba($color-white, 0.4);
+}
+
+@mixin shadow-dark-0() {
+  box-shadow: 8px 8px 16px rgba($color-gray-500, 0.16), -6px -6px 16px rgba($color-gray-500, 0.16);
+}
+
+@mixin shadow-dark-1() {
+  box-shadow: 8px 8px 16px rgba($color-gray-500, 0.4), -6px -6px 16px rgba($color-gray-500, 0.4);
 }

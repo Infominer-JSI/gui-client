@@ -1,0 +1,58 @@
+@import "assets/definitions.scss";
+
+.container {
+  padding: $spacing-16;
+  color: $color-green-50;
+  background: $color-green-900;
+  border-radius: $border-radius-8;
+  @include text-small();
+  @include shadow-default();
+}
+
+.controllers {
+  display: flex;
+  flex-direction: row;
+}
+
+h1 {
+  flex: 1;
+  margin: 0;
+  margin-bottom: $spacing-8;
+  @include text-title-4();
+}
+
+.buttons > * {
+  margin-left: $spacing-8;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  & > div {
+    margin-bottom: $spacing-12;
+  }
+  .metadata {
+    line-height: 1.5;
+  }
+}
+
+.description {
+  flex: 1;
+}
+
+@media (min-width: $breakpoint-screen-xl) {
+  .information {
+    flex-direction: row;
+    .metadata {
+      margin-right: $spacing-24;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-screen-2xl) {
+  .container {
+    margin: 0 $spacing-16;
+  }
+}

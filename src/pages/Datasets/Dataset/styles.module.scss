@@ -1,0 +1,71 @@
+@import "assets/definitions.scss";
+
+.container {
+  display: block;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column-reverse;
+  & > div:first-child {
+    margin-top: $spacing-16;
+    & > button {
+      width: 100%;
+      min-width: none;
+      max-width: none;
+    }
+  }
+}
+
+.main {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .sidebar {
+    flex-direction: row;
+    & > div:first-child {
+      margin-top: 0;
+      & > button {
+        width: auto;
+        min-width: 280px;
+        max-width: 280px;
+      }
+    }
+    & > div:not(:first-child) {
+      flex: 1;
+      margin-top: 0;
+      margin-left: $spacing-16;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-screen-2xl) {
+  .layout {
+    flex-direction: row;
+  }
+  .sidebar {
+    width: 400px;
+    flex-direction: column;
+    & > div:first-child {
+      order: 2;
+      margin-top: $spacing-16;
+      & > button {
+        width: 100%;
+        min-width: none;
+        max-width: none;
+      }
+    }
+    & > div:not(:first-child) {
+      flex: 0;
+      order: 1;
+      margin-left: 0;
+    }
+  }
+}
