@@ -62,7 +62,7 @@ function getDescription(type: string) {
       return "Edit this subset";
     case "delete":
       return `
-        If you proceed, you will lose some of your analysis results.
+        You will lose some of your analysis results.
         Are you sure you want to proceed?
       `;
     default:
