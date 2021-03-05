@@ -1,14 +1,14 @@
 // import interfaces
-import { IMethod, IMethodComponent } from "Interfaces";
+import { IMethod, IComponentMethod } from "Interfaces";
 // import modules
 import React from "react";
 import { formatMethodType } from "utils/format";
-import DeleteButton from "components/DeleteButton";
+import ButtonDelete from "components/Inputs/ButtonDelete";
 
 // import styles and images
 import styles from "./styles.module.scss";
 
-export default function MethodHeader(props: IMethodComponent) {
+export default function MethodHeader(props: IComponentMethod) {
   // get dataset information and set their state
   const { methodId, dataset } = props;
   // get dataset and subset metadata
@@ -20,7 +20,7 @@ export default function MethodHeader(props: IMethodComponent) {
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <DeleteButton dark={true} onClick={() => {}} />
+          <ButtonDelete dark={true} onClick={() => {}} />
         </div>
       </div>
       <div className={styles.information}>

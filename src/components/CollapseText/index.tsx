@@ -2,7 +2,7 @@
 import { ICollapse } from "Interfaces";
 // import modules
 import { useState, useEffect, useRef } from "react";
-import Button from "components/Button";
+import Button from "components/Inputs/Button";
 // import styles and images
 import styles from "./styles.module.scss";
 
@@ -39,7 +39,7 @@ export default function Collapse(props: ICollapse) {
   }
 
   const showButton = showMore ? (
-    <Button className={styles.button} onClick={showHidden} type="default">
+    <Button className={styles.button} onClick={showHidden}>
       {collapse ? "Show More" : "Show Less"}
     </Button>
   ) : null;

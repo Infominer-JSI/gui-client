@@ -58,7 +58,7 @@ export interface IResponsiveGrid {
   children: any[];
 }
 
-export interface IGridItem {
+export interface IResponsiveGridItem {
   onMouseDown?: any;
   onMouseUp?: any;
   onTouchEnd?: any;
@@ -78,29 +78,35 @@ export interface IButton {
   className?: any;
   onClick?: any;
   children?: any;
-  type?: string;
+  type?:
+    | "primary"
+    | "delete"
+    | "edit"
+    | "primary-dark"
+    | "delete-dark"
+    | "edit-dark";
 }
 
-export interface IDeleteButton {
+export interface IButtonDelete {
   className?: string;
   onClick: any;
   dark?: boolean;
-  size?: string;
+  size?: "small" | "medium";
 }
 
-export interface IDownloadButton {
+export interface IButtonDownload {
   className?: string;
   onClick: any;
   dark?: boolean;
-  size?: string;
+  size?: "small" | "medium";
 }
 
-export interface INavigationButton {
+export interface IButtonNavigation {
   onClick?: any;
   selected: ISubset | IMethod;
 }
 
-export interface IDropdownButton {
+export interface IButtonDropdown {
   className?: any;
   selectedId: number;
   options: string[];
@@ -115,13 +121,13 @@ export interface IDropdownButtonList {
   onClick?: any;
 }
 
-export interface ISubsetNavigationButton {
+export interface IButtonNavigationSubset {
   className: any;
   onClick?: any;
   selected: ISubset;
 }
 
-export interface IMethodNavigationButton {
+export interface IButtonNavigationMethod {
   className: any;
   onClick?: any;
   selected: IMethod;
@@ -134,14 +140,14 @@ export interface INavigationDropdown {
   onClick?: any;
 }
 
-export interface ISubsetNavigationItem {
+export interface INavigationItemSubset {
   selectedId: number;
   dataset: Dataset;
   subsetId: number;
   onClick?: any;
 }
 
-export interface IMethodNavigationItem {
+export interface INavigationItemMethod {
   selectedId: number;
   dataset: Dataset;
   methodId: number;
@@ -154,17 +160,17 @@ export interface INavigation {
   onClick?: any;
 }
 
-export interface ISubsetHeader {
+export interface IHeaderSubset {
   subsetId: number;
   dataset: Dataset;
 }
 
-export interface ISubsetComponent {
+export interface IComponentSubset {
   subsetId: number;
   dataset: Dataset;
 }
 
-export interface IMethodComponent {
+export interface IComponentMethod {
   methodId: number;
   dataset: Dataset;
 }
@@ -203,20 +209,20 @@ export interface IGraphSunburst {
   className?: any;
 }
 
-export interface IBarchartRow {
+export interface IGraphData {
   value: string;
   frequency: number;
   precent: number;
 }
 
 export interface IGraphBarchart {
-  data: IBarchartRow[];
+  data: IGraphData[];
   className?: any;
   color?: string;
 }
 
 export interface IGraphPiechart {
-  data: IBarchartRow[];
+  data: IGraphData[];
   keys?: string[];
   className?: any;
 }
@@ -231,7 +237,7 @@ export interface IGraphWordcloud {
   className?: any;
 }
 
-export interface IHistogramBar {
+export interface IHistogramData {
   min: number;
   max: number;
   frequency: number;
@@ -247,7 +253,7 @@ export interface IHistogram {
   stdev: number;
   median: number;
   sum: number;
-  values: IHistogramBar[];
+  values: IHistogramData[];
 }
 
 export interface IGraphHistogram {

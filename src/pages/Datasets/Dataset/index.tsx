@@ -5,8 +5,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // import components
-import DatasetHeader from "components/DatasetHeader";
-import Navigation from "components/Navigation";
+import DatasetHeader from "components/Dataset/Header";
+import Navigation from "components/Dataset/Navigation";
 import Subset from "components/Subset";
 
 // import utils

@@ -1,16 +1,11 @@
 // import interfaces
-import {
-  IBarchartRow,
-  IHierarchy,
-  IMethod,
-  IMethodComponent,
-} from "Interfaces";
+import { IGraphData, IHierarchy, IMethod, IComponentMethod } from "Interfaces";
 // import modules
 import React from "react";
-import ResponsiveGrid from "components/ResponsiveGrid";
+import ResponsiveGrid from "components/Layout/ResponsiveGrid";
 import AggregateComponent from "./AggregateComponent";
 
-export default function MethodAggregates(props: IMethodComponent) {
+export default function MethodAggregates(props: IComponentMethod) {
   const { methodId, dataset } = props;
   // get the method parameters and use them to visualize the results
   const method1 = dataset.getMethod(methodId) as IMethod;
@@ -34,7 +29,7 @@ export default function MethodAggregates(props: IMethodComponent) {
         // add all of the possible values to the submethod
         statistics0 = method0.result.aggregates[i].statistics;
         keys = statistics0.values
-          .map((c: IBarchartRow) => c.value)
+          .map((c: IGraphData) => c.value)
           .concat("other");
         method1.result.aggregates[i].statistics.keys = keys;
         break;

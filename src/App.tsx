@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 // the header and footer components
-import Header from "components/Header";
+import Header from "components/Navbar";
 import Footer from "components/Footer";
 
 // the datasets routes

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import DeleteButton from "components/DeleteButton";
+import ButtonDelete from "components/Inputs/ButtonDelete";
 
 import styles from "./styles.module.scss";
 
@@ -13,11 +13,11 @@ export default function KMeansCluster(props: any) {
       <div className={styles.header} ref={headerRef}>
         <h2 className={styles.field}>Cluster</h2>
         <div className={styles.actions}>
-          <DeleteButton
+          <ButtonDelete
             className={styles.delete}
             onClick={onDeleteItem.bind(undefined, "cluster")}
             size="small"
-          ></DeleteButton>
+          ></ButtonDelete>
         </div>
       </div>
     </React.Fragment>

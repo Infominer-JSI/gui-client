@@ -1,5 +1,5 @@
 // import interfaces
-import { ISubset, ISubsetComponent } from "Interfaces";
+import { ISubset, IComponentSubset } from "Interfaces";
 // import modules
 import React from "react";
 
@@ -9,7 +9,7 @@ import Method from "components/Method";
 // import utils
 import Dataset from "utils/Dataset";
 
-export default function Subset(props: ISubsetComponent) {
+export default function Subset(props: IComponentSubset) {
   const { subsetId, dataset } = props;
   // get the subset metadata
   const subset = dataset.getSubset(subsetId) as ISubset;

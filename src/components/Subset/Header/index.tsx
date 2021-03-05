@@ -1,19 +1,19 @@
 // import interfaces
-import { ISubset, ISubsetHeader } from "Interfaces";
+import { ISubset, IHeaderSubset } from "Interfaces";
 // import modules
 import React from "react";
 import { formatNumber } from "utils/format";
 import { download } from "utils/utils";
 
 // import components
-import EditButton from "components/EditButton";
-import DeleteButton from "components/DeleteButton";
-import DownloadButton from "components/DownloadButton";
+import EditButton from "components/Inputs/ButtonEdit";
+import ButtonDelete from "components/Inputs/ButtonDelete";
+import ButtonDownload from "components/Inputs/ButtonDownload";
 
 // import styles and images
 import styles from "./styles.module.scss";
 
-export default function SubsetHeader(props: ISubsetHeader) {
+export default function SubsetHeader(props: IHeaderSubset) {
   // get dataset information and set their state
   const { subsetId, dataset } = props;
   // get dataset and subset metadata
@@ -39,10 +39,10 @@ export default function SubsetHeader(props: ISubsetHeader) {
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <DownloadButton onClick={getFileFromURL} dark={true} />
+          <ButtonDownload onClick={getFileFromURL} dark={true} />
           <EditButton dark={true} />
           {subsetId !== 0 ? (
-            <DeleteButton dark={true} onClick={() => {}} />
+            <ButtonDelete dark={true} onClick={() => {}} />
           ) : null}
         </div>
       </div>

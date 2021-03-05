@@ -1,5 +1,5 @@
 // import interfaces
-import { IGraphHistogram, IHistogramBar } from "Interfaces";
+import { IGraphHistogram, IHistogramData } from "Interfaces";
 // import modules
 import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
@@ -55,7 +55,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphHistogram>(
       // get histogram values
       const { min, max, values: original } = props.data;
       // format the values
-      const values: IHistogramBar[] = JSON.parse(JSON.stringify(original));
+      const values: IHistogramData[] = JSON.parse(JSON.stringify(original));
       values.forEach((d) => {
         d.precent = d.precent / 100;
         d.percentSum = d.percentSum / 100;
@@ -185,7 +185,7 @@ function setYAxis(
 
 function setBars(
   container: any,
-  data: IHistogramBar[],
+  data: IHistogramData[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleLinear<number, number, never>,
   color: string,
@@ -199,28 +199,28 @@ function setBars(
   bars
     .enter()
     .append("rect")
-    .attr("x", (d: IHistogramBar) => x(d.min) + 1)
+    .attr("x", (d: IHistogramData) => x(d.min) + 1)
     .attr("y", y(0))
-    .attr("width", (d: IHistogramBar) => x(d.max) - x(d.min) - 1)
+    .attr("width", (d: IHistogramData) => x(d.max) - x(d.min) - 1)
     .transition()
     .duration(duration)
-    .attr("y", (d: IHistogramBar) => y(d.precent))
-    .attr("height", (d: IHistogramBar) => y(0) - y(d.precent));
+    .attr("y", (d: IHistogramData) => y(d.precent))
+    .attr("height", (d: IHistogramData) => y(0) - y(d.precent));
 
   bars
     .transition()
     .duration(duration)
-    .attr("x", (d: IHistogramBar) => x(d.min) + 1)
-    .attr("y", (d: IHistogramBar) => y(d.precent))
-    .attr("width", (d: IHistogramBar) => x(d.max) - x(d.min) - 1)
-    .attr("height", (d: IHistogramBar) => y(0) - y(d.precent));
+    .attr("x", (d: IHistogramData) => x(d.min) + 1)
+    .attr("y", (d: IHistogramData) => y(d.precent))
+    .attr("width", (d: IHistogramData) => x(d.max) - x(d.min) - 1)
+    .attr("height", (d: IHistogramData) => y(0) - y(d.precent));
 
   bars.exit().remove();
 }
 
 function setLabels(
   container: any,
-  data: IHistogramBar[],
+  data: IHistogramData[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleLinear<number, number, never>,
   format: (
@@ -247,13 +247,13 @@ function setLabels(
     .style("fill", "black")
     .attr(
       "x",
-      (d: IHistogramBar, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
+      (d: IHistogramData, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
     )
     .attr("y", y(0))
     .attr("dy", 16)
     .call((text: any) =>
       text
-        .filter((d: IHistogramBar) => y(0) - y(d.precent) < 50) // short bars
+        .filter((d: IHistogramData) => y(0) - y(d.precent) < 50) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("fill", "black")
@@ -261,8 +261,8 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr("y", (d: IHistogramBar) => y(d.precent))
-    .text((d: IHistogramBar) =>
+    .attr("y", (d: IHistogramData) => y(d.precent))
+    .text((d: IHistogramData) =>
       Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
     );
 
@@ -276,7 +276,7 @@ function setLabels(
     .attr("dy", 16)
     .call((text: any) =>
       text
-        .filter((d: IHistogramBar) => y(0) - y(d.precent) < 50) // short bars
+        .filter((d: IHistogramData) => y(0) - y(d.precent) < 50) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("fill", "black")
@@ -286,10 +286,10 @@ function setLabels(
     .duration(duration)
     .attr(
       "x",
-      (d: IHistogramBar, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
+      (d: IHistogramData, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
     )
-    .attr("y", (d: IHistogramBar) => y(d.precent))
-    .text((d: IHistogramBar) =>
+    .attr("y", (d: IHistogramData) => y(d.precent))
+    .text((d: IHistogramData) =>
       Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
     );
 
