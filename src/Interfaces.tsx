@@ -161,6 +161,8 @@ export interface IComponentMethod {
 
 export interface IModal {
   type: "delete" | "edit";
+  backClick: any;
+  execClick: any;
 }
 
 // ==============================================

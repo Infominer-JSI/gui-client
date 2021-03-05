@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-
+import Button from "components/Inputs/Button";
 // import interfaces
 import { IModal } from "Interfaces";
 // import modules
@@ -14,7 +14,7 @@ export default function Modal(props: IModal) {
   // set the app element to the modal
   ReactModal.setAppElement(document.body);
 
-  const { type } = props;
+  const { type, backClick, execClick } = props;
   // get the generated values
   const symbol = getSymbol(type);
   const title = getTitle(type);
@@ -40,7 +40,24 @@ export default function Modal(props: IModal) {
       </div>
       <div className={styles.title}>{title}</div>
       <div className={styles.description}>{description}</div>
-      <div className={styles.actions}></div>
+      <div className={styles.actions}>
+        <Button
+          type="full"
+          size="medium"
+          color="gray"
+          intensity="dark"
+          text="No, go back"
+          onClick={backClick}
+        />
+        <Button
+          type="outline"
+          size="medium"
+          color="red"
+          intensity="dark"
+          text="Yes, delete!"
+          onClick={execClick}
+        />
+      </div>
     </ReactModal>
   );
 }
