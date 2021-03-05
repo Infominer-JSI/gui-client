@@ -4,7 +4,7 @@ import { IMethod, IComponentMethod } from "Interfaces";
 import React from "react";
 
 import MethodHeader from "components/Method/Header";
-import ResponsiveGrid from "components/Layout/ResponsiveGrid";
+import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import KMeansCluster from "./KMeansCluster";
 
 export default function MethodKMeans(props: IComponentMethod) {

@@ -3,8 +3,7 @@ import { IDataset } from "Interfaces";
 // import modules
 import React, { useState } from "react";
 import { formatNumber, formatDate } from "utils/format";
-import EditButton from "components/Inputs/ButtonEdit";
-import ButtonDelete from "components/Inputs/ButtonDelete";
+import Button from "components/Inputs/Button";
 
 // import styles and images
 import styles from "./styles.module.scss";
@@ -23,8 +22,22 @@ export default function DatasetHeader(props: IDataset) {
       <div className={styles.controllers}>
         <h1>{name}</h1>
         <div className={styles.buttons}>
-          <EditButton dark={true} />
-          <ButtonDelete dark={true} onClick={() => {}} />
+          <Button
+            type="full"
+            size="medium"
+            color="green"
+            icon="edit"
+            intensity="dark"
+            onClick={() => {}}
+          />
+          <Button
+            type="full"
+            size="medium"
+            color="red"
+            icon="delete"
+            intensity="dark"
+            onClick={() => {}}
+          />
         </div>
       </div>
       <div className={styles.information}>

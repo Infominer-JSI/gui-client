@@ -1,5 +1,5 @@
 // import interfaces
-import { IDropdownButtonList } from "Interfaces";
+import { IDropdownList } from "Interfaces";
 
 // import modules
 import React from "react";
@@ -8,7 +8,7 @@ import cn from "classnames";
 // import styles and images
 import styles from "./styles.module.scss";
 
-export default function NavigationDropdown(props: IDropdownButtonList) {
+export default function List(props: IDropdownList) {
   // get dataset information and set their state
   const {
     hidden,

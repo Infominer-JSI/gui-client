@@ -39,9 +39,15 @@ export default function Collapse(props: ICollapse) {
   }
 
   const showButton = showMore ? (
-    <Button className={styles.button} onClick={showHidden}>
-      {collapse ? "Show More" : "Show Less"}
-    </Button>
+    <Button
+      className={styles.button}
+      type="full"
+      size="small"
+      color="gray"
+      intensity="light"
+      onClick={showHidden}
+      text={collapse ? "Show More" : "Show Less"}
+    />
   ) : null;
 
   return (

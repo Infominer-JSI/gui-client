@@ -1,0 +1,66 @@
+@import "assets/definitions.scss";
+
+$background-color: rgba($color-gray-500, 1);
+$content-width: 300px;
+$image-size: 92px;
+
+.overlay {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $background-color;
+}
+
+.content {
+  position: relative;
+  overflow: inherit;
+  width: $content-width;
+  margin: auto;
+  background: #fff;
+  border-radius: $border-radius-8;
+  outline: none;
+  padding: $spacing-24;
+}
+
+.image {
+  position: relative;
+  .symbol {
+    position: absolute;
+    top: calc((-#{$image-size} / 2) - #{$spacing-24});
+    left: calc((#{$content-width} - #{$image-size}) / 2);
+    right: calc((#{$content-width} - #{$image-size}) / 2);
+    width: $image-size;
+    height: $image-size;
+    background: $color-white;
+    border-radius: 50%;
+    border: $border-radius-4 solid $background-color;
+    /* center the image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $font-size-48;
+  }
+}
+
+.title {
+  display: block;
+  margin-top: $spacing-48;
+  text-align: center;
+  @include text-title-5();
+}
+
+.description {
+  padding: $spacing-16 0;
+  @include text-body();
+  text-align: center;
+}
+
+.delete {
+  & .symbol,
+  & .title {
+    color: $color-red-700;
+  }
+}

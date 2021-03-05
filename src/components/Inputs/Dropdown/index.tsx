@@ -1,13 +1,13 @@
 // import interfaces
-import { IButtonDropdown } from "Interfaces";
+import { IDropdown } from "Interfaces";
 // import modules and components
 import React, { useState, useEffect, useRef } from "react";
 import Button from "components/Inputs/Button";
-import Dropdown from "./Dropdown";
+import DropdownList from "./List";
 // import styles
 import styles from "./styles.module.scss";
 
-export default function ButtonDropdown(props: IButtonDropdown) {
+export default function Dropdown(props: IDropdown) {
   // get the metadata for creating the navigation dropdown
   const { className, selectedId, options, onClick } = props;
   const [hidden, setHidden] = useState(true);
@@ -36,10 +36,16 @@ export default function ButtonDropdown(props: IButtonDropdown) {
 
   return (
     <div className={styles.container} ref={containerRef}>
-      <Button className={className} onClick={toggleDropdown}>
-        {options[selectedId]}
-      </Button>
-      <Dropdown
+      <Button
+        className={className}
+        type="outline"
+        size="small"
+        color="gray"
+        intensity="light"
+        onClick={toggleDropdown}
+        text={options[selectedId]}
+      />
+      <DropdownList
         hidden={hidden}
         options={options}
         selectedId={selectedId}

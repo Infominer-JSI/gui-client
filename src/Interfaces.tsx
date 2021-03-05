@@ -77,28 +77,12 @@ export interface ICollapse {
 export interface IButton {
   className?: any;
   onClick?: any;
-  children?: any;
-  type?:
-    | "primary"
-    | "delete"
-    | "edit"
-    | "primary-dark"
-    | "delete-dark"
-    | "edit-dark";
-}
-
-export interface IButtonDelete {
-  className?: string;
-  onClick: any;
-  dark?: boolean;
-  size?: "small" | "medium";
-}
-
-export interface IButtonDownload {
-  className?: string;
-  onClick: any;
-  dark?: boolean;
-  size?: "small" | "medium";
+  type: "full" | "outline";
+  icon?: "none" | "edit" | "delete" | "download";
+  size: "small" | "medium" | "large";
+  color: "blue" | "green" | "yellow" | "red" | "gray";
+  intensity: "light" | "dark";
+  text?: string;
 }
 
 export interface IButtonNavigation {
@@ -106,14 +90,14 @@ export interface IButtonNavigation {
   selected: ISubset | IMethod;
 }
 
-export interface IButtonDropdown {
+export interface IDropdown {
   className?: any;
   selectedId: number;
   options: string[];
   onClick?: any;
 }
 
-export interface IDropdownButtonList {
+export interface IDropdownList {
   hidden: boolean;
   selectedId: number;
   options: string[];
@@ -173,6 +157,10 @@ export interface IComponentSubset {
 export interface IComponentMethod {
   methodId: number;
   dataset: Dataset;
+}
+
+export interface IModal {
+  type: "delete" | "edit";
 }
 
 // ==============================================

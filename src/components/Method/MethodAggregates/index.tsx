@@ -2,7 +2,7 @@
 import { IGraphData, IHierarchy, IMethod, IComponentMethod } from "Interfaces";
 // import modules
 import React from "react";
-import ResponsiveGrid from "components/Layout/ResponsiveGrid";
+import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import AggregateComponent from "./AggregateComponent";
 
 export default function MethodAggregates(props: IComponentMethod) {

@@ -25,27 +25,9 @@ const Template: Story<IButton> = (args: IButton) => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  children: "Press Me!",
-};
-
-export const Edit = Template.bind({});
-Edit.args = {
-  type: "edit",
-  children: "edit",
-};
-
-export const Error = Template.bind({});
-Error.args = {
-  type: "delete",
-  children: "delete",
-};
-
-export const Child = Template.bind({});
-Child.args = {
-  type: "delete",
-  children: (
-    <>
-      <div>This is a div</div>
-    </>
-  ),
+  type: "full",
+  size: "medium",
+  color: "blue",
+  intensity: "dark",
+  text: "Click me!",
 };

@@ -9,8 +9,11 @@ export default function ToolboxItem(props: any) {
     <Button
       className={styles.toolboxItem}
       onClick={onAddItem.bind(undefined, item[0])}
-    >
-      {item[1]}
-    </Button>
+      type="outline"
+      size="small"
+      color="gray"
+      intensity="dark"
+      text={item[1]}
+    ></Button>
   );
 }

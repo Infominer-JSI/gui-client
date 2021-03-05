@@ -6,9 +6,10 @@ import { formatNumber } from "utils/format";
 import { download } from "utils/utils";
 
 // import components
-import EditButton from "components/Inputs/ButtonEdit";
-import ButtonDelete from "components/Inputs/ButtonDelete";
-import ButtonDownload from "components/Inputs/ButtonDownload";
+import Button from "components/Inputs/Button";
+// import EditButton from "components/Inputs/ButtonEdit";
+// import ButtonDelete from "components/Inputs/ButtonDelete";
+// import ButtonDownload from "components/Inputs/ButtonDownload";
 
 // import styles and images
 import styles from "./styles.module.scss";
@@ -39,11 +40,37 @@ export default function SubsetHeader(props: IHeaderSubset) {
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <ButtonDownload onClick={getFileFromURL} dark={true} />
-          <EditButton dark={true} />
+          <Button
+            type="full"
+            size="medium"
+            color="blue"
+            icon="download"
+            intensity="dark"
+            onClick={getFileFromURL}
+          />
+          <Button
+            type="full"
+            size="medium"
+            color="green"
+            icon="edit"
+            intensity="dark"
+            onClick={() => {}}
+          />
           {subsetId !== 0 ? (
-            <ButtonDelete dark={true} onClick={() => {}} />
+            <Button
+              type="full"
+              size="medium"
+              color="red"
+              icon="delete"
+              intensity="dark"
+              onClick={() => {}}
+            />
           ) : null}
+          {/* <ButtonDownload onClick={getFileFromURL} dark={true} />
+          <EditButton dark={true} /> */}
+          {/* {subsetId !== 0 ? (
+            <ButtonDelete dark={true} onClick={() => {}} />
+          ) : null} */}
         </div>
       </div>
       <div className={styles.information}>

@@ -10,9 +10,9 @@ import classnames from "classnames";
 
 // import components
 import Graph from "components/Graph";
-import ButtonDropdown from "components/Inputs/ButtonDropdown";
-import ButtonDownload from "components/Inputs/ButtonDownload";
-import ButtonDelete from "components/Inputs/ButtonDelete";
+import Dropdown from "components/Inputs/Dropdown";
+// import ButtonDownload from "components/Inputs/ButtonDownload";
+import Button from "components/Inputs/Button";
 
 // import styles
 import styles from "./styles.module.scss";
@@ -82,22 +82,38 @@ export default function MethodAggregates(props: IAggregateComponent) {
       <div className={headerClass} ref={headerRef}>
         <h2 className={styles.field}>{attributeName}</h2>
         <div className={styles.actions}>
-          <ButtonDropdown
+          <Dropdown
             className={styles.types}
             selectedId={graphId}
             options={graphOptions}
             onClick={changeGraph}
           />
-          <ButtonDownload
+          {/* <ButtonDownload
             className={styles.download}
             onClick={downloadGraph}
             size="small"
-          ></ButtonDownload>
-          <ButtonDelete
+          ></ButtonDownload> */}
+          <Button
+            type="outline"
+            size="small"
+            color="gray"
+            icon="download"
+            intensity="light"
+            onClick={downloadGraph}
+          />
+          <Button
+            type="outline"
+            size="small"
+            color="gray"
+            icon="delete"
+            intensity="light"
+            onClick={onDeleteItem.bind(undefined, field)}
+          />
+          {/* <ButtonDelete
             className={styles.delete}
             onClick={onDeleteItem.bind(undefined, field)}
             size="small"
-          ></ButtonDelete>
+          ></ButtonDelete> */}
         </div>
       </div>
       <Graph

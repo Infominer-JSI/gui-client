@@ -3,7 +3,7 @@ import { IMethod, IComponentMethod } from "Interfaces";
 // import modules
 import React from "react";
 import { formatMethodType } from "utils/format";
-import ButtonDelete from "components/Inputs/ButtonDelete";
+import Button from "components/Inputs/Button";
 
 // import styles and images
 import styles from "./styles.module.scss";
@@ -20,7 +20,14 @@ export default function MethodHeader(props: IComponentMethod) {
       <div className={styles.controllers}>
         <h1>{label}</h1>
         <div className={styles.buttons}>
-          <ButtonDelete dark={true} onClick={() => {}} />
+          <Button
+            type="full"
+            size="medium"
+            color="red"
+            icon="delete"
+            intensity="dark"
+            onClick={() => {}}
+          />
         </div>
       </div>
       <div className={styles.information}>

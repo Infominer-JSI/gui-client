@@ -3,7 +3,7 @@
 .container {
   position: absolute;
   right: 0;
-  margin-top: 4px;
+  margin-top: 3px;
   padding-top: 4px;
   z-index: 100;
 }
@@ -15,15 +15,15 @@
 $rotate: 225deg;
 .triangle {
   position: absolute;
-  top: 0;
-  right: 50%;
+  top: -4px;
+  left: 50%;
   width: 8px;
   height: 8px;
-  transform: rotate($rotate);
-  -webkit-transform: rotate($rotate);
-  -moz-transform: rotate($rotate);
-  -o-transform: rotate($rotate);
-  -ms-transform: rotate($rotate);
+  -webkit-transform: rotate($rotate) translateY(-50%);
+  -moz-transform: rotate($rotate) translateY(-50%);
+  -o-transform: rotate($rotate) translateY(-50%);
+  -ms-transform: rotate($rotate) translateY(-50%);
+  transform: rotate($rotate) translateY(-50%);
   border-right: 1px solid $color-gray-200;
   border-bottom: 1px solid $color-gray-200;
   background: $color-white;
