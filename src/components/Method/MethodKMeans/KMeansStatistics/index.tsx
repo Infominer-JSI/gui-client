@@ -1,7 +1,3 @@
-// import interfaces
-import { IAggregateComponent } from "Interfaces";
-
-// import modules
 import React, { useState, useEffect, useRef } from "react";
 import { convertData, trimString, convertSVG, download } from "utils/utils";
 import { Canvg, RenderingContext2D } from "canvg";
@@ -13,11 +9,12 @@ import Graph from "components/Graph";
 import Dropdown from "components/Inputs/Dropdown";
 import Button from "components/Inputs/Button";
 
-// import styles
 import styles from "./styles.module.scss";
+import { Link } from "react-router-dom";
 
-export default function MethodAggregates(props: IAggregateComponent) {
-  const { className, field, type, statistics, onDeleteItem } = props;
+export default function KMeansCluster(props: any) {
+  const { className, field, type, clusters, onDeleteItem } = props;
+
   // define the header ref and width state
   // used for dynamic attribute naming
   const graphRef = useRef<SVGSVGElement>(null);
@@ -57,23 +54,6 @@ export default function MethodAggregates(props: IAggregateComponent) {
 
   // set selected graph
   const selectedGraph = graphOptions[graphId];
-
-  async function downloadGraph() {
-    if (graphRef?.current) {
-      // create the canvas and svg data
-      const data = convertSVG(graphRef.current);
-      const c = new OffscreenCanvas(0, 0);
-      const ctx = c.getContext("2d");
-      // render the canvas content
-      const v = await Canvg.from(ctx as RenderingContext2D, data);
-      await v.render();
-      // download the canvas
-      const filename = `${field}-${selectedGraph}-aggregate.png`;
-      const blob = await c.convertToBlob();
-      download(filename, blob);
-    }
-  }
-
   const headerClass = classnames(styles.header, {
     [styles.headerRow]: width > 290,
   });
@@ -93,26 +73,27 @@ export default function MethodAggregates(props: IAggregateComponent) {
             type="outline"
             size="small"
             color="gray"
-            icon="download"
-            intensity="light"
-            onClick={downloadGraph}
-          />
-          <Button
-            type="outline"
-            size="small"
-            color="gray"
             icon="delete"
             intensity="light"
             onClick={onDeleteItem.bind(undefined, field)}
           />
         </div>
       </div>
-      <Graph
-        className={className}
-        type={selectedGraph}
-        data={convertData(statistics, type, selectedGraph)}
-        ref={graphRef}
-      />
+      <div className={styles.clusters}>
+        {clusters.map((cluster: any, id: number) => (
+          <div key={id} className={styles.cluster}>
+            <h4 className={styles.clusterHeader}>{cluster.subset.label}</h4>
+            <div className={styles.clusterGraph}>
+              <Graph
+                className={className}
+                type={selectedGraph}
+                data={convertData(cluster.statistics, type, selectedGraph)}
+                ref={graphRef}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </React.Fragment>
   );
 }

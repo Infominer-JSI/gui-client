@@ -255,5 +255,5 @@ function getKeywordWidth(keyword: IKeyword) {
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
   ctx.font = `900 ${keyword.height}px Lato`;
   const { width } = ctx.measureText(keyword.keyword);
-  return width + width / 3.7;
+  return width + width / 3.5;
 }

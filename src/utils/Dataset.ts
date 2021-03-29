@@ -26,7 +26,15 @@ export default class Dataset {
     return id in this.subsets ? this.subsets[id] : null;
   }
 
+  getSubsets(ids: number[]) {
+    return ids.map((id) => this.getSubset(id));
+  }
+
   getMethod(id: number) {
     return id in this.methods ? this.methods[id] : null;
+  }
+
+  getMethods(ids: number[]) {
+    return ids.map((id) => this.getMethod(id));
   }
 }

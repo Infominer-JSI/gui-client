@@ -33,14 +33,32 @@ for (const value of breakpointValues) {
 export function generateGrid(children: any[], bp: string) {
   // get the number of columns
   const cols = responsiveCols[bp];
-  return children.map((_child: any, i: number) => ({
-    x: (i * 3) % cols,
-    y: Math.floor((i * 3) / 12),
-    w: 3,
-    h: 3,
-    minW: cols >= 12 ? 2 : 3,
-    minH: cols >= 12 ? 2 : 3,
-    i: i.toString(),
-    static: false,
-  }));
+  return children.map(({ props }: any, i: number) => {
+    const minW = props?.minW
+      ? props?.minW > cols
+        ? cols
+        : props?.minW
+      : cols > 12
+      ? 2
+      : 3;
+    const minH = props?.minH
+      ? props?.minH > cols
+        ? cols
+        : props?.minH
+      : cols > 12
+      ? 2
+      : 3;
+    const w = minW > cols / 2 ? cols : minW > 3 ? minW : 3;
+    const h = minH > 3 ? minH : 3;
+    return {
+      x: (i * w) % cols,
+      y: Math.floor((i * h) / 12),
+      w,
+      h,
+      minW,
+      minH,
+      i: i.toString(),
+      static: false,
+    };
+  });
 }
