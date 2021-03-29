@@ -36,6 +36,24 @@
   }
 }
 
+@media (min-width: $breakpoint-screen-md) {
+  .toolbox {
+    max-width: $breakpoint-screen-md;
+  }
+}
+
+@media (min-width: $breakpoint-screen-lg) {
+  .toolbox {
+    max-width: $breakpoint-screen-lg;
+  }
+}
+
+@media (min-width: $breakpoint-screen-xl) {
+  .toolbox {
+    max-width: 100%;
+  }
+}
+
 @media (min-width: $breakpoint-screen-2xl) {
   .toolbox {
     margin: $spacing-16 $spacing-16 0 $spacing-16;

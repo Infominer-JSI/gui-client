@@ -48,6 +48,8 @@ export default function MethodAggregates(props: IAggregateComponent) {
       ? field
       : width < 310
       ? trimString(field, 8)
+      : width < 330
+      ? trimString(field, 11)
       : field;
 
   function changeGraph(id: number) {

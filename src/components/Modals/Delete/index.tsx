@@ -9,6 +9,7 @@ import styles from "./styles.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 
 export default function Modal(props: IModal) {
   // set the app element to the modal
@@ -44,7 +45,7 @@ export default function Modal(props: IModal) {
         <Button
           type="full"
           size="medium"
-          color="gray"
+          color="blue"
           intensity="dark"
           text="No, go back"
           onClick={backClick}
@@ -90,7 +91,7 @@ function getDescription(type: string) {
 function getSymbol(type: string) {
   switch (type) {
     case "edit":
-      return "Edit this subset";
+      return <FontAwesomeIcon icon={faEdit} />;
     case "delete":
       return <FontAwesomeIcon icon={faExclamation} />;
     default:

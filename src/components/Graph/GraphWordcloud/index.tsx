@@ -1,7 +1,7 @@
 // import interfaces
 import { IGraphWordcloud, IKeyword } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect, ReactText } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 
 import {
@@ -12,7 +12,6 @@ import {
 
 // import d3 visualization
 import * as d3 from "d3";
-import cloud from "d3-cloud";
 
 // import styles
 import styles from "./styles.module.scss";
@@ -25,7 +24,6 @@ const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
     // set the states
     const [width, setWidth] = useState<number | null | undefined>();
     const [height, setHeight] = useState<number | null | undefined>();
-    const [, setCreationTimeout] = useState<any>();
 
     useEffect(() => {
       // update the width and height every 10ms
@@ -75,52 +73,29 @@ const GraphWordcloud = React.forwardRef<SVGSVGElement, IGraphWordcloud>(
       const classScale = createQuantizeScale([minWeight, maxWeight], cls);
       const fillScale = createQuantizeScale([minWeight, maxWeight], fills);
 
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
       // format the data
-      const data = props.data.map((d: IKeyword) => ({
-        text: d.keyword ? d.keyword.toUpperCase() : "",
-        size: minWeight === maxWeight ? maxFontSize : fontSizeScale(d.weight),
-        colorClass:
-          minWeight === maxWeight ? cls[cls.length - 1] : classScale(d.weight),
-        fill:
-          minWeight === maxWeight
-            ? fills[fills.length - 1]
-            : fillScale(d.weight),
+      const data = calculateWordcloud(
+        props.data,
+        fontSizeScale,
+        innerWidth,
+        innerHeight
+      ).map((d: IKeyword) => ({
+        text: d.keyword ? d.keyword.toUpperCase().replace("�", "'") : "",
+        x: d.x as number,
+        y: d.y as number,
+        fill: fillScale(d.weight),
+        size: fontSizeScale(d.weight),
+        colorClass: classScale(d.weight),
       }));
 
-      /**
-       *
-       * @param timeout
-       * @param data
-       * @param width
-       * @param height
-       * @param wc
-       */
-      function createGraph(
-        data: {
-          text: string;
-          size: number;
-          colorClass: ReactText;
-          fill: ReactText;
-        }[],
-        width: number,
-        height: number,
-        wc: any
-      ) {
-        return (prevWordcloud: any) => {
-          if (prevWordcloud) {
-            prevWordcloud.on("end", () => {}).stop();
-          }
-          return calculateWordcloud(data, width, height)
-            .on("end", (words) => setWordcloud(wc, words))
-            .start();
-        };
-      }
       // update the svg element
       const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
       const graph = updateSVG(svg, width, height, margin, true);
       const wc = graph.select("g.wordcloud");
       // calculate and visualize the wordcloud
-      setCreationTimeout(createGraph(data, width, height, wc));
+      generateWordcloud(wc, data);
 
       // Remove event listener on cleanup
     }, [props.data, width, height, containerRef]);
@@ -146,29 +121,26 @@ export default GraphWordcloud;
 // Graph Helper Functions
 // ==============================================
 
-function calculateWordcloud(data: any, width: number, height: number) {
-  return cloud()
-    .size([width, height])
-    .timeInterval(10)
-    .words(data)
-    .rotate(0)
-    .random(() => 0.5)
-    .fontWeight(900)
-    .font("Lato")
-    .fontSize((d) => d.size as number);
-}
-
-function setWordcloud(
+// generate the wordcloud
+function generateWordcloud(
   container: any,
-  words: cloud.Word[],
+  keywords: {
+    text: string;
+    size: number;
+    x: number;
+    y: number;
+    colorClass: string | number;
+    fill: string | number;
+  }[],
   duration: number = 500
 ) {
   // set the words data
-  const wordcloud = container.selectAll("text").data(words);
+  const wordcloud = container.selectAll("text").data(keywords);
   wordcloud
     .enter()
     .append("text")
     .attr("class", (d: any) => d.colorClass)
+    .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle")
     .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
     .attr("font-size", 0)
@@ -183,8 +155,8 @@ function setWordcloud(
 
   wordcloud
     .attr("class", (d: any) => d.colorClass)
+    .attr("dominant-baseline", "middle")
     .attr("text-anchor", "middle")
-
     //* download "style" values
     .style("font-family", "Lato")
     .style("font-weight", 900)
@@ -196,4 +168,92 @@ function setWordcloud(
     .text((d: any) => d.text);
 
   wordcloud.exit().remove();
+}
+
+// calculate the wordcloud positions
+function calculateWordcloud(
+  keywords: IKeyword[],
+  fontSize: d3.ScaleLinear<number, number, never>,
+  width: number,
+  height: number
+) {
+  const placed: IKeyword[] = [];
+  function intersectsPlaced(word: IKeyword) {
+    for (const p of placed) {
+      if (intersects(word, p)) return true;
+    }
+    return false;
+  }
+  // place the words
+  const rstep = 3.0;
+  const astep = 0.05;
+  enrichKeywords(keywords, fontSize);
+  for (let i = 0; i < keywords.length; i++) {
+    const keyword = keywords[i];
+    const dir = (i % 2) * 2 - 1;
+    let radius = 0;
+    let isPlaced = false;
+    while (radius < Math.max(width / 2, height / 2)) {
+      for (let angle = 0; angle < 2 * Math.PI; angle += astep) {
+        const alpha = dir * angle;
+        keyword.x = radius * Math.cos(alpha);
+        keyword.y = radius * Math.sin(alpha);
+        if (
+          !intersectsPlaced(keyword) &&
+          inBoundingBox(keyword, width, height)
+        ) {
+          isPlaced = true;
+          break;
+        }
+      }
+      if (isPlaced) {
+        break;
+      }
+      radius += rstep;
+    }
+    if (isPlaced) {
+      placed.push(keyword);
+    }
+  }
+  return placed;
+}
+
+// enrich the keywords
+function enrichKeywords(
+  keywords: IKeyword[],
+  fontSize: d3.ScaleLinear<number, number, never>
+) {
+  for (const keyword of keywords) {
+    // normalize area
+    keyword.height = fontSize(keyword.weight) as number;
+    keyword.height += Math.ceil(keyword.height / 10);
+    keyword.width = getKeywordWidth(keyword);
+  }
+}
+
+// calculates if the two keywords are intersecting
+function intersects(keyword0: IKeyword, keyword1: IKeyword) {
+  return (
+    Math.abs((keyword0.y as number) - (keyword1.y as number)) <
+      ((keyword0.height as number) + (keyword1.height as number)) / 2 &&
+    Math.abs((keyword0.x as number) - (keyword1.x as number)) <
+      ((keyword0.width as number) + (keyword1.width as number)) / 2
+  );
+}
+
+// checks if the keyword is within the wordcloud bounding box
+function inBoundingBox(keyword: IKeyword, width: number, height: number) {
+  return (
+    width / 2 - Math.abs(keyword.x as number) > (keyword.width as number) / 2 &&
+    height / 2 - Math.abs(keyword.y as number) > (keyword.height as number) / 2
+  );
+}
+
+// gets the keyword width in the wordcloud
+function getKeywordWidth(keyword: IKeyword) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  ctx.font = `900 ${keyword.height}px Lato`;
+  const { width } = ctx.measureText(keyword.keyword);
+  return width + width / 3.7;
 }

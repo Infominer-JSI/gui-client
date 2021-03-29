@@ -220,6 +220,11 @@ export interface IGraphPiechart {
 export interface IKeyword {
   keyword: string;
   weight: number;
+  newWgt?: number;
+  height?: number;
+  width?: number;
+  x?: number;
+  y?: number;
 }
 
 export interface IGraphWordcloud {

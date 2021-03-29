@@ -8,7 +8,7 @@ const breakpointValues: {
   breakpoint: number;
   padding: [number, number];
 }[] = [
-  { label: "xl", cols: 12, breakpoint: 1200, padding: [16, 16] },
+  { label: "xl", cols: 18, breakpoint: 1200, padding: [16, 16] },
   { label: "lg", cols: 12, breakpoint: 1024, padding: [0, 16] },
   { label: "md", cols: 9, breakpoint: 768, padding: [0, 16] },
   { label: "sm", cols: 6, breakpoint: 640, padding: [0, 16] },
@@ -38,8 +38,8 @@ export function generateGrid(children: any[], bp: string) {
     y: Math.floor((i * 3) / 12),
     w: 3,
     h: 3,
-    minW: cols === 12 ? 2 : 3,
-    minH: cols === 12 ? 2 : 3,
+    minW: cols >= 12 ? 2 : 3,
+    minH: cols >= 12 ? 2 : 3,
     i: i.toString(),
     static: false,
   }));
