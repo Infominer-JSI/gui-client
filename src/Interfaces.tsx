@@ -160,9 +160,11 @@ export interface IComponentMethod {
 }
 
 export interface IModal {
-  type: "delete" | "edit";
+  isOpen: boolean;
+  type: "delete" | "edit" | "exec";
   backClick: any;
   execClick: any;
+  children?: React.ReactNode;
 }
 
 // ==============================================

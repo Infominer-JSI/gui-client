@@ -37,8 +37,9 @@
       border-color: $base;
       &:hover,
       &:active {
-        color: $dark;
-        border-color: $dark;
+        color: $light;
+        border-color: $base;
+        background-color: $base;
       }
     } @else if $intensity == "light" {
       color: $light;

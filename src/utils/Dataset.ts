@@ -30,11 +30,19 @@ export default class Dataset {
     return ids.map((id) => this.getSubset(id));
   }
 
+  deleteSubset(id: number) {
+    delete this.subsets[id];
+  }
+
   getMethod(id: number) {
     return id in this.methods ? this.methods[id] : null;
   }
 
   getMethods(ids: number[]) {
     return ids.map((id) => this.getMethod(id));
+  }
+
+  deleteMethod(id: number) {
+    delete this.methods[id];
   }
 }

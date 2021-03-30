@@ -146,7 +146,7 @@ function generateWordcloud(
     .attr("font-size", 0)
     //* download "style" values
     .style("font-family", "Lato")
-    .style("font-weight", 900)
+    .style("font-weight", "bold")
     .style("fill", (d: any) => d.fill)
     .text((d: any) => d.text)
     .transition()
@@ -155,11 +155,7 @@ function generateWordcloud(
 
   wordcloud
     .attr("class", (d: any) => d.colorClass)
-    .attr("dominant-baseline", "middle")
-    .attr("text-anchor", "middle")
     //* download "style" values
-    .style("font-family", "Lato")
-    .style("font-weight", 900)
     .transition()
     .duration(duration)
     .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
@@ -253,7 +249,7 @@ function inBoundingBox(keyword: IKeyword, width: number, height: number) {
 function getKeywordWidth(keyword: IKeyword) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-  ctx.font = `900 ${keyword.height}px Lato`;
+  ctx.font = `bold ${keyword.height}px Lato`;
   const { width } = ctx.measureText(keyword.keyword);
-  return width + width / 3.5;
+  return width + width / 3.1;
 }

@@ -1,20 +1,20 @@
 // import interfaces
 import { ISubset, IHeaderSubset } from "Interfaces";
 // import modules
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { formatNumber } from "utils/format";
 import { download } from "utils/utils";
 
 // import components
 import Button from "components/Inputs/Button";
-// import EditButton from "components/Inputs/ButtonEdit";
-// import ButtonDelete from "components/Inputs/ButtonDelete";
-// import ButtonDownload from "components/Inputs/ButtonDownload";
+import Modal from "components/Modal";
 
 // import styles and images
 import styles from "./styles.module.scss";
 
 export default function SubsetHeader(props: IHeaderSubset) {
+  const history = useHistory();
   // get dataset information and set their state
   const { subsetId, dataset } = props;
   // get dataset and subset metadata
@@ -22,6 +22,25 @@ export default function SubsetHeader(props: IHeaderSubset) {
   const { label, nDocuments } = dataset.getSubset(subsetId) as ISubset;
   // format the number of documents
   const numberDocs = formatNumber(nDocuments as number);
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const toggleDeleteModal = () => setDeleteOpen((prevMode) => !prevMode);
+  const deleteSubset = async () => {
+    const response = await fetch(
+      `/api/v1/datasets/${datasetId}/subsets/${subsetId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    const { id, isDeleted } = await response.json();
+    if (isDeleted) {
+      dataset.deleteSubset(id);
+    } else {
+      //! TODO: handle on error
+    }
+    toggleDeleteModal();
+    history.push(`/datasets/${datasetId}/subsets/0`);
+  };
 
   // create the download link and filename
   const downloadLink = `/api/v1/datasets/${datasetId}/subsets/${subsetId}/download`;
@@ -36,50 +55,58 @@ export default function SubsetHeader(props: IHeaderSubset) {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.controllers}>
-        <h1>{label}</h1>
-        <div className={styles.buttons}>
-          <Button
-            type="full"
-            size="medium"
-            color="blue"
-            icon="download"
-            intensity="dark"
-            onClick={getFileFromURL}
-          />
-          <Button
-            type="full"
-            size="medium"
-            color="green"
-            icon="edit"
-            intensity="dark"
-            onClick={() => {}}
-          />
-          {subsetId !== 0 ? (
+    <React.Fragment>
+      <div className={styles.container}>
+        <div className={styles.controllers}>
+          <h1>{label}</h1>
+          <div className={styles.buttons}>
             <Button
               type="full"
               size="medium"
-              color="red"
-              icon="delete"
+              color="blue"
+              icon="download"
+              intensity="dark"
+              onClick={getFileFromURL}
+            />
+            <Button
+              type="full"
+              size="medium"
+              color="green"
+              icon="edit"
               intensity="dark"
               onClick={() => {}}
             />
-          ) : null}
-          {/* <ButtonDownload onClick={getFileFromURL} dark={true} />
-          <EditButton dark={true} /> */}
-          {/* {subsetId !== 0 ? (
-            <ButtonDelete dark={true} onClick={() => {}} />
-          ) : null} */}
+            {subsetId !== 0 ? (
+              <Button
+                type="full"
+                size="medium"
+                color="red"
+                icon="delete"
+                intensity="dark"
+                onClick={toggleDeleteModal}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
-      <div className={styles.information}>
-        <div className={styles.metadata}>
-          <div>
-            <b>No. Documents:</b> {numberDocs}
+        <div className={styles.information}>
+          <div className={styles.metadata}>
+            <div>
+              <b>No. Documents:</b> {numberDocs}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Modal
+        type="delete"
+        isOpen={deleteOpen}
+        backClick={toggleDeleteModal}
+        execClick={deleteSubset}
+      >
+        Are you sure? This action cannot be reversed!
+        <br />
+        <br />
+        Do you really wish to delete <b>{label}</b>?
+      </Modal>
+    </React.Fragment>
   );
 }

@@ -1,0 +1,114 @@
+@import "assets/definitions.scss";
+
+$background-color: rgba($color-black, 0.7);
+$content-width: calc(100% - 30px);
+
+.overlay {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $background-color;
+}
+
+.modal {
+  position: relative;
+  overflow: inherit;
+  width: $content-width;
+  margin: auto;
+  background: #fff;
+  border-radius: $border-radius-8;
+  outline: none;
+  &.delete {
+    .header {
+      background-color: $color-red-400;
+      color: $color-red-50;
+      button {
+        color: $color-blue-50;
+        border-color: $color-blue-50;
+        &:hover {
+          color: $color-blue-50;
+          border-color: $color-blue-50;
+          background-color: $color-blue-600;
+        }
+      }
+    }
+  }
+  &.edit {
+    .header {
+      background-color: $color-yellow-600;
+      color: $color-yellow-50;
+      button {
+        color: $color-blue-50;
+        border-color: $color-blue-50;
+        &:hover {
+          color: $color-blue-50;
+          border-color: $color-blue-50;
+          background-color: $color-blue-600;
+        }
+      }
+    }
+  }
+  &.exec {
+    .header {
+      background-color: $color-green-600;
+      color: $color-green-50;
+      button {
+        color: $color-blue-50;
+        border-color: $color-blue-50;
+        &:hover {
+          color: $color-blue-50;
+          border-color: $color-blue-50;
+          background-color: $color-blue-600;
+        }
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  padding: $spacing-12 $spacing-12 $spacing-8;
+  border-top-left-radius: $border-radius-8;
+  border-top-right-radius: $border-radius-8;
+  border-bottom: 1px solid $color-gray-100;
+  @include text-small();
+  .title {
+    flex: 1;
+  }
+  .actions {
+    flex-shrink: 0;
+  }
+}
+
+.content {
+  padding: $spacing-24 $spacing-12;
+  @include text-body();
+  .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: $spacing-24;
+    & > * {
+      width: calc((#{$content-width}) / 2);
+    }
+  }
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  $content-width: 360px;
+  .modal {
+    width: $content-width;
+    .content {
+      .actions {
+        & > * {
+          width: calc((#{$content-width} - #{$spacing-12}) / 2 - #{$spacing-12});
+        }
+      }
+    }
+  }
+}

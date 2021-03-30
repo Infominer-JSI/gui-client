@@ -15,12 +15,12 @@ export default function MethodKMeans(props: IComponentMethod) {
   // create the grid layout key
   const gridLayoutKey = `D${datasetId}M${methodId}`;
 
-  const subsetIds = [method1.result.empty, ...method1.result.clusters].map(
-    (cls: any) => cls.subsetId
-  );
+  const subsetIds = [method1.result.empty ?? null, ...method1.result.clusters]
+    .filter((c) => c)
+    .map((cls: any) => cls.subsetId);
   const aggregateIds = dataset.getSubsets(subsetIds).map((s) => s?.usedBy[0]);
   const methods = dataset.getMethods(aggregateIds as number[]) as IMethod[];
-  const groups = groupAggregates(methods);
+  const groups = groupAggregates(methods.filter((m) => m));
 
   // groups the aggreates for comparison
   function groupAggregates(methods: IMethod[]) {
@@ -52,6 +52,7 @@ export default function MethodKMeans(props: IComponentMethod) {
   }
 
   //! TODO: add cluster view selections
+  // which clusters to view
 
   return (
     <React.Fragment>
