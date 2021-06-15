@@ -1,5 +1,3 @@
-// import interfaces
-import { ISubset, IHeaderSubset } from "Interfaces";
 // import modules
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -13,18 +11,41 @@ import Modal from "components/Modal";
 // import styles and images
 import styles from "./styles.module.scss";
 
+// import global state
+import { useStore, getDataset, getSubset } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+// import interfaces
+import { IDataset, ISubset } from "Interfaces";
+
+interface IHeaderSubset {
+  subsetId: number;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
 export default function SubsetHeader(props: IHeaderSubset) {
   const history = useHistory();
   // get dataset information and set their state
-  const { subsetId, dataset } = props;
-  // get dataset and subset metadata
-  const { id: datasetId } = dataset.getDataset();
-  const { label, nDocuments } = dataset.getSubset(subsetId) as ISubset;
-  // format the number of documents
-  const numberDocs = formatNumber(nDocuments as number);
+  const { subsetId } = props;
+  // get the gobal store
+  const { store, setStore } = useStore();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const toggleDeleteModal = () => setDeleteOpen((prevMode) => !prevMode);
+
+  // get dataset and subset metadata
+  const { id: datasetId } = getDataset(store) as IDataset;
+  const { label, nDocuments } = getSubset(store, subsetId) as ISubset;
+
+  // format the number of documents
+  const numberDocs = formatNumber(nDocuments as number);
+
   const deleteSubset = async () => {
     const response = await fetch(
       `/api/v1/datasets/${datasetId}/subsets/${subsetId}`,
@@ -34,7 +55,7 @@ export default function SubsetHeader(props: IHeaderSubset) {
     );
     const { id, isDeleted } = await response.json();
     if (isDeleted) {
-      dataset.deleteSubset(id);
+      setStore({ type: "REMOVE_SUBSET", payload: id });
     } else {
       //! TODO: handle on error
     }
@@ -42,12 +63,12 @@ export default function SubsetHeader(props: IHeaderSubset) {
     history.push(`/datasets/${datasetId}/subsets/0`);
   };
 
-  // create the download link and filename
-  const downloadLink = `/api/v1/datasets/${datasetId}/subsets/${subsetId}/download`;
-  const formatLabel = label.replace(/[, ]+/g, "-").toLowerCase();
-  const filename = `${formatLabel}-D${datasetId}S${subsetId}T${Date.now()}.csv`;
   // set the download function
   const getFileFromURL = async () => {
+    // create the download link and filename
+    const downloadLink = `/api/v1/datasets/${datasetId}/subsets/${subsetId}/download`;
+    const formatLabel = label.replace(/[, ]+/g, "-").toLowerCase();
+    const filename = `${formatLabel}-D${datasetId}S${subsetId}T${Date.now()}.csv`;
     // download from the link and create a blob
     const response = await fetch(downloadLink);
     const blob = await response.blob();

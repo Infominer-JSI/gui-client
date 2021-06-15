@@ -1,18 +1,38 @@
-// import interfaces
-import { IGraphData, IHierarchy, IMethod, IComponentMethod } from "Interfaces";
 // import modules
-import React from "react";
 import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import AggregateComponent from "./AggregateComponent";
 
+// import global state
+import { useStore, getDataset, getMethod } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+import {
+  IGraphData,
+  IHierarchy,
+  IDataset,
+  IMethod,
+  IComponentMethod,
+} from "Interfaces";
+
+//===============================================
+// Define the component
+//===============================================
+
 export default function MethodAggregates(props: IComponentMethod) {
-  const { methodId, dataset } = props;
+  const { methodId } = props;
+
+  // get the gobal store
+  const { store } = useStore();
+
   // get the method parameters and use them to visualize the results
-  const method1 = dataset.getMethod(methodId) as IMethod;
-  const datasetId = dataset.getDataset().id;
+  const method1 = getMethod(store, methodId) as IMethod;
+  const datasetId = getDataset(store) as IDataset;
 
   // normalize the other methods based on the first aggregate values
-  const method0 = dataset.getMethod(0) as IMethod;
+  const method0 = getMethod(store, 0) as IMethod;
   // add additional information to the aggregate values
   for (let i = 0; i < method1.result.aggregates.length; i++) {
     const type = method1.result.aggregates[i].type;

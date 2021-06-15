@@ -1,18 +1,31 @@
-// import interfaces
-import { IMethod, IComponentMethod } from "Interfaces";
 // import modules
-import React from "react";
 import { formatMethodType } from "utils/format";
 import Button from "components/Inputs/Button";
 
 // import styles and images
 import styles from "./styles.module.scss";
 
+// import global state
+import { useStore, getMethod } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+import { IMethod, IComponentMethod } from "Interfaces";
+
+//===============================================
+// Define the component
+//===============================================
+
 export default function MethodHeader(props: IComponentMethod) {
-  // get dataset information and set their state
-  const { methodId, dataset } = props;
+  const { methodId } = props;
+
+  // get the gobal store
+  const { store } = useStore();
+
   // get dataset and subset metadata
-  const { method } = dataset.getMethod(methodId) as IMethod;
+  const { method } = getMethod(store, methodId) as IMethod;
   // format the number of documents
   const label = formatMethodType(method);
   return (

@@ -3,13 +3,6 @@
 .container {
   display: block;
   position: relative;
-  padding: $spacing-16;
+  padding: $spacing-16 $spacing-24;
   background: $color-white;
-  border-radius: $border-radius-8;
-  @include shadow-default();
-  h1 {
-    margin-bottom: $spacing-4;
-    @include text-title-5();
-    font-weight: 700;
-  }
 }

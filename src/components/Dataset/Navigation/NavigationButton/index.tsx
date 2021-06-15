@@ -1,22 +1,35 @@
-// import interfaces
-import { IMethod, IButtonNavigation, ISubset } from "Interfaces";
 // import modules and components
-import SubsetNavigationButton from "./SubsetNavigationButton";
-import MethodNavigationButton from "./MethodNavigationButton";
+import NavigationButtonSubset from "./NavigationButtonSubset";
+import NavigationButtonMethod from "./NavigationButtonMethod";
 // import styles
 import styles from "./styles.module.scss";
 
-export default function NavigationButton(props: IButtonNavigation) {
+//===============================================
+// Define the helper components
+//===============================================
+
+import { IMethod, ISubset } from "Interfaces";
+
+export interface INavigationButton {
+  onClick?: any;
+  selected: ISubset | IMethod;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
+export default function NavigationButton(props: INavigationButton) {
   const { onClick, selected } = props;
 
   return props.selected.type === "subset" ? (
-    <SubsetNavigationButton
+    <NavigationButtonSubset
       className={styles.button}
       onClick={onClick}
       selected={selected as ISubset}
     />
   ) : (
-    <MethodNavigationButton
+    <NavigationButtonMethod
       className={styles.button}
       onClick={onClick}
       selected={selected as IMethod}

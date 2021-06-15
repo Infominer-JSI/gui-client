@@ -1,8 +1,7 @@
-// import interfaces
-import { IButtonNavigation } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import NavigationButton from "./index";
 
@@ -21,9 +20,10 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IButtonNavigation> = (args: IButtonNavigation) => (
-  <NavigationButton {...args} />
-);
+type NavigationButtonProps = React.ComponentProps<typeof NavigationButton>;
+const Template: Story<NavigationButtonProps> = (
+  args: NavigationButtonProps
+) => <NavigationButton {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

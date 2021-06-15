@@ -19,49 +19,54 @@ import Login from "pages/Login";
 // error routes
 import PageNotFound from "pages/PageNotFound";
 
+// get global state
+import { GlobalComponent } from "utils/GlobalState";
+
 // import styles
 import styles from "App.module.scss";
 
 export default function App() {
   return (
-    <Router>
-      <div className={styles.website}>
-        <Header />
-        <main className={styles.content}>
-          <Switch>
-            {/* Homepage Route */}
-            <Route exact path="/">
-              <Redirect to="/datasets" />
-            </Route>
+    <GlobalComponent>
+      <Router>
+        <div className={styles.website}>
+          <Header />
+          <main>
+            <Switch>
+              {/* Homepage Route */}
+              <Route exact path="/">
+                <Redirect to="/datasets" />
+              </Route>
 
-            {/* Datasets Routes */}
-            <Route exact path="/datasets" component={Datasets} />
-            <Route exact path="/datasets/upload" component={Upload} />
-            <Redirect
-              exact
-              from="/datasets/:datasetId"
-              to="/datasets/:datasetId/subsets/0"
-            />
-            <Redirect
-              exact
-              from="/datasets/:datasetId/subsets"
-              to="/datasets/:datasetId/subsets/0"
-            />
-            <Route
-              exact
-              path="/datasets/:datasetId/subsets/:subsetId"
-              component={Dataset}
-            />
+              {/* Datasets Routes */}
+              <Route exact path="/datasets" component={Datasets} />
+              <Route exact path="/datasets/upload" component={Upload} />
+              <Redirect
+                exact
+                from="/datasets/:datasetId"
+                to="/datasets/:datasetId/subsets/0"
+              />
+              <Redirect
+                exact
+                from="/datasets/:datasetId/subsets"
+                to="/datasets/:datasetId/subsets/0"
+              />
+              <Route
+                exact
+                path="/datasets/:datasetId/subsets/:subsetId"
+                component={Dataset}
+              />
 
-            {/* Login Routes */}
-            <Route exact path="/login" component={Login} />
+              {/* Login Routes */}
+              <Route exact path="/login" component={Login} />
 
-            {/* 404: Page not Found */}
-            <Route exact path="*" component={PageNotFound} />
-          </Switch>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+              {/* 404: Page not Found */}
+              <Route exact path="*" component={PageNotFound} />
+            </Switch>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </GlobalComponent>
   );
 }

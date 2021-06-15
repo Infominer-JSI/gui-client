@@ -1,16 +1,15 @@
 // import modules
-import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import SubsetHeader from "./index";
+import Header from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: SubsetHeader,
-  title: "Subset/Header",
+  component: Header,
+  title: "Components/Header",
 };
 
 export default storyComponent;
@@ -19,12 +18,6 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-type SubsetHeaderProps = React.ComponentProps<typeof SubsetHeader>;
-const Template: Story<SubsetHeaderProps> = (args: SubsetHeaderProps) => (
-  <SubsetHeader {...args} />
-);
+const Template: Story = () => <Header />;
 
 export const Default = Template.bind({});
-Default.args = {
-  subsetId: 0,
-};

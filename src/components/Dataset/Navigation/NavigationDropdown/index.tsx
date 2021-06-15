@@ -1,15 +1,4 @@
-// import interfaces
-import {
-  INavigationDropdown,
-  INavigationItemSubset,
-  INavigationItemMethod,
-  EMethodTypes,
-  IMethod,
-  ISubset,
-} from "Interfaces";
-
 // import modules
-import React from "react";
 import { Link } from "react-router-dom";
 import { formatMethodLabel, formatNumber } from "utils/format";
 import cn from "classnames";
@@ -17,41 +6,54 @@ import cn from "classnames";
 // import styles and images
 import styles from "./styles.module.scss";
 
-export default function NavigationDropdown(props: INavigationDropdown) {
-  // get dataset information and set their state
-  const { hidden, selectedId, dataset, onClick } = props;
-  // assign the button style
-  const dropdownStyle = cn(styles.container, {
-    [styles.hide]: hidden === true,
-  });
-  return (
-    <div className={dropdownStyle}>
-      <div className={styles.triangle}></div>
-      <div className={styles.content}>
-        <div className={styles.inner}>
-          <SubsetNavigationItem
-            dataset={dataset}
-            selectedId={selectedId}
-            subsetId={0}
-            onClick={onClick}
-          />
-        </div>
-      </div>
-    </div>
-  );
+// import global state
+import { useStore, getDataset, getSubset, getMethod } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+// import interfaces
+import { EMethodTypes, IDataset, IMethod, ISubset } from "Interfaces";
+
+interface IDropdown {
+  hidden: boolean;
+  selectedId: number;
+  onClick?: any;
 }
 
-function SubsetNavigationItem(props: INavigationItemSubset) {
-  const { selectedId, dataset, subsetId, onClick } = props;
+interface IDropdownItemSubset {
+  selectedId: number;
+  subsetId: number;
+  onClick?: any;
+}
+
+interface IDropdownItemMethod {
+  selectedId: number;
+  methodId: number;
+  onClick?: any;
+}
+
+//===============================================
+// Define the helper components
+//===============================================
+
+function SubsetNavigationItem(props: IDropdownItemSubset) {
+  const { selectedId, subsetId, onClick } = props;
+  const { store } = useStore();
+
   // get the subset metadata
-  const datasetId = dataset.getDataset().id;
-  const subset = dataset.getSubset(subsetId) as ISubset;
+  const datasetId = (getDataset(store) as IDataset).id;
+  const subset = getSubset(store, subsetId) as ISubset;
+
   // get the number of documents
   const nDocs = formatNumber(subset.nDocuments);
+
   // define the label style
   const styleLabel = cn(styles.label, {
     [styles.selected]: selectedId === subset.id,
   });
+
   return (
     <div className={styles.subset}>
       <Link
@@ -64,11 +66,10 @@ function SubsetNavigationItem(props: INavigationItemSubset) {
       </Link>
       <div className={styles.children}>
         {subset?.usedBy.map((methodId, id) => {
-          const method = dataset.getMethod(methodId);
+          const method = getMethod(store, methodId) as IMethod;
           return method?.method === EMethodTypes.AGGREGATE ? null : (
             <MethodNavigationItem
               key={id}
-              dataset={dataset}
               selectedId={selectedId}
               methodId={methodId}
               onClick={onClick}
@@ -80,11 +81,14 @@ function SubsetNavigationItem(props: INavigationItemSubset) {
   );
 }
 
-function MethodNavigationItem(props: INavigationItemMethod) {
-  const { selectedId, dataset, methodId, onClick } = props;
+function MethodNavigationItem(props: IDropdownItemMethod) {
+  const { selectedId, methodId, onClick } = props;
+  const { store } = useStore();
+
   // get the subset metadata
-  const method = dataset.getMethod(methodId) as IMethod;
+  const method = getMethod(store, methodId) as IMethod;
   const label = formatMethodLabel(method);
+
   return (
     <div className={styles.method}>
       <div className={styles.label}>{label}</div>
@@ -92,12 +96,38 @@ function MethodNavigationItem(props: INavigationItemMethod) {
         {method?.produced?.map((subsetId, id) => (
           <SubsetNavigationItem
             key={id}
-            dataset={dataset}
             selectedId={selectedId}
             subsetId={subsetId}
             onClick={onClick}
           />
         ))}
+      </div>
+    </div>
+  );
+}
+
+//===============================================
+// Define the component
+//===============================================
+
+export default function NavigationDropdown(props: IDropdown) {
+  // get dataset information and set their state
+  const { hidden, selectedId, onClick } = props;
+  // assign the button style
+  const dropdownStyle = cn(styles.container, {
+    [styles.hide]: hidden === true,
+  });
+  return (
+    <div className={dropdownStyle}>
+      <div className={styles.triangle}></div>
+      <div className={styles.content}>
+        <div className={styles.inner}>
+          <SubsetNavigationItem
+            selectedId={selectedId}
+            subsetId={0}
+            onClick={onClick}
+          />
+        </div>
       </div>
     </div>
   );

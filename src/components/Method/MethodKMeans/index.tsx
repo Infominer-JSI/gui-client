@@ -1,25 +1,51 @@
-// import interfaces
-import { IMethod, IComponentMethod } from "Interfaces";
 // import modules
 import React from "react";
 
+// import components
 import MethodHeader from "components/Method/Header";
 import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import KMeansStatistics from "./KMeansStatistics";
 
+// import global state
+import {
+  useStore,
+  getDataset,
+  getMethod,
+  getMethods,
+  getSubset,
+  getSubsets,
+} from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+// import interfaces
+import { IDataset, IMethod, ISubset, IComponentMethod } from "Interfaces";
+
+//===============================================
+// Define the component
+//===============================================
+
 export default function MethodKMeans(props: IComponentMethod) {
-  const { methodId, dataset } = props;
+  const { methodId } = props;
+
+  // get the gobal store
+  const { store } = useStore();
+
   // get the method parameters and use them to visualize the results
-  const method1 = dataset.getMethod(methodId) as IMethod;
-  const datasetId = dataset.getDataset().id;
+  const method1 = getMethod(store, methodId) as IMethod;
+  const { id: datasetId } = getDataset(store) as IDataset;
   // create the grid layout key
   const gridLayoutKey = `D${datasetId}M${methodId}`;
 
   const subsetIds = [method1.result.empty ?? null, ...method1.result.clusters]
     .filter((c) => c)
     .map((cls: any) => cls.subsetId);
-  const aggregateIds = dataset.getSubsets(subsetIds).map((s) => s?.usedBy[0]);
-  const methods = dataset.getMethods(aggregateIds as number[]) as IMethod[];
+  const aggregateIds = getSubsets(store, subsetIds).map(
+    (s) => s?.usedBy[0]
+  ) as number[];
+  const methods = getMethods(store, aggregateIds) as IMethod[];
   const groups = groupAggregates(methods.filter((m) => m));
 
   // groups the aggreates for comparison
@@ -41,7 +67,7 @@ export default function MethodKMeans(props: IComponentMethod) {
         minH: 3,
       };
       for (const method of methods) {
-        const subset = dataset.getSubset(method.appliedOn);
+        const subset = getSubset(store, method.appliedOn) as ISubset;
         const statistics = method.result.aggregates[i].statistics;
         group.clusters.push({ subset, datasetId, statistics });
       }
@@ -56,7 +82,7 @@ export default function MethodKMeans(props: IComponentMethod) {
 
   return (
     <React.Fragment>
-      <MethodHeader methodId={methodId} dataset={dataset} />
+      <MethodHeader methodId={methodId} />
       <ResponsiveGrid layoutKey={gridLayoutKey} hasToolbox={true}>
         {groups.map((group: any, id: number) => (
           <KMeansStatistics key={id} {...group} />

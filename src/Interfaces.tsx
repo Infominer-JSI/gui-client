@@ -1,5 +1,3 @@
-import Dataset from "utils/Dataset";
-
 interface IDatasetField {
   name: string;
   type: string;
@@ -85,11 +83,6 @@ export interface IButton {
   text?: string;
 }
 
-export interface IButtonNavigation {
-  onClick?: any;
-  selected: ISubset | IMethod;
-}
-
 export interface IDropdown {
   className?: any;
   selectedId: number;
@@ -105,58 +98,12 @@ export interface IDropdownList {
   onClick?: any;
 }
 
-export interface IButtonNavigationSubset {
-  className: any;
-  onClick?: any;
-  selected: ISubset;
-}
-
-export interface IButtonNavigationMethod {
-  className: any;
-  onClick?: any;
-  selected: IMethod;
-}
-
-export interface INavigationDropdown {
-  hidden: boolean;
-  dataset: Dataset;
-  selectedId: number;
-  onClick?: any;
-}
-
-export interface INavigationItemSubset {
-  selectedId: number;
-  dataset: Dataset;
-  subsetId: number;
-  onClick?: any;
-}
-
-export interface INavigationItemMethod {
-  selectedId: number;
-  dataset: Dataset;
-  methodId: number;
-  onClick?: any;
-}
-
-export interface INavigation {
-  selectedId: number;
-  dataset: Dataset;
-  onClick?: any;
-}
-
-export interface IHeaderSubset {
-  subsetId: number;
-  dataset: Dataset;
-}
-
 export interface IComponentSubset {
   subsetId: number;
-  dataset: Dataset;
 }
 
 export interface IComponentMethod {
   methodId: number;
-  dataset: Dataset;
 }
 
 export interface IModal {

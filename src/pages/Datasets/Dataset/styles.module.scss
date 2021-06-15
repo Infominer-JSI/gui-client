@@ -4,6 +4,10 @@
   display: block;
 }
 
+.content {
+  margin: $spacing-24;
+}
+
 .layout {
   display: flex;
   flex-direction: column;
@@ -13,7 +17,6 @@
   display: flex;
   flex-direction: column-reverse;
   & > div:first-child {
-    margin-top: $spacing-16;
     & > button {
       width: 100%;
       min-width: none;
@@ -46,7 +49,29 @@
   }
 }
 
+@media (min-width: $breakpoint-screen-md) {
+  .content {
+    min-width: $breakpoint-screen-md;
+  }
+}
+
+@media (min-width: $breakpoint-screen-lg) {
+  .content {
+    min-width: $breakpoint-screen-lg;
+  }
+}
+
+@media (min-width: $breakpoint-screen-xl) {
+  .content {
+    min-width: $breakpoint-screen-xl;
+  }
+}
+
 @media (min-width: $breakpoint-screen-2xl) {
+  .content {
+    min-width: $breakpoint-screen-2xl;
+    width: 95%;
+  }
   .layout {
     flex-direction: row;
   }
@@ -55,7 +80,6 @@
     flex-direction: column;
     & > div:first-child {
       order: 2;
-      margin-top: $spacing-16;
       & > button {
         width: 100%;
         min-width: none;
