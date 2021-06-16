@@ -1,10 +1,13 @@
 @import "assets/definitions.scss";
 
 .website {
+  display: flex;
   width: 100%;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background: $color-gray-100;
+}
+
+.main {
+  flex: 2;
 }

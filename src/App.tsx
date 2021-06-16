@@ -31,7 +31,7 @@ export default function App() {
       <Router>
         <div className={styles.website}>
           <Header />
-          <main>
+          <main className={styles.main}>
             <Switch>
               {/* Homepage Route */}
               <Route exact path="/">
