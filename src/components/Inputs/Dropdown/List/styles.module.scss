@@ -34,7 +34,7 @@ $rotate: 225deg;
   border: 1px solid $color-gray-200;
   border-radius: $border-radius-4;
   background: $color-white;
-  @include shadow-dark-0();
+  @include shadow-box(0.16);
   @include text-body();
 }
 

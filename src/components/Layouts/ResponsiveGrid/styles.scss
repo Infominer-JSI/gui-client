@@ -7,7 +7,7 @@
 .react-grid-item {
   background: $color-white;
   border-radius: $border-radius-8;
-  @include shadow-default();
+  @include shadow-box-default();
   & > .react-resizable-handle::after {
     @include borderStyle(border-right);
     @include borderStyle(border-bottom);

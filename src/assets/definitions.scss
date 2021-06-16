@@ -214,14 +214,10 @@ $font-body: Lato;
  * SHADOW VARIABLES
  */
 
-@mixin shadow-default() {
+@mixin shadow-box-default() {
   box-shadow: 6px 6px 12px rgba($color-gray-500, 0.16), -4px -4px 12px rgba($color-white, 0.4);
 }
 
-@mixin shadow-dark-0() {
-  box-shadow: 6px 6px 12px rgba($color-gray-500, 0.16), -4px -4px 12px rgba($color-gray-500, 0.16);
-}
-
-@mixin shadow-dark-1() {
-  box-shadow: 6px 6px 12px rgba($color-gray-500, 0.4), -4px -4px 12px rgba($color-gray-500, 0.4);
+@mixin shadow-box($intensity) {
+  box-shadow: 6px 6px 12px rgba($color-gray-500, $intensity), -4px -4px 12px rgba($color-gray-500, $intensity);
 }

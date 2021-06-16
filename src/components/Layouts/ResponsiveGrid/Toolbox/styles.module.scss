@@ -9,7 +9,7 @@
   padding: $spacing-16;
   border-radius: $border-radius-8;
   background: $color-white;
-  @include shadow-default();
+  @include shadow-box-default();
 }
 
 .label {

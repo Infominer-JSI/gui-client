@@ -4,7 +4,7 @@
   padding: $spacing-24;
   background: $color-white;
   border-radius: $border-radius-8;
-  @include shadow-default();
+  @include shadow-box-default();
 
   & > a:nth-child(even) {
     background: $color-gray-50;

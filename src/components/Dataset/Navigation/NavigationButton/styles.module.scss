@@ -14,7 +14,7 @@
   z-index: 110;
   &:hover,
   &:focus {
-    @include shadow-default();
+    @include shadow-box-default();
     outline: 0;
   }
 }
