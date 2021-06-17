@@ -36,10 +36,11 @@ const initialStore: IStoreContext = {
 
 // define the dataset reducer
 const stateReducer = (state: IStoreContext, action: IStoreAction) => {
+  console.log(action);
   switch (action.type) {
     //! TODO: INIT_DATASET
     case "INIT":
-      return { ...action.payload, ready: true };
+      return { ...action.payload };
     //! TODO: UPDATE_DATASET
 
     //! TODO: ADD_SUBSET
@@ -49,10 +50,9 @@ const stateReducer = (state: IStoreContext, action: IStoreAction) => {
     //! TODO: REMOVE_SUBSET
     case "REMOVE_SUBSET":
       const removeId = action.payload;
-      return {
-        ...state,
-        subsets: state.subsets.filter((s) => s.id !== removeId),
-      };
+      const newState = removeSubset(state, removeId);
+      console.log(newState);
+      return newState;
     //! TODO: ADD_METHOD
 
     //! TODO: UPDATE_METHOD
@@ -118,4 +118,65 @@ export function getMethods(store: IStoreContext, ids: number[]) {
 export function getMethod(store: IStoreContext, id: number) {
   const methods = getMethods(store, [id]);
   return methods.length ? methods[0] : null;
+}
+
+function removeSubset(store: IStoreContext, id: number) {
+  let currentState = { ...store };
+
+  // get the subset that will be removed
+  const subset = store.subsets.filter((s) => s.id === id)[0] as ISubset;
+
+  // remove all methods that used the subset
+  for (const usedId of subset.usedBy) {
+    currentState = removeMethod(currentState, usedId);
+  }
+
+  // remove the ID from the method the subset resulted in
+  const method = currentState.methods.filter(
+    (s) => s.id === subset.resultedIn
+  )[0] as IMethod;
+  method.produced = (method.produced as number[]).filter((i) => i !== id);
+
+  if (method.produced.length === 0) {
+    // the method does not have any produced
+    // subsets anymore remove it
+    currentState = removeMethod(currentState, method.id);
+  }
+
+  return {
+    ...currentState,
+    subsets: currentState.subsets.filter((s) => s.id !== id),
+    methods: [
+      ...currentState.methods.filter((s) => s.id !== subset.resultedIn),
+      ...(method.produced.length ? [method] : []),
+    ],
+  };
+}
+
+function removeMethod(store: IStoreContext, id: number) {
+  let currentState = { ...store };
+  // get the method that will be removed
+  const method = currentState.methods.filter((s) => s.id === id)[0] as IMethod;
+
+  // remove all subsets that were created by the method
+  if (method.produced) {
+    for (const producedId of method.produced) {
+      currentState = removeSubset(store, producedId);
+    }
+  }
+
+  // remove the ID from the subset the method was applied on
+  const subset = currentState.subsets.filter(
+    (s) => s.id === method.appliedOn
+  )[0] as ISubset;
+  subset.usedBy = subset.usedBy.filter((i) => i !== id);
+
+  return {
+    ...currentState,
+    methods: currentState.methods.filter((s) => s.id !== id),
+    subsets: [
+      ...currentState.subsets.filter((s) => s.id !== method.appliedOn),
+      subset,
+    ],
+  };
 }
