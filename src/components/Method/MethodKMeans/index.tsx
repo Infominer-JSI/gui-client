@@ -42,11 +42,16 @@ export default function MethodKMeans(props: IComponentMethod) {
     (s) => s?.usedBy[0]
   ) as number[];
   const methods = getMethods(store, aggregateIds) as IMethod[];
-  const groups = groupAggregates(methods.filter((m) => m));
+  const groups = groupAggregates(methods);
 
   // groups the aggreates for comparison
   function groupAggregates(methods: IMethod[]) {
     const groups: any[] = [];
+
+    if (methods.length === 0) {
+      return groups;
+    }
+
     for (let i = 0; i < methods[0].result.aggregates.length; i++) {
       const { field, type } = methods[0].result.aggregates[i];
       const group: {

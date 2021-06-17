@@ -79,9 +79,9 @@ export default function Datasets() {
           <Navigation store={store} selectedId={subsetId} />
           <div className={styles.content}>
             <div className={styles.layout}>
-              <div className={styles.sidebar}>
+              {/* <div className={styles.sidebar}>
                 <DatasetHeader {...(getDataset(store) as IDataset)} />
-              </div>
+              </div> */}
               <div className={styles.main}>
                 <Subset store={store} subsetId={subsetId} />
               </div>

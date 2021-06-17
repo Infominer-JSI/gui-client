@@ -1,8 +1,29 @@
 @import "assets/definitions.scss";
 
 .container {
-  display: block;
-  position: relative;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "navigation"
+    "metadata";
+  grid-gap: $spacing-24 0;
   padding: $spacing-16 $spacing-24;
   background: $color-white;
+}
+
+.navigation {
+  grid-area: navigation;
+}
+
+.metadata {
+  grid-area: metadata;
+}
+
+@media (min-width: $breakpoint-screen-md) {
+  .container {
+    grid-template-columns: 320px auto;
+    grid-template-areas: "navigation metadata";
+    grid-gap: $spacing-24;
+  }
 }

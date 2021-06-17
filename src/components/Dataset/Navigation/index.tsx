@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import NavigationButton from "./NavigationButton";
 import NavigationDropdown from "./NavigationDropdown";
+import NavigationMetadata from "./NavigationMetadata";
 
 // import styles
 import styles from "./styles.module.scss";
@@ -52,14 +53,19 @@ export default function Navigation(props: INavigation) {
   const selected = getSubset(store, selectedId) as ISubset;
 
   return (
-    <div className={styles.container} ref={containerRef}>
-      <NavigationButton selected={selected} onClick={toggleDropdown} />
-      <NavigationDropdown
-        store={store}
-        selectedId={selectedId}
-        onClick={toggleDropdown}
-        hidden={hidden}
-      />
+    <div className={styles.container}>
+      <div className={styles.navigation} ref={containerRef}>
+        <NavigationButton selected={selected} onClick={toggleDropdown} />
+        <NavigationDropdown
+          store={store}
+          selectedId={selectedId}
+          onClick={toggleDropdown}
+          hidden={hidden}
+        />
+      </div>
+      <div className={styles.metadata}>
+        <NavigationMetadata store={store} subsetId={selectedId} />
+      </div>
     </div>
   );
 }

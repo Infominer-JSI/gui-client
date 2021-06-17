@@ -1,5 +1,9 @@
 import { IStoreContext } from "utils/GlobalState";
 
+// ==============================================
+// Global Store Definitions
+// ==============================================
+
 interface IDatasetField {
   name: string;
   type: string;
@@ -51,11 +55,9 @@ export interface IStore {
   methods: IMethod[];
 }
 
-export enum EMethodTypes {
-  AGGREGATE = "aggregates.subset",
-  ACTIVE_LEARNING = "classifier.active_learning",
-  KMEANS_CLUSTERING = "clustering.kmeans",
-}
+// ==============================================
+// Global Component Definitions
+// ==============================================
 
 export interface IComponentSubset {
   store: IStoreContext;
@@ -68,7 +70,17 @@ export interface IComponentMethod {
 }
 
 // ==============================================
-// Global Graph Interfaces
+// Global Method Definitions
+// ==============================================
+
+export enum EMethodTypes {
+  AGGREGATE = "aggregates.subset",
+  ACTIVE_LEARNING = "classifier.active_learning",
+  KMEANS_CLUSTERING = "clustering.kmeans",
+}
+
+// ==============================================
+// Global Graph Definitions
 // ==============================================
 
 export interface IGraphData {

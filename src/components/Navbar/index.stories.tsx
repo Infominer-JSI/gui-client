@@ -2,15 +2,15 @@
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 // import the component
-import Header from "./index";
+import Navbar from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: Header,
-  title: "Components/Header",
+  component: Navbar,
+  title: "Components/Navbar",
 };
 
 export default storyComponent;
@@ -19,6 +19,6 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story = () => <Header />;
+const Template: Story = () => <Navbar />;
 
 export const Default = Template.bind({});

@@ -2,7 +2,6 @@
 import React from "react";
 
 // import components
-import SubsetHeader from "components/Subset/SubsetHeader";
 import Method from "components/Method";
 
 // import global state
@@ -26,7 +25,6 @@ export default function Subset(props: IComponentSubset) {
 
   return (
     <React.Fragment>
-      <SubsetHeader store={store} subsetId={subsetId} />
       {subset.usedBy.map((methodId, idx) => (
         <Method key={idx} store={store} methodId={methodId} />
       ))}

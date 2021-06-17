@@ -5,6 +5,7 @@ import { formatNumber } from "utils/format";
 import { download } from "utils/utils";
 
 // import components
+import NavigationBreadcrumbs from "../NavigationBreadcrumb";
 import Button from "components/Inputs/Button";
 import Modal from "components/Modal";
 
@@ -26,7 +27,7 @@ import {
 // import interfaces
 import { IDataset, ISubset } from "Interfaces";
 
-interface IHeaderSubset {
+interface INavigationMetadata {
   store: IStoreContext;
   subsetId: number;
 }
@@ -35,7 +36,7 @@ interface IHeaderSubset {
 // Define the component
 //===============================================
 
-export default function SubsetHeader(props: IHeaderSubset) {
+export default function Metadata(props: INavigationMetadata) {
   const history = useHistory();
   // get dataset information and set their state
   const { store, subsetId } = props;
@@ -53,22 +54,28 @@ export default function SubsetHeader(props: IHeaderSubset) {
   // format the number of documents
   const numberDocs = formatNumber(nDocuments as number);
 
-  const deleteSubset = async () => {
+  async function deleteSubset() {
     const response = await fetch(
       `/api/v1/datasets/${datasetId}/subsets/${subsetId}`,
       {
         method: "DELETE",
       }
     );
-    const { id, isDeleted } = await response.json();
+    const {
+      subsets: { id, isDeleted },
+    } = await response.json();
+
+    // toggle the delete modal and move
+    toggleDeleteModal();
+    history.push(`/datasets/${datasetId}/subsets/0`);
+
     if (isDeleted) {
+      // delete the subset from the global context
       setStore({ type: "REMOVE_SUBSET", payload: id });
     } else {
       //! TODO: handle on error
     }
-    toggleDeleteModal();
-    history.push(`/datasets/${datasetId}/subsets/0`);
-  };
+  }
 
   // set the download function
   const getFileFromURL = async () => {
@@ -84,44 +91,46 @@ export default function SubsetHeader(props: IHeaderSubset) {
 
   return (
     <React.Fragment>
-      <div className={styles.container}>
-        <div className={styles.controllers}>
-          <h1>{label}</h1>
-          <div className={styles.buttons}>
-            <Button
-              type="full"
-              size="medium"
-              color="blue"
-              icon="download"
-              intensity="dark"
-              onClick={getFileFromURL}
-            />
-            <Button
-              type="full"
-              size="medium"
-              color="green"
-              icon="edit"
-              intensity="dark"
-              onClick={() => {}}
-            />
-            {subsetId !== 0 ? (
-              <Button
-                type="full"
-                size="medium"
-                color="red"
-                icon="delete"
-                intensity="dark"
-                onClick={toggleDeleteModal}
-              />
-            ) : null}
-          </div>
-        </div>
+      <div className={styles.metadata}>
         <div className={styles.information}>
-          <div className={styles.metadata}>
-            <div>
-              <b>No. Documents:</b> {numberDocs}
-            </div>
-          </div>
+          <h1>{label}</h1>
+
+          <span className={styles["generated-from"]}>
+            Generated from:{" "}
+            {subsetId !== 0 ? (
+              <NavigationBreadcrumbs store={store} selectedId={subsetId} />
+            ) : (
+              "None"
+            )}
+          </span>
+        </div>
+        <div className={styles.controllers}>
+          <Button
+            type="full"
+            size="medium"
+            color="blue"
+            icon="download"
+            intensity="dark"
+            onClick={getFileFromURL}
+          />
+          <Button
+            type="full"
+            size="medium"
+            color="green"
+            icon="edit"
+            intensity="dark"
+            onClick={() => {}}
+          />
+          {subsetId !== 0 ? (
+            <Button
+              type="full"
+              size="medium"
+              color="red"
+              icon="delete"
+              intensity="dark"
+              onClick={toggleDeleteModal}
+            />
+          ) : null}
         </div>
       </div>
       <Modal

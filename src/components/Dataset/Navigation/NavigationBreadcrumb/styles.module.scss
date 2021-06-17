@@ -1,0 +1,26 @@
+@import "assets/definitions.scss";
+
+.breadcrumbs {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  @include text-body();
+  color: $color-gray-400;
+  font-weight: 600;
+  .crumb {
+    display: inline-block;
+    &:not(:first-of-type)::before {
+      content: ">";
+      padding: $spacing-12;
+      color: $color-gray-300;
+    }
+    &:last-of-type {
+      color: $color-purple-900;
+    }
+    .link {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
