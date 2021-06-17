@@ -6,7 +6,7 @@ import NavigationDropdown from "./NavigationDropdown";
 // import styles
 import styles from "./styles.module.scss";
 
-import { useStore, getSubset } from "utils/GlobalState";
+import { getSubset, IStoreContext } from "utils/GlobalState";
 
 //===============================================
 // Define the state interfaces
@@ -15,6 +15,7 @@ import { useStore, getSubset } from "utils/GlobalState";
 import { ISubset } from "Interfaces";
 
 interface INavigation {
+  store: IStoreContext;
   selectedId: number;
   onClick?: any;
 }
@@ -24,10 +25,8 @@ interface INavigation {
 //===============================================
 
 export default function Navigation(props: INavigation) {
-  // get the gobal store
-  const { store } = useStore();
   // get the metadata for creating the navigation dropdown
-  const { selectedId } = props;
+  const { store, selectedId } = props;
 
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,10 +41,7 @@ export default function Navigation(props: INavigation) {
     }
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [containerRef]);
 
   // toggle showing the dropdown element
@@ -59,9 +55,10 @@ export default function Navigation(props: INavigation) {
     <div className={styles.container} ref={containerRef}>
       <NavigationButton selected={selected} onClick={toggleDropdown} />
       <NavigationDropdown
-        hidden={hidden}
+        store={store}
         selectedId={selectedId}
         onClick={toggleDropdown}
+        hidden={hidden}
       />
     </div>
   );

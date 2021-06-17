@@ -1,10 +1,24 @@
-// import interfaces
-import { ICollapse } from "Interfaces";
 // import modules
 import { useState, useEffect, useRef } from "react";
 import Button from "components/Inputs/Button";
-// import styles and images
+
+// import styles
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+export interface ICollapse {
+  title?: string;
+  collapsed?: boolean;
+  maxHeight?: number;
+  children: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function Collapse(props: ICollapse) {
   // get the props

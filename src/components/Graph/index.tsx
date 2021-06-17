@@ -7,81 +7,86 @@ import GraphPiechart from "components/Graph/GraphPiechart";
 import GraphWordcloud from "components/Graph/GraphWordcloud";
 import GraphHistogram from "components/Graph/GraphHistogram";
 
-const Graph = React.forwardRef(
-  (
-    props: {
-      type: string | null;
-      data: any;
-      className?: any;
-    },
-    graphRef: any
-  ) => {
-    // get the prop values
-    const { type, data, className } = props;
+//===============================================
+// Define the component interfaces
+//===============================================
 
-    /**
-     * Selects and visualize the graph.
-     * @param type - The graph type.
-     * @param data - The graph data.
-     */
-    function selectGraph(type: string | null, data: any) {
-      switch (type) {
-        case "sunburst":
-          return (
-            <GraphSunburst
-              data={data.values}
-              keys={data.keys}
-              className={className}
-              ref={graphRef}
-            />
-          );
-        case "keywords":
-          return (
-            <GraphBarchart
-              data={data.values}
-              className={className}
-              ref={graphRef}
-              color="blue"
-            />
-          );
-        case "wordcloud":
-          return (
-            <GraphWordcloud
-              data={data.values}
-              className={className}
-              ref={graphRef}
-            />
-          );
-        case "barchart":
-          return (
-            <GraphBarchart
-              data={data.values}
-              className={className}
-              ref={graphRef}
-              color="green"
-            />
-          );
-        case "piechart":
-          return (
-            <GraphPiechart
-              data={data.values}
-              keys={data.keys}
-              className={className}
-              ref={graphRef}
-            />
-          );
-        case "histogram":
-          return (
-            <GraphHistogram data={data} className={className} ref={graphRef} />
-          );
-        default:
-          return null;
-      }
+interface GraphProps {
+  type: string | null;
+  data: any;
+  className?: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
+const Graph = React.forwardRef((props: GraphProps, graphRef: any) => {
+  // get the prop values
+  const { type, data, className } = props;
+
+  /**
+   * Selects and visualize the graph.
+   * @param type - The graph type.
+   * @param data - The graph data.
+   */
+  function selectGraph(type: string | null, data: any) {
+    switch (type) {
+      case "sunburst":
+        return (
+          <GraphSunburst
+            ref={graphRef}
+            className={className}
+            data={data.values}
+            keys={data.keys}
+          />
+        );
+      case "keywords":
+        return (
+          <GraphBarchart
+            ref={graphRef}
+            className={className}
+            data={data.values}
+            color="blue"
+          />
+        );
+      case "wordcloud":
+        return (
+          <GraphWordcloud
+            ref={graphRef}
+            className={className}
+            data={data.values}
+          />
+        );
+      case "barchart":
+        return (
+          <GraphBarchart
+            ref={graphRef}
+            className={className}
+            data={data.values}
+            color="green"
+          />
+        );
+      case "piechart":
+        return (
+          <GraphPiechart
+            ref={graphRef}
+            className={className}
+            data={data.values}
+            keys={data.keys}
+          />
+        );
+      case "histogram":
+        return (
+          <GraphHistogram ref={graphRef} className={className} data={data} />
+        );
+      default:
+        return null;
     }
-    // visualize the graph
-    return <React.Fragment>{selectGraph(type, data)}</React.Fragment>;
   }
-);
+  // visualize the graph
+  return selectGraph(type, data);
+});
 
 // export the forward graph
 export default Graph;

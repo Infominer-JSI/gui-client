@@ -1,8 +1,12 @@
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import Navigation from "./index";
+
+// import static values
+import { storyStore } from "utils/defaults";
 
 // ==============================================
 // Configure Story
@@ -24,12 +28,14 @@ const Template: Story<NavigationProps> = (args: NavigationProps) => (
   <Navigation {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const Navigation1 = Template.bind({});
+Navigation1.args = {
+  store: storyStore,
   selectedId: 0,
 };
 
-export const Subset = Template.bind({});
-Subset.args = {
+export const Navigation2 = Template.bind({});
+Navigation2.args = {
+  store: storyStore,
   selectedId: 4,
 };

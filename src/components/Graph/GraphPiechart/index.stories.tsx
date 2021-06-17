@@ -1,8 +1,7 @@
-// import interfaces
-import { IGraphPiechart } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import GraphPiechart from "./index";
 
@@ -21,7 +20,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IGraphPiechart> = (args: IGraphPiechart) => (
+type GraphPiechartProps = React.ComponentProps<typeof GraphPiechart>;
+const Template: Story<GraphPiechartProps> = (args: GraphPiechartProps) => (
   <div style={{ height: "700px" }}>
     <GraphPiechart {...args} />
   </div>

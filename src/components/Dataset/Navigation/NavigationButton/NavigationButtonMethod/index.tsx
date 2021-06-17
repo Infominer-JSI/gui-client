@@ -11,7 +11,7 @@ import { IMethod } from "Interfaces";
 
 interface INavigationButtonMethod {
   className: any;
-  onClick?: any;
+  onClick?: () => void;
   selected: IMethod;
 }
 

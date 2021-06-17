@@ -1,11 +1,25 @@
-// import interfaces
-import { IDropdown } from "Interfaces";
 // import modules and components
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button from "components/Inputs/Button";
-import DropdownList from "./List";
+import DropdownList from "./DropdownList";
+
 // import styles
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IDropdown {
+  className?: any;
+  selectedId: number;
+  options: string[];
+  onClick?: (id: number) => void;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function Dropdown(props: IDropdown) {
   // get the metadata for creating the navigation dropdown
@@ -13,9 +27,8 @@ export default function Dropdown(props: IDropdown) {
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // set the on outside click
   useEffect(() => {
-    /** Handle what to do if user clicks outside the navigation */
+    // Handle what to do if user clicks outside the navigation
     function handleClickOutside(event: any) {
       if (!containerRef.current?.contains(event.target)) {
         setHidden(true);
@@ -23,10 +36,8 @@ export default function Dropdown(props: IDropdown) {
     }
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    // Unbind the event listener on clean up
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [containerRef]);
 
   // toggle showing the dropdown element

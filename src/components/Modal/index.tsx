@@ -1,12 +1,25 @@
-// import interfaces
-import { IModal } from "Interfaces";
-
 import ReactModal from "react-modal";
 import Button from "components/Inputs/Button";
 import classnames from "classnames";
 
 // import styles and images
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IModal {
+  isOpen: boolean;
+  type: "delete" | "edit" | "exec";
+  backClick: () => void;
+  execClick: () => void;
+  children?: React.ReactNode;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function ModalBasic(props: IModal) {
   // set the app element to the modal

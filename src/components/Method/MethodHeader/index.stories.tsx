@@ -1,8 +1,12 @@
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import MethodHeader from "./index";
+
+// import static values
+import { storyStore } from "utils/defaults";
 
 // ==============================================
 // Configure Story
@@ -24,17 +28,20 @@ const Template: Story<MethodHeaderProps> = (args: MethodHeaderProps) => (
   <MethodHeader {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const Header1 = Template.bind({});
+Header1.args = {
+  store: storyStore,
   methodId: 0,
 };
 
-export const Clustering = Template.bind({});
-Clustering.args = {
+export const Header2 = Template.bind({});
+Header2.args = {
+  store: storyStore,
   methodId: 1,
 };
 
-export const ActiveLearning = Template.bind({});
-ActiveLearning.args = {
+export const Header3 = Template.bind({});
+Header3.args = {
+  store: storyStore,
   methodId: 5,
 };

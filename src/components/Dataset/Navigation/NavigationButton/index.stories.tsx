@@ -25,8 +25,8 @@ const Template: Story<NavigationButtonProps> = (
   args: NavigationButtonProps
 ) => <NavigationButton {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const Button1 = Template.bind({});
+Button1.args = {
   selected: {
     id: 0,
     type: "subset",
@@ -39,8 +39,8 @@ Default.args = {
   },
 };
 
-export const Subset = Template.bind({});
-Subset.args = {
+export const Button2 = Template.bind({});
+Button2.args = {
   selected: {
     id: 0,
     type: "subset",
@@ -53,8 +53,8 @@ Subset.args = {
   },
 };
 
-export const SubsetDocuments = Template.bind({});
-SubsetDocuments.args = {
+export const Button3 = Template.bind({});
+Button3.args = {
   selected: {
     id: 0,
     type: "subset",
@@ -67,8 +67,8 @@ SubsetDocuments.args = {
   },
 };
 
-export const Aggregates = Template.bind({});
-Aggregates.args = {
+export const Button4 = Template.bind({});
+Button4.args = {
   selected: {
     id: 0,
     type: "method",
@@ -82,8 +82,8 @@ Aggregates.args = {
   },
 };
 
-export const ActiveLearning = Template.bind({});
-ActiveLearning.args = {
+export const Button5 = Template.bind({});
+Button5.args = {
   selected: {
     id: 0,
     type: "method",
@@ -97,8 +97,8 @@ ActiveLearning.args = {
   },
 };
 
-export const KMeansClustering = Template.bind({});
-KMeansClustering.args = {
+export const Button6 = Template.bind({});
+Button6.args = {
   selected: {
     id: 0,
     type: "method",

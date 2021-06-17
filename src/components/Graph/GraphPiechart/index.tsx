@@ -1,11 +1,10 @@
-// import interfaces
-import { IGraphPiechart, IGraphData } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import classnames from "classnames";
 
 import { updateSVG, createColorScale } from "utils/visualization";
 
+import { useContainerSize } from "utils/hooks";
 import { trimString } from "utils/utils";
 
 // import d3 visualization
@@ -14,24 +13,29 @@ import * as d3 from "d3";
 // import styles
 import styles from "./styles.module.scss";
 
+//===============================================
+// Define the component interfaces
+//===============================================
+
+// import interfaces
+import { IGraphData } from "Interfaces";
+
+interface IGraphPiechart {
+  data: IGraphData[];
+  keys?: string[];
+  className?: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
 const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
   (props, graphRef) => {
     // set references
     const containerRef = useRef<HTMLDivElement>(null);
-
-    // set the states
-    const [width, setWidth] = useState<number | null | undefined>();
-    const [height, setHeight] = useState<number | null | undefined>();
-
-    useEffect(() => {
-      // update the width and height every 10ms
-      const interval = setInterval(() => {
-        setWidth(containerRef?.current?.offsetWidth);
-        setHeight(containerRef?.current?.offsetHeight);
-      }, 200);
-      // Remove event listener on cleanup
-      return () => clearInterval(interval);
-    }, []);
+    // define the container size hook
+    const { width, height } = useContainerSize(containerRef);
 
     // create the visualization
     useEffect(() => {

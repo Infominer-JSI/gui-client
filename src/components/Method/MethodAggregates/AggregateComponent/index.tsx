@@ -1,6 +1,3 @@
-// import interfaces
-import { IAggregateComponent } from "Interfaces";
-
 // import modules
 import React, { useState, useEffect, useRef } from "react";
 import { convertData, trimString, convertSVG, download } from "utils/utils";
@@ -15,6 +12,22 @@ import Button from "components/Inputs/Button";
 
 // import styles
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IAggregateComponent {
+  field: string;
+  type: string;
+  statistics: { [key: string]: any };
+  onDeleteItem: () => void;
+  className?: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function MethodAggregates(props: IAggregateComponent) {
   const { className, field, type, statistics, onDeleteItem } = props;

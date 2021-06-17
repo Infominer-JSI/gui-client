@@ -1,10 +1,10 @@
-// import interfaces
-import { IGraphHistogram, IHistogramData } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import classnames from "classnames";
 
 import { updateSVG, createLinearScale } from "utils/visualization";
+
+import { useContainerSize } from "utils/hooks";
 
 // import d3 visualization
 import * as d3 from "d3";
@@ -12,24 +12,44 @@ import * as d3 from "d3";
 // import styles
 import styles from "./styles.module.scss";
 
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IData {
+  min: number;
+  max: number;
+  frequency: number;
+  precent: number;
+  percentSum: number;
+}
+
+interface IHistogram {
+  count: number;
+  min: number;
+  max: number;
+  mean: number;
+  stdev: number;
+  median: number;
+  sum: number;
+  values: IData[];
+}
+interface IGraphHistogram {
+  data: IHistogram;
+  className?: any;
+  color?: string;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
 const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphHistogram>(
   (props, graphRef) => {
     // set references
     const containerRef = useRef<HTMLDivElement>(null);
-
-    // set the states
-    const [width, setWidth] = useState<number | null | undefined>();
-    const [height, setHeight] = useState<number | null | undefined>();
-
-    useEffect(() => {
-      // update the width and height every 10ms
-      const interval = setInterval(() => {
-        setWidth(containerRef?.current?.offsetWidth);
-        setHeight(containerRef?.current?.offsetHeight);
-      }, 200);
-      // Remove event listener on cleanup
-      return () => clearInterval(interval);
-    }, []);
+    // define the container size hook
+    const { width, height } = useContainerSize(containerRef);
 
     // create the visualization
     useEffect(() => {
@@ -55,7 +75,7 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphHistogram>(
       // get histogram values
       const { min, max, values: original } = props.data;
       // format the values
-      const values: IHistogramData[] = JSON.parse(JSON.stringify(original));
+      const values: IData[] = JSON.parse(JSON.stringify(original));
       values.forEach((d) => {
         d.precent = d.precent / 100;
         d.percentSum = d.percentSum / 100;
@@ -185,7 +205,7 @@ function setYAxis(
 
 function setBars(
   container: any,
-  data: IHistogramData[],
+  data: IData[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleLinear<number, number, never>,
   color: string,
@@ -199,28 +219,28 @@ function setBars(
   bars
     .enter()
     .append("rect")
-    .attr("x", (d: IHistogramData) => x(d.min) + 1)
+    .attr("x", (d: IData) => x(d.min) + 1)
     .attr("y", y(0))
-    .attr("width", (d: IHistogramData) => x(d.max) - x(d.min) - 1)
+    .attr("width", (d: IData) => x(d.max) - x(d.min) - 1)
     .transition()
     .duration(duration)
-    .attr("y", (d: IHistogramData) => y(d.precent))
-    .attr("height", (d: IHistogramData) => y(0) - y(d.precent));
+    .attr("y", (d: IData) => y(d.precent))
+    .attr("height", (d: IData) => y(0) - y(d.precent));
 
   bars
     .transition()
     .duration(duration)
-    .attr("x", (d: IHistogramData) => x(d.min) + 1)
-    .attr("y", (d: IHistogramData) => y(d.precent))
-    .attr("width", (d: IHistogramData) => x(d.max) - x(d.min) - 1)
-    .attr("height", (d: IHistogramData) => y(0) - y(d.precent));
+    .attr("x", (d: IData) => x(d.min) + 1)
+    .attr("y", (d: IData) => y(d.precent))
+    .attr("width", (d: IData) => x(d.max) - x(d.min) - 1)
+    .attr("height", (d: IData) => y(0) - y(d.precent));
 
   bars.exit().remove();
 }
 
 function setLabels(
   container: any,
-  data: IHistogramData[],
+  data: IData[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleLinear<number, number, never>,
   format: (
@@ -245,15 +265,12 @@ function setLabels(
     .style("font-size", "12px")
     .style("text-anchor", "middle")
     .style("fill", "black")
-    .attr(
-      "x",
-      (d: IHistogramData, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
-    )
+    .attr("x", (d: IData, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min))
     .attr("y", y(0))
     .attr("dy", 16)
     .call((text: any) =>
       text
-        .filter((d: IHistogramData) => y(0) - y(d.precent) < 50) // short bars
+        .filter((d: IData) => y(0) - y(d.precent) < 50) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("fill", "black")
@@ -261,8 +278,8 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr("y", (d: IHistogramData) => y(d.precent))
-    .text((d: IHistogramData) =>
+    .attr("y", (d: IData) => y(d.precent))
+    .text((d: IData) =>
       Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
     );
 
@@ -276,7 +293,7 @@ function setLabels(
     .attr("dy", 16)
     .call((text: any) =>
       text
-        .filter((d: IHistogramData) => y(0) - y(d.precent) < 50) // short bars
+        .filter((d: IData) => y(0) - y(d.precent) < 50) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("fill", "black")
@@ -284,12 +301,9 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr(
-      "x",
-      (d: IHistogramData, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min)
-    )
-    .attr("y", (d: IHistogramData) => y(d.precent))
-    .text((d: IHistogramData) =>
+    .attr("x", (d: IData, i: number) => (x(d.max) - x(d.min)) / 2 + x(d.min))
+    .attr("y", (d: IData) => y(d.precent))
+    .text((d: IData) =>
       Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
     );
 

@@ -1,8 +1,7 @@
-// import interfaces
-import { IGraphWordcloud } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import GraphWordcloud from "./index";
 
@@ -21,7 +20,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IGraphWordcloud> = (args: IGraphWordcloud) => (
+type GraphWordcloudProps = React.ComponentProps<typeof GraphWordcloud>;
+const Template: Story<GraphWordcloudProps> = (args: GraphWordcloudProps) => (
   <div style={{ height: "700px" }}>
     <GraphWordcloud {...args} />
   </div>

@@ -1,16 +1,16 @@
-// import interfaces
-import { IModal } from "Interfaces";
 // import modules
+import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
-import ModalBasic from "./index";
+import Modal from "./index";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: ModalBasic,
+  component: Modal,
   title: "Components/Modal",
 };
 
@@ -20,7 +20,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IModal> = (args: IModal) => <ModalBasic {...args} />;
+type ModalProps = React.ComponentProps<typeof Modal>;
+const Template: Story<ModalProps> = (args: ModalProps) => <Modal {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

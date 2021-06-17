@@ -3,29 +3,27 @@ import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import AggregateComponent from "./AggregateComponent";
 
 // import global state
-import { useStore, getDataset, getMethod } from "utils/GlobalState";
+import { getDataset, getMethod } from "utils/GlobalState";
 
 //===============================================
 // Define the state interfaces
 //===============================================
 
-import {
-  IGraphData,
-  IHierarchy,
-  IDataset,
-  IMethod,
-  IComponentMethod,
-} from "Interfaces";
+import { IGraphData, IDataset, IMethod, IComponentMethod } from "Interfaces";
+
+interface IHierarchy {
+  name: string;
+  frequency: number;
+  precent: number;
+  children?: IHierarchy[];
+}
 
 //===============================================
 // Define the component
 //===============================================
 
 export default function MethodAggregates(props: IComponentMethod) {
-  const { methodId } = props;
-
-  // get the gobal store
-  const { store } = useStore();
+  const { store, methodId } = props;
 
   // get the method parameters and use them to visualize the results
   const method1 = getMethod(store, methodId) as IMethod;

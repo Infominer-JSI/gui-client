@@ -1,18 +1,5 @@
 @import "assets/definitions.scss";
 
-@mixin defaultButton() {
-  border: 0;
-  border-radius: $border-radius-8;
-  padding: $spacing-12;
-  transition: 0.2s;
-  cursor: pointer;
-  @include text-body();
-  text-transform: none;
-  &:focus {
-    outline: 0;
-  }
-}
-
 @mixin color($text, $base, $light, $dark, $type, $intensity) {
   @if $type == "full" {
     color: $text;
@@ -89,7 +76,7 @@
 
 .default {
   border: 0;
-  border-radius: $border-radius-8;
+  border-radius: $border-radius-4;
   padding: $spacing-12;
   transition: 0.2s;
   cursor: pointer;
@@ -105,7 +92,6 @@
   height: 28px;
   font-size: 12px;
   padding: 0 $spacing-4;
-  border-radius: $border-radius-4;
   &.justIcon {
     width: 28px;
   }

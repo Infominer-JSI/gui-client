@@ -1,8 +1,7 @@
-// import interfaces
-import { IResponsiveGrid } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import ResponsiveGrid from "./index";
 import GraphSunburst from "components/Graph/GraphSunburst";
@@ -22,7 +21,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IResponsiveGrid> = (args: IResponsiveGrid) => (
+type ResponsiveGridProps = React.ComponentProps<typeof ResponsiveGrid>;
+const Template: Story<ResponsiveGridProps> = (args: ResponsiveGridProps) => (
   <ResponsiveGrid {...args} />
 );
 

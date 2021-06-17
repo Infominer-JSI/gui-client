@@ -5,6 +5,9 @@ import { Story } from "@storybook/react/types-6-0";
 // import the component
 import NavigationDropdown from "./index";
 
+// import static values
+import { storyStore } from "utils/defaults";
+
 // ==============================================
 // Configure Story
 // ==============================================
@@ -25,14 +28,16 @@ const Template: Story<DropdownProps> = (args: DropdownProps) => (
   <NavigationDropdown {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const Dropdown1 = Template.bind({});
+Dropdown1.args = {
+  store: storyStore,
   selectedId: 0,
   hidden: false,
 };
 
-export const Hidden = Template.bind({});
-Hidden.args = {
+export const Dropdown2 = Template.bind({});
+Dropdown2.args = {
+  store: storyStore,
   selectedId: 2,
   hidden: true,
 };

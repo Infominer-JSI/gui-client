@@ -3,7 +3,7 @@ import MethodAggregates from "components/Method/MethodAggregates";
 import MethodKMeans from "components/Method/MethodKMeans";
 
 // import global state
-import { useStore, getMethod } from "utils/GlobalState";
+import { getMethod } from "utils/GlobalState";
 
 //===============================================
 // Define the state interfaces
@@ -16,10 +16,7 @@ import { IMethod, IComponentMethod, EMethodTypes } from "Interfaces";
 //===============================================
 
 export default function Method(props: IComponentMethod) {
-  const { methodId } = props;
-
-  // get the gobal store
-  const { store } = useStore();
+  const { store, methodId } = props;
 
   // get the method parameters and use them to visualize the results
   const { method } = getMethod(store, methodId) as IMethod;
@@ -36,5 +33,5 @@ export default function Method(props: IComponentMethod) {
       break;
   }
 
-  return Component ? <Component methodId={methodId} /> : null;
+  return Component ? <Component store={store} methodId={methodId} /> : null;
 }

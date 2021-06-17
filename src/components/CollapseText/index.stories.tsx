@@ -1,8 +1,7 @@
-// import interfaces
-import { ICollapse } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import Collapse from "./index";
 
@@ -48,7 +47,10 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<ICollapse> = (args: ICollapse) => <Collapse {...args} />;
+type CollapseProps = React.ComponentProps<typeof Collapse>;
+const Template: Story<CollapseProps> = (args: CollapseProps) => (
+  <Collapse {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

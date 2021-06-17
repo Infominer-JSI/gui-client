@@ -1,8 +1,7 @@
-// import interfaces
-import { IDropdown } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import Dropdown from "./index";
 
@@ -21,7 +20,10 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IDropdown> = (args: IDropdown) => <Dropdown {...args} />;
+type DropdownProps = React.ComponentProps<typeof Dropdown>;
+const Template: Story<DropdownProps> = (args: DropdownProps) => (
+  <Dropdown {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

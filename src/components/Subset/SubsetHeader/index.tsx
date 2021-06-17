@@ -12,16 +12,22 @@ import Modal from "components/Modal";
 import styles from "./styles.module.scss";
 
 // import global state
-import { useStore, getDataset, getSubset } from "utils/GlobalState";
+import {
+  useStore,
+  getDataset,
+  getSubset,
+  IStoreContext,
+} from "utils/GlobalState";
 
 //===============================================
-// Define the state interfaces
+// Define the component interfaces
 //===============================================
 
 // import interfaces
 import { IDataset, ISubset } from "Interfaces";
 
 interface IHeaderSubset {
+  store: IStoreContext;
   subsetId: number;
 }
 
@@ -32,9 +38,10 @@ interface IHeaderSubset {
 export default function SubsetHeader(props: IHeaderSubset) {
   const history = useHistory();
   // get dataset information and set their state
-  const { subsetId } = props;
+  const { store, subsetId } = props;
+
   // get the gobal store
-  const { store, setStore } = useStore();
+  const { setStore } = useStore();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const toggleDeleteModal = () => setDeleteOpen((prevMode) => !prevMode);

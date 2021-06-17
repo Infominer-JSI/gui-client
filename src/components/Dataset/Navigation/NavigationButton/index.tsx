@@ -10,9 +10,9 @@ import styles from "./styles.module.scss";
 
 import { IMethod, ISubset } from "Interfaces";
 
-export interface INavigationButton {
-  onClick?: any;
+interface INavigationButton {
   selected: ISubset | IMethod;
+  onClick?: () => void;
 }
 
 //===============================================

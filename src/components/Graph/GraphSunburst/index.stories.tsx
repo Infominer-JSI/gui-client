@@ -1,8 +1,7 @@
-// import interfaces
-import { IGraphSunburst } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import GraphSunburst from "./index";
 
@@ -21,7 +20,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IGraphSunburst> = (args: IGraphSunburst) => (
+type GraphSunburstProps = React.ComponentProps<typeof GraphSunburst>;
+const Template: Story<GraphSunburstProps> = (args: GraphSunburstProps) => (
   <div style={{ height: "700px" }}>
     <GraphSunburst {...args} />
   </div>

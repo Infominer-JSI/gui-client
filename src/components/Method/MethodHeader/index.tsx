@@ -6,7 +6,7 @@ import Button from "components/Inputs/Button";
 import styles from "./styles.module.scss";
 
 // import global state
-import { useStore, getMethod } from "utils/GlobalState";
+import { getMethod } from "utils/GlobalState";
 
 //===============================================
 // Define the state interfaces
@@ -19,10 +19,7 @@ import { IMethod, IComponentMethod } from "Interfaces";
 //===============================================
 
 export default function MethodHeader(props: IComponentMethod) {
-  const { methodId } = props;
-
-  // get the gobal store
-  const { store } = useStore();
+  const { store, methodId } = props;
 
   // get dataset and subset metadata
   const { method } = getMethod(store, methodId) as IMethod;

@@ -1,11 +1,29 @@
-// import interfaces
-import { IButton } from "Interfaces";
 // import modules
 import cn from "classnames";
-// import styles and images
+
+// import styles and icons
 import styles from "./styles.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTimes, faDownload } from "@fortawesome/free-solid-svg-icons";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+interface IButton {
+  className?: any;
+  onClick?: () => void;
+  type: "full" | "outline";
+  icon?: "none" | "edit" | "delete" | "download";
+  size: "small" | "medium" | "large";
+  color: "blue" | "green" | "yellow" | "red" | "gray";
+  intensity: "light" | "dark";
+  text?: string;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function Button(props: IButton) {
   // get dataset information and set their state

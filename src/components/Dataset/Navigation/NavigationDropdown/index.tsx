@@ -7,7 +7,12 @@ import cn from "classnames";
 import styles from "./styles.module.scss";
 
 // import global state
-import { useStore, getDataset, getSubset, getMethod } from "utils/GlobalState";
+import {
+  getDataset,
+  getSubset,
+  getMethod,
+  IStoreContext,
+} from "utils/GlobalState";
 
 //===============================================
 // Define the state interfaces
@@ -16,31 +21,33 @@ import { useStore, getDataset, getSubset, getMethod } from "utils/GlobalState";
 // import interfaces
 import { EMethodTypes, IDataset, IMethod, ISubset } from "Interfaces";
 
-interface IDropdown {
-  hidden: boolean;
+interface INavigationDropdown {
+  store: IStoreContext;
   selectedId: number;
-  onClick?: any;
+  hidden: boolean;
+  onClick?: () => void;
 }
 
-interface IDropdownItemSubset {
+interface INavigationDropdownItemSubset {
+  store: IStoreContext;
   selectedId: number;
   subsetId: number;
-  onClick?: any;
+  onClick?: () => void;
 }
 
-interface IDropdownItemMethod {
+interface INavigationDropdownItemMethod {
+  store: IStoreContext;
   selectedId: number;
   methodId: number;
-  onClick?: any;
+  onClick?: () => void;
 }
 
 //===============================================
 // Define the helper components
 //===============================================
 
-function SubsetNavigationItem(props: IDropdownItemSubset) {
-  const { selectedId, subsetId, onClick } = props;
-  const { store } = useStore();
+function NavigationDropdownItemSubset(props: INavigationDropdownItemSubset) {
+  const { store, selectedId, subsetId, onClick } = props;
 
   // get the subset metadata
   const datasetId = (getDataset(store) as IDataset).id;
@@ -68,8 +75,9 @@ function SubsetNavigationItem(props: IDropdownItemSubset) {
         {subset?.usedBy.map((methodId, id) => {
           const method = getMethod(store, methodId) as IMethod;
           return method?.method === EMethodTypes.AGGREGATE ? null : (
-            <MethodNavigationItem
+            <NavigationDropdownItemMethod
               key={id}
+              store={store}
               selectedId={selectedId}
               methodId={methodId}
               onClick={onClick}
@@ -81,9 +89,8 @@ function SubsetNavigationItem(props: IDropdownItemSubset) {
   );
 }
 
-function MethodNavigationItem(props: IDropdownItemMethod) {
-  const { selectedId, methodId, onClick } = props;
-  const { store } = useStore();
+function NavigationDropdownItemMethod(props: INavigationDropdownItemMethod) {
+  const { store, selectedId, methodId, onClick } = props;
 
   // get the subset metadata
   const method = getMethod(store, methodId) as IMethod;
@@ -94,8 +101,9 @@ function MethodNavigationItem(props: IDropdownItemMethod) {
       <div className={styles.label}>{label}</div>
       <div className={styles.children}>
         {method?.produced?.map((subsetId, id) => (
-          <SubsetNavigationItem
+          <NavigationDropdownItemSubset
             key={id}
+            store={store}
             selectedId={selectedId}
             subsetId={subsetId}
             onClick={onClick}
@@ -110,9 +118,9 @@ function MethodNavigationItem(props: IDropdownItemMethod) {
 // Define the component
 //===============================================
 
-export default function NavigationDropdown(props: IDropdown) {
+export default function NavigationDropdown(props: INavigationDropdown) {
   // get dataset information and set their state
-  const { hidden, selectedId, onClick } = props;
+  const { store, selectedId, onClick, hidden } = props;
   // assign the button style
   const dropdownStyle = cn(styles.container, {
     [styles.hide]: hidden === true,
@@ -122,7 +130,8 @@ export default function NavigationDropdown(props: IDropdown) {
       <div className={styles.triangle}></div>
       <div className={styles.content}>
         <div className={styles.inner}>
-          <SubsetNavigationItem
+          <NavigationDropdownItemSubset
+            store={store}
             selectedId={selectedId}
             subsetId={0}
             onClick={onClick}

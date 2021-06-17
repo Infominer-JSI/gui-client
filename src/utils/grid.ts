@@ -30,7 +30,7 @@ for (const value of breakpointValues) {
  * @param children - The grid children.
  * @param bp - The breakpoint.
  */
-export function generateGrid(children: any[], bp: string) {
+export function generateGrid(children: React.ReactChild[], bp: string) {
   // get the number of columns
   const cols = responsiveCols[bp];
   return children.map(({ props }: any, i: number) => {

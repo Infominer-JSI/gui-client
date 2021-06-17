@@ -2,13 +2,12 @@
 import React from "react";
 
 // import components
-import MethodHeader from "components/Method/Header";
+import MethodHeader from "components/Method/MethodHeader";
 import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import KMeansStatistics from "./KMeansStatistics";
 
 // import global state
 import {
-  useStore,
   getDataset,
   getMethod,
   getMethods,
@@ -28,10 +27,7 @@ import { IDataset, IMethod, ISubset, IComponentMethod } from "Interfaces";
 //===============================================
 
 export default function MethodKMeans(props: IComponentMethod) {
-  const { methodId } = props;
-
-  // get the gobal store
-  const { store } = useStore();
+  const { store, methodId } = props;
 
   // get the method parameters and use them to visualize the results
   const method1 = getMethod(store, methodId) as IMethod;
@@ -82,7 +78,7 @@ export default function MethodKMeans(props: IComponentMethod) {
 
   return (
     <React.Fragment>
-      <MethodHeader methodId={methodId} />
+      <MethodHeader store={store} methodId={methodId} />
       <ResponsiveGrid layoutKey={gridLayoutKey} hasToolbox={true}>
         {groups.map((group: any, id: number) => (
           <KMeansStatistics key={id} {...group} />

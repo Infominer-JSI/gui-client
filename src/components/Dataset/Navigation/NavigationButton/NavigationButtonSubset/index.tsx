@@ -10,9 +10,9 @@ import styles from "./styles.module.scss";
 // import interfaces
 import { ISubset } from "Interfaces";
 
-export interface IButtonNavigationSubset {
+interface INavigationButtonSubset {
   className: any;
-  onClick?: any;
+  onClick?: () => void;
   selected: ISubset;
 }
 
@@ -20,7 +20,7 @@ export interface IButtonNavigationSubset {
 // Define the component
 //===============================================
 
-export default function NavigationButtonSubset(props: IButtonNavigationSubset) {
+export default function NavigationButtonSubset(props: INavigationButtonSubset) {
   // get dataset information and set their state
   const { className, onClick, selected } = props;
 

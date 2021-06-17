@@ -1,5 +1,3 @@
-// import interfaces
-import { IButton } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
@@ -21,7 +19,10 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IButton> = (args: IButton) => <Button {...args} />;
+type ButtonProps = React.ComponentProps<typeof Button>;
+const Template: Story<ButtonProps> = (args: ButtonProps) => (
+  <Button {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {

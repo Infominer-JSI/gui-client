@@ -1,8 +1,7 @@
-// import interfaces
-import { IDropdownList } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import DropdownList from "./index";
 
@@ -21,7 +20,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IDropdownList> = (args: IDropdownList) => (
+type DropdownListProps = React.ComponentProps<typeof DropdownList>;
+const Template: Story<DropdownListProps> = (args: DropdownListProps) => (
   <DropdownList {...args} />
 );
 

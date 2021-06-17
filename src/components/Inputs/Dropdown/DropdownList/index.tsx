@@ -1,14 +1,26 @@
-// import interfaces
-import { IDropdownList } from "Interfaces";
-
 // import modules
-import React from "react";
 import cn from "classnames";
 
 // import styles and images
 import styles from "./styles.module.scss";
 
-export default function List(props: IDropdownList) {
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IDropdownList {
+  hidden: boolean;
+  selectedId: number;
+  options: string[];
+  toggle?: () => void;
+  onClick?: (id: number) => void;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
+export default function DropdownList(props: IDropdownList) {
   // get dataset information and set their state
   const {
     hidden,

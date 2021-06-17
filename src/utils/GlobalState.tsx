@@ -7,7 +7,7 @@ import React, { useReducer, useContext, createContext } from "react";
 
 import { IDataset, ISubset, IMethod } from "Interfaces";
 
-interface IStoreContext {
+export interface IStoreContext {
   datasets: IDataset | null;
   subsets: ISubset[];
   methods: IMethod[];
@@ -39,7 +39,7 @@ const stateReducer = (state: IStoreContext, action: IStoreAction) => {
   switch (action.type) {
     //! TODO: INIT_DATASET
     case "INIT":
-      return { ...action.payload };
+      return { ...action.payload, ready: true };
     //! TODO: UPDATE_DATASET
 
     //! TODO: ADD_SUBSET

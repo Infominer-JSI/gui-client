@@ -1,5 +1,3 @@
-// import interfaces
-import { IResponsiveGrid } from "Interfaces";
 // import modules
 import React, { useState, useEffect } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -18,6 +16,21 @@ import {
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "./styles.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IResponsiveGrid {
+  layoutKey?: string;
+  hasToolbox?: boolean;
+  className?: any;
+  children: React.ReactChild[];
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 // create the responsive grid layout
 const ResponsiveGridLayout = WidthProvider(Responsive);
