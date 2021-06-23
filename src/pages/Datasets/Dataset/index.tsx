@@ -4,16 +4,15 @@ import { useParams } from "react-router-dom";
 
 // import components
 import Navigation from "components/Dataset/Navigation";
-import DatasetHeader from "components/Dataset/Header";
+import ActionSidebar from "components/ActionSidebar";
 import Subset from "components/Subset";
+import Footer from "components/Footer";
 
 // import styles
 import styles from "./styles.module.scss";
 
 // import global state
-import { useStore, getDataset } from "utils/GlobalState";
-
-import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { useStore } from "utils/GlobalState";
 
 //===============================================
 // Define the state interfaces
@@ -40,6 +39,10 @@ export default function Datasets() {
   const datasetId = parseInt(params.datasetId);
   const subsetId = parseInt(params.subsetId);
   const [loading, setLoading] = useState(true);
+
+  const [toggled, setToggled] = useState(false);
+
+  const handleToggleSidebar = (value: boolean) => setToggled(value);
 
   // get the data
   useEffect(() => {
@@ -78,27 +81,24 @@ export default function Datasets() {
         <span>Loading dataset...</span>
       ) : (
         <React.Fragment>
-          <ProSidebar>
-            <Menu iconShape="square">
-              <MenuItem>Dashboard</MenuItem>
-              <SubMenu title="Components">
-                <MenuItem>Component 1</MenuItem>
-                <MenuItem>Component 2</MenuItem>
-              </SubMenu>
-            </Menu>
-          </ProSidebar>
+          <ActionSidebar
+            toggled={toggled}
+            handleToggleSidebar={handleToggleSidebar}
+          />
           <div className={styles.body}>
-            <Navigation store={store} selectedId={subsetId} />
+            <Navigation
+              store={store}
+              selectedId={subsetId}
+              handleToggleSidebar={handleToggleSidebar}
+            />
             <div className={styles.content}>
               <div className={styles.layout}>
-                {/* <div className={styles.sidebar}>
-                <DatasetHeader {...(getDataset(store) as IDataset)} />
-              </div> */}
                 <div className={styles.main}>
                   <Subset store={store} subsetId={subsetId} />
                 </div>
               </div>
             </div>
+            <Footer />
           </div>
         </React.Fragment>
       )}

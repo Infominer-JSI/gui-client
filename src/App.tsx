@@ -64,7 +64,6 @@ export default function App() {
               <Route exact path="*" component={PageNotFound} />
             </Switch>
           </main>
-          <Footer />
         </div>
       </Router>
     </GlobalComponent>

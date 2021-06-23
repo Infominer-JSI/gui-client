@@ -6,6 +6,8 @@ import NavigationMetadata from "./NavigationMetadata";
 
 // import styles
 import styles from "./styles.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 import { getSubset, IStoreContext } from "utils/GlobalState";
 
@@ -19,6 +21,7 @@ interface INavigation {
   store: IStoreContext;
   selectedId: number;
   onClick?: any;
+  handleToggleSidebar: (value: boolean) => void;
 }
 
 //===============================================
@@ -27,7 +30,7 @@ interface INavigation {
 
 export default function Navigation(props: INavigation) {
   // get the metadata for creating the navigation dropdown
-  const { store, selectedId } = props;
+  const { store, selectedId, handleToggleSidebar } = props;
 
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,6 +57,11 @@ export default function Navigation(props: INavigation) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.toggle} onClick={() => handleToggleSidebar(true)}>
+        <div>
+          <FontAwesomeIcon icon={faBars} />
+        </div>
+      </div>
       <div className={styles.navigation} ref={containerRef}>
         <NavigationButton selected={selected} onClick={toggleDropdown} />
         <NavigationDropdown

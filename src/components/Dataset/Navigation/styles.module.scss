@@ -2,14 +2,31 @@
 
 .container {
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: 50px auto;
   grid-template-rows: auto;
   grid-template-areas:
-    "navigation"
-    "metadata";
-  grid-gap: $spacing-24 0;
+    "toggle navigation"
+    "metadata metadata";
+  grid-gap: $spacing-24;
   padding: $spacing-16 $spacing-24;
   background: $color-white;
+}
+
+.toggle {
+  grid-area: toggle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    background-color: $color-gray-100;
+  }
 }
 
 .navigation {
@@ -21,10 +38,13 @@
   grid-area: metadata;
 }
 
-@media (min-width: $breakpoint-screen-md) {
+@media (min-width: $breakpoint-screen-lg) {
   .container {
     grid-template-columns: 320px auto;
     grid-template-areas: "navigation metadata";
     grid-gap: $spacing-24;
+  }
+  .toggle {
+    display: none;
   }
 }
