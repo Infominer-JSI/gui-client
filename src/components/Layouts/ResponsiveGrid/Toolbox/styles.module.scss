@@ -7,7 +7,7 @@
   min-height: 33px;
   margin: $spacing-16 $spacing-16 0 $spacing-16;
   padding: $spacing-16;
-  border-radius: $border-radius-8;
+  border-radius: $border-radius-4;
   background: $color-white;
   @include shadow-box-default();
 }
@@ -33,23 +33,5 @@
       margin: auto;
       margin-right: $spacing-16;
     }
-  }
-}
-
-@media (min-width: $breakpoint-screen-md) {
-  .toolbox {
-    max-width: $breakpoint-screen-md;
-  }
-}
-
-@media (min-width: $breakpoint-screen-lg) {
-  .toolbox {
-    max-width: $breakpoint-screen-lg;
-  }
-}
-
-@media (min-width: $breakpoint-screen-xl) {
-  .toolbox {
-    max-width: 100%;
   }
 }

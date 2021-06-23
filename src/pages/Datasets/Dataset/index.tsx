@@ -13,6 +13,8 @@ import styles from "./styles.module.scss";
 // import global state
 import { useStore, getDataset } from "utils/GlobalState";
 
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+
 //===============================================
 // Define the state interfaces
 //===============================================
@@ -75,19 +77,30 @@ export default function Datasets() {
       {loading ? (
         <span>Loading dataset...</span>
       ) : (
-        <div>
-          <Navigation store={store} selectedId={subsetId} />
-          <div className={styles.content}>
-            <div className={styles.layout}>
-              {/* <div className={styles.sidebar}>
+        <React.Fragment>
+          <ProSidebar>
+            <Menu iconShape="square">
+              <MenuItem>Dashboard</MenuItem>
+              <SubMenu title="Components">
+                <MenuItem>Component 1</MenuItem>
+                <MenuItem>Component 2</MenuItem>
+              </SubMenu>
+            </Menu>
+          </ProSidebar>
+          <div className={styles.body}>
+            <Navigation store={store} selectedId={subsetId} />
+            <div className={styles.content}>
+              <div className={styles.layout}>
+                {/* <div className={styles.sidebar}>
                 <DatasetHeader {...(getDataset(store) as IDataset)} />
               </div> */}
-              <div className={styles.main}>
-                <Subset store={store} subsetId={subsetId} />
+                <div className={styles.main}>
+                  <Subset store={store} subsetId={subsetId} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </React.Fragment>
       )}
     </div>
   );

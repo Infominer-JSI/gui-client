@@ -16,3 +16,16 @@ body {
     background-color: $color-gray-400;
   }
 }
+
+$sidebar-bg-color: $color-blue-200 !default;
+$sidebar-color: $color-blue-700 !default;
+$sidebar-width: 200px !default;
+$sidebar-collapsed-width: 80px !default;
+$highlight-color: $color-blue-900 !default;
+$submenu-bg-color: $color-blue-300 !default;
+$submenu-bg-color-collapsed: $color-gray-100 !default;
+@import "~react-pro-sidebar/dist/scss/styles.scss";
+
+.pro-sidebar {
+  height: inherit;
+}

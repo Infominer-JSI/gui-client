@@ -1,7 +1,11 @@
 @import "assets/definitions.scss";
 
 .container {
-  display: block;
+  display: flex;
+}
+
+.body {
+  flex: 1;
 }
 
 .content {
@@ -49,28 +53,7 @@
   }
 }
 
-@media (min-width: $breakpoint-screen-md) {
-  .content {
-    min-width: $breakpoint-screen-md;
-  }
-}
-
-@media (min-width: $breakpoint-screen-lg) {
-  .content {
-    min-width: $breakpoint-screen-lg;
-  }
-}
-
-@media (min-width: $breakpoint-screen-xl) {
-  .content {
-    min-width: $breakpoint-screen-xl;
-  }
-}
-
 @media (min-width: $breakpoint-screen-2xl) {
-  .content {
-    min-width: $breakpoint-screen-2xl;
-  }
   .layout {
     flex-direction: row;
   }

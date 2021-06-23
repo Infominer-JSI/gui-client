@@ -19,7 +19,7 @@ $content-width: calc(100% - 30px);
   width: $content-width;
   margin: auto;
   background: #fff;
-  border-radius: $border-radius-8;
+  border-radius: $border-radius-4;
   outline: none;
   &.delete {
     .header {
@@ -73,8 +73,8 @@ $content-width: calc(100% - 30px);
   flex-direction: row;
   align-items: baseline;
   padding: $spacing-12 $spacing-12 $spacing-8;
-  border-top-left-radius: $border-radius-8;
-  border-top-right-radius: $border-radius-8;
+  border-top-left-radius: $border-radius-4;
+  border-top-right-radius: $border-radius-4;
   border-bottom: 1px solid $color-gray-100;
   @include text-small();
   .title {
