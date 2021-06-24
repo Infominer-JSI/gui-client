@@ -8,7 +8,6 @@ import {
 
 // the header and footer components
 import Header from "components/Navbar";
-import Footer from "components/Footer";
 
 // the datasets routes
 import Datasets from "pages/Datasets";

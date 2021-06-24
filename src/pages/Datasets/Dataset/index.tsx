@@ -86,19 +86,19 @@ export default function Datasets() {
             handleToggleSidebar={handleToggleSidebar}
           />
           <div className={styles.body}>
-            <Navigation
-              store={store}
-              selectedId={subsetId}
-              handleToggleSidebar={handleToggleSidebar}
-            />
             <div className={styles.content}>
+              <Navigation
+                store={store}
+                selectedId={subsetId}
+                handleToggleSidebar={handleToggleSidebar}
+              />
               <div className={styles.layout}>
                 <div className={styles.main}>
                   <Subset store={store} subsetId={subsetId} />
                 </div>
               </div>
+              <Footer />
             </div>
-            <Footer />
           </div>
         </React.Fragment>
       )}

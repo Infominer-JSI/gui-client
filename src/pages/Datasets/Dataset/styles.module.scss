@@ -2,12 +2,12 @@
 
 .container {
   display: flex;
-  height: 100%;
 }
 
 .body {
   flex: 1;
   max-height: calc(100vh - 67px);
+  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   &::-webkit-scrollbar {
@@ -17,17 +17,20 @@
     background: $color-gray-100;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: $color-gray-400;
+    background-color: $color-gray-500;
+    border: 1px solid $color-gray-100;
   }
 }
 
 .content {
-  margin: $spacing-8;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .layout {
-  display: flex;
-  flex-direction: column;
+  margin: $spacing-8;
+  flex-grow: 2;
 }
 
 .sidebar {
