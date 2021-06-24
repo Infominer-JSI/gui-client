@@ -49,10 +49,7 @@ export default function Metadata(props: INavigationMetadata) {
 
   // get dataset and subset metadata
   const { id: datasetId } = getDataset(store) as IDataset;
-  const { label, nDocuments } = getSubset(store, subsetId) as ISubset;
-
-  // format the number of documents
-  const numberDocs = formatNumber(nDocuments as number);
+  const { label } = getSubset(store, subsetId) as ISubset;
 
   async function deleteSubset() {
     const response = await fetch(
