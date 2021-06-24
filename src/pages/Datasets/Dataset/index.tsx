@@ -1,20 +1,33 @@
-// import interfaces
-import { IDataset, ISubset, IMethod } from "Interfaces";
 // import modules
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // import components
-import DatasetHeader from "components/DatasetHeader";
-import Navigation from "components/Navigation";
+import Navigation from "components/Dataset/Navigation";
+import ActionSidebar from "components/ActionSidebar";
 import Subset from "components/Subset";
+import Footer from "components/Footer";
 
-// import utils
-import Dataset from "utils/Dataset";
 // import styles
 import styles from "./styles.module.scss";
 
+// import global state
+import { useStore } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+import { IDataset, ISubset, IMethod } from "Interfaces";
+
+//===============================================
+// Define the component
+//===============================================
+
 export default function Datasets() {
+  // get the gobal store
+  const { store, setStore } = useStore();
+
   // get URL parameters
   const params = useParams<{ datasetId: string; subsetId: string }>();
 
@@ -25,10 +38,11 @@ export default function Datasets() {
   // set state variables
   const datasetId = parseInt(params.datasetId);
   const subsetId = parseInt(params.subsetId);
-
   const [loading, setLoading] = useState(true);
-  // dataset, subset and method information
-  const [dataset, setDataset] = useState<Dataset>();
+
+  const [toggled, setToggled] = useState(false);
+
+  const handleToggleSidebar = (value: boolean) => setToggled(value);
 
   // get the data
   useEffect(() => {
@@ -37,33 +51,56 @@ export default function Datasets() {
       setLoading(true);
       // get the datasetsa
       const response = await fetch(`/api/v1/datasets/${datasetId}`);
-      const data: {
+      const {
+        datasets,
+        subsets,
+        methods,
+      }: {
         datasets: IDataset;
         subsets: ISubset[];
         methods: IMethod[];
       } = await response.json();
-      // set the dataset metadata
-      setDataset(new Dataset(data.datasets, data.subsets, data.methods));
+      // set the store
+      setStore({
+        type: "INIT",
+        payload: {
+          datasets,
+          subsets,
+          methods,
+        },
+      });
       // end loading
       setLoading(false);
     }
     fetchData();
-  }, [datasetId]);
+  }, [datasetId, setStore]);
 
   return (
     <div className={styles.container}>
       {loading ? (
         <span>Loading dataset...</span>
       ) : (
-        <div className={styles.layout}>
-          <div className={styles.sidebar}>
-            <Navigation selectedId={subsetId} dataset={dataset as Dataset} />
-            <DatasetHeader {...(dataset?.getDataset() as IDataset)} />
+        <React.Fragment>
+          <ActionSidebar
+            toggled={toggled}
+            handleToggleSidebar={handleToggleSidebar}
+          />
+          <div className={styles.body}>
+            <div className={styles.content}>
+              <Navigation
+                store={store}
+                selectedId={subsetId}
+                handleToggleSidebar={handleToggleSidebar}
+              />
+              <div className={styles.layout}>
+                <div className={styles.main}>
+                  <Subset store={store} subsetId={subsetId} />
+                </div>
+              </div>
+              <Footer />
+            </div>
           </div>
-          <div className={styles.main}>
-            <Subset subsetId={subsetId} dataset={dataset as Dataset} />
-          </div>
-        </div>
+        </React.Fragment>
       )}
     </div>
   );

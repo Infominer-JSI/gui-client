@@ -1,0 +1,127 @@
+@import "assets/definitions.scss";
+
+.container {
+  position: absolute;
+  margin-top: 4px;
+  padding-top: 10px;
+  z-index: 100;
+}
+
+.hide {
+  display: none;
+}
+
+$rotate: 225deg;
+.triangle {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  transform: rotate($rotate);
+  -webkit-transform: rotate($rotate);
+  -moz-transform: rotate($rotate);
+  -o-transform: rotate($rotate);
+  -ms-transform: rotate($rotate);
+  border-right: 1px solid $color-white;
+  border-bottom: 1px solid $color-white;
+  background: $color-white;
+}
+
+.content {
+  padding: $spacing-16 0;
+  border: 1px solid $color-white;
+  border-radius: $border-radius-4;
+  background: $color-white;
+  @include shadow-box(0.16);
+  @include text-body();
+}
+
+.inner {
+  max-height: 300px;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $color-gray-100;
+    border-radius: $border-radius-4;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-blue-500;
+    border: 1px solid $color-gray-100;
+    border-radius: $border-radius-4;
+  }
+}
+
+.inner > .subset {
+  & > .label {
+    padding: $spacing-8 $spacing-16;
+  }
+  & > .children {
+    margin-left: $spacing-16;
+  }
+}
+
+.subset {
+  > .label {
+    display: block;
+    padding: $spacing-8;
+    padding-right: $spacing-16;
+    color: $color-purple-900;
+    background: $color-white;
+    text-decoration: none;
+    text-transform: none;
+    text-align: left;
+    @include text-body();
+    font-weight: 600;
+    border: 0;
+    transition: 0.2s;
+    cursor: pointer;
+    &.selected {
+      background: $color-gray-100;
+    }
+    &:focus {
+      outline: 0;
+    }
+    &:hover {
+      background: $color-gray-100;
+    }
+  }
+  .ndocuments {
+    display: block;
+    color: $color-gray-500;
+    @include text-tiny();
+  }
+}
+
+.method {
+  > .label {
+    padding: $spacing-2 $spacing-8;
+    padding-right: $spacing-16;
+    font-size: $font-size-12;
+    color: $color-green-800;
+    background: $color-green-100;
+  }
+  > .children {
+    margin-left: $spacing-8;
+    position: relative;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      bottom: 0px;
+      border-left: 1px solid $color-green-200;
+    }
+  }
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .container {
+    width: 320px;
+  }
+  .inner {
+    max-height: 600px;
+  }
+}

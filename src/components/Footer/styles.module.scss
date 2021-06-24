@@ -7,7 +7,21 @@
   background: $color-blue-800;
 }
 
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-items: baseline;
+  padding: $spacing-32 $spacing-24;
+}
+
 .copyright {
-  text-align: center;
-  padding: $spacing-24 0;
+  margin: auto 0;
+}
+
+.links {
+  font-size: $font-size-24;
+  .link {
+    color: inherit;
+  }
 }

@@ -16,3 +16,30 @@ body {
     background-color: $color-gray-400;
   }
 }
+
+$sidebar-bg-color: white !default;
+$sidebar-color: $color-blue-700 !default;
+$sidebar-width: 200px !default;
+$sidebar-collapsed-width: 80px !default;
+$highlight-color: $color-blue-900 !default;
+$submenu-bg-color: $color-gray-100 !default;
+$submenu-bg-color-collapsed: $color-gray-100 !default;
+$breakpoint-xs: $breakpoint-screen-sm !default;
+$breakpoint-sm: $breakpoint-screen-sm !default;
+$breakpoint-md: $breakpoint-screen-md !default;
+$breakpoint-lg: $breakpoint-screen-lg !default;
+$breakpoint-xl: $breakpoint-screen-xl !default;
+@import "~react-pro-sidebar/dist/scss/styles.scss";
+
+.pro-sidebar {
+  border-right: 1px solid $color-gray-200;
+  height: initial;
+  top: 0;
+  bottom: 0;
+}
+
+@media (max-width: $breakpoint-screen-lg) {
+  .pro-sidebar {
+    border-right: 0px;
+  }
+}

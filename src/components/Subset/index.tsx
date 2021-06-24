@@ -1,24 +1,32 @@
-// import interfaces
-import { ISubset, ISubsetComponent } from "Interfaces";
 // import modules
 import React from "react";
 
-import SubsetHeader from "components/Subset/Header";
+// import components
 import Method from "components/Method";
 
-// import utils
-import Dataset from "utils/Dataset";
+// import global state
+import { getSubset } from "utils/GlobalState";
 
-export default function Subset(props: ISubsetComponent) {
-  const { subsetId, dataset } = props;
+//===============================================
+// Define the component interfaces
+//===============================================
+
+import { ISubset, IComponentSubset } from "Interfaces";
+
+//===============================================
+// Define the component
+//===============================================
+
+export default function Subset(props: IComponentSubset) {
+  const { store, subsetId } = props;
+
   // get the subset metadata
-  const subset = dataset.getSubset(subsetId) as ISubset;
+  const subset = getSubset(store, subsetId) as ISubset;
 
   return (
     <React.Fragment>
-      <SubsetHeader subsetId={subsetId} dataset={dataset as Dataset} />
       {subset.usedBy.map((methodId, idx) => (
-        <Method key={idx} methodId={methodId} dataset={dataset} />
+        <Method key={idx} store={store} methodId={methodId} />
       ))}
     </React.Fragment>
   );

@@ -1,5 +1,3 @@
-// import interfaces
-import { IGraphHistogram } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
@@ -21,7 +19,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IGraphHistogram> = (args: IGraphHistogram) => (
+type GraphHistogramProps = React.ComponentProps<typeof GraphHistogram>;
+const Template: Story<GraphHistogramProps> = (args: GraphHistogramProps) => (
   <div style={{ height: "700px" }}>
     <GraphHistogram {...args} />
   </div>

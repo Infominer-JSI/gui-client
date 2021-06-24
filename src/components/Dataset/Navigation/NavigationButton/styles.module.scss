@@ -1,0 +1,20 @@
+@import "assets/definitions.scss";
+
+.button {
+  width: 100%;
+  padding: $spacing-8 $spacing-16;
+  border: 1px solid $color-gray-200;
+  border-radius: $border-radius-4;
+  background: $color-white;
+  @include text-body();
+  text-transform: none;
+  text-align: left;
+  transition: 0.2s;
+  cursor: pointer;
+  z-index: 110;
+  &:hover,
+  &:focus {
+    @include shadow-box-default();
+    outline: 0;
+  }
+}

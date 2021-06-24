@@ -1,10 +1,24 @@
-// import interfaces
-import { ICollapse } from "Interfaces";
 // import modules
 import { useState, useEffect, useRef } from "react";
-import Button from "components/Button";
-// import styles and images
+import Button from "components/Inputs/Button";
+
+// import styles
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+export interface ICollapse {
+  title?: string;
+  collapsed?: boolean;
+  maxHeight?: number;
+  children: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function Collapse(props: ICollapse) {
   // get the props
@@ -39,9 +53,15 @@ export default function Collapse(props: ICollapse) {
   }
 
   const showButton = showMore ? (
-    <Button className={styles.button} onClick={showHidden} type="default">
-      {collapse ? "Show More" : "Show Less"}
-    </Button>
+    <Button
+      className={styles.button}
+      type="full"
+      size="small"
+      color="gray"
+      intensity="light"
+      onClick={showHidden}
+      text={collapse ? "Show More" : "Show Less"}
+    />
   ) : null;
 
   return (

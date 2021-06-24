@@ -1,11 +1,10 @@
-// import interfaces
-import { IGraphPiechart, IBarchartRow } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import classnames from "classnames";
 
 import { updateSVG, createColorScale } from "utils/visualization";
 
+import { useContainerSize } from "utils/hooks";
 import { trimString } from "utils/utils";
 
 // import d3 visualization
@@ -14,24 +13,29 @@ import * as d3 from "d3";
 // import styles
 import styles from "./styles.module.scss";
 
+//===============================================
+// Define the component interfaces
+//===============================================
+
+// import interfaces
+import { IGraphData } from "Interfaces";
+
+interface IGraphPiechart {
+  data: IGraphData[];
+  keys?: string[];
+  className?: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
 const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
   (props, graphRef) => {
     // set references
     const containerRef = useRef<HTMLDivElement>(null);
-
-    // set the states
-    const [width, setWidth] = useState<number | null | undefined>();
-    const [height, setHeight] = useState<number | null | undefined>();
-
-    useEffect(() => {
-      // update the width and height every 10ms
-      const interval = setInterval(() => {
-        setWidth(containerRef?.current?.offsetWidth);
-        setHeight(containerRef?.current?.offsetHeight);
-      }, 200);
-      // Remove event listener on cleanup
-      return () => clearInterval(interval);
-    }, []);
+    // define the container size hook
+    const { width, height } = useContainerSize(containerRef);
 
     // create the visualization
     useEffect(() => {
@@ -62,7 +66,6 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphPiechart>(
       // update the svg values
       const svg = d3.select(containerRef.current).select<SVGSVGElement>("svg");
       const graph = updateSVG(svg, width, height, margin, true);
-
       // create the arcs
       const data = createSlices(props.data);
       // update the slices
@@ -101,16 +104,16 @@ export default GraphBarchart;
 
 function createArc(innerRadius: number, outerRadius: number) {
   return d3
-    .arc<IBarchartRow>()
+    .arc<IGraphData>()
     .innerRadius(innerRadius)
     .outerRadius(outerRadius)
     .cornerRadius(4);
 }
 
-function createSlices(data: IBarchartRow[], padAngle: number = 0.008) {
+function createSlices(data: IGraphData[], padAngle: number = 0.008) {
   // create the pie
   const pie = d3
-    .pie<IBarchartRow>()
+    .pie<IGraphData>()
     .sort(null)
     .value((d) => d.frequency)
     .padAngle(padAngle);
@@ -120,8 +123,8 @@ function createSlices(data: IBarchartRow[], padAngle: number = 0.008) {
 
 function setSlices(
   container: any,
-  data: d3.PieArcDatum<IBarchartRow>[],
-  arc: d3.Arc<any, IBarchartRow>,
+  data: d3.PieArcDatum<IGraphData>[],
+  arc: d3.Arc<any, IGraphData>,
   color: d3.ScaleOrdinal<string, string, never>
 ) {
   // prepare the layers
@@ -157,10 +160,10 @@ function setSlices(
 
 function setPolylines(
   container: any,
-  data: d3.PieArcDatum<IBarchartRow>[],
+  data: d3.PieArcDatum<IGraphData>[],
   radius: number,
-  arc: d3.Arc<any, IBarchartRow>,
-  outerArc: d3.Arc<any, IBarchartRow>
+  arc: d3.Arc<any, IGraphData>,
+  outerArc: d3.Arc<any, IGraphData>
 ) {
   var polyline = container
     .selectAll("polyline")
@@ -195,9 +198,9 @@ function setPolylines(
 
 function setLabels(
   container: any,
-  data: d3.PieArcDatum<IBarchartRow>[],
+  data: d3.PieArcDatum<IGraphData>[],
   radius: number,
-  outerArc: d3.Arc<any, IBarchartRow>
+  outerArc: d3.Arc<any, IGraphData>
 ) {
   var labels = container
     .selectAll("text")
@@ -242,6 +245,6 @@ function setLabels(
   labels.exit().remove();
 }
 
-function midAngle(d: d3.PieArcDatum<IBarchartRow>) {
+function midAngle(d: d3.PieArcDatum<IGraphData>) {
   return d.startAngle + (d.endAngle - d.startAngle) / 2;
 }

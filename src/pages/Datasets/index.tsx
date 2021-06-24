@@ -3,7 +3,7 @@ import { IDatasets } from "Interfaces";
 // import modules
 import React, { useState, useEffect } from "react";
 // import components
-import DatasetList from "components/DatasetList";
+import DatasetsTable from "components/Datasets/DatasetsTable";
 
 import styles from "./styles.module.scss";
 
@@ -23,7 +23,7 @@ export default function Datasets() {
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Datasets</h1>
-      <DatasetList {...datasets} />
+      <DatasetsTable {...datasets} />
     </div>
   );
 }

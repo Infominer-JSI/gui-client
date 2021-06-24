@@ -1,7 +1,5 @@
-// import interfaces
-import { IGraphBarchart, IBarchartRow } from "Interfaces";
 // import modules
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import classnames from "classnames";
 
 import {
@@ -9,6 +7,8 @@ import {
   createLinearScale,
   createBandScale,
 } from "utils/visualization";
+
+import { useContainerSize } from "utils/hooks";
 
 import { trimString } from "utils/utils";
 
@@ -18,24 +18,28 @@ import * as d3 from "d3";
 // import styles
 import styles from "./styles.module.scss";
 
+//===============================================
+// Define the component interfaces
+//===============================================
+
+import { IGraphData } from "Interfaces";
+
+interface IGraphBarchart {
+  data: IGraphData[];
+  className?: any;
+  color?: string;
+}
+
+//===============================================
+// Define the component
+//===============================================
+
 const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphBarchart>(
   (props, graphRef) => {
     // set references
     const containerRef = useRef<HTMLDivElement>(null);
-
-    // set the states
-    const [width, setWidth] = useState<number | null | undefined>();
-    const [height, setHeight] = useState<number | null | undefined>();
-
-    useEffect(() => {
-      // update the width and height every 10ms
-      const interval = setInterval(() => {
-        setWidth(containerRef?.current?.offsetWidth);
-        setHeight(containerRef?.current?.offsetHeight);
-      }, 200);
-      // Remove event listener on cleanup
-      return () => clearInterval(interval);
-    }, []);
+    // define the container size hook
+    const { width, height } = useContainerSize(containerRef);
 
     // create the visualization
     useEffect(() => {
@@ -61,11 +65,11 @@ const GraphBarchart = React.forwardRef<SVGSVGElement, IGraphBarchart>(
       const format = d3.format(".3s");
       const data = JSON.parse(JSON.stringify(props.data));
       data.forEach(
-        (d: IBarchartRow) => (d.value = trimString(d.value, trimLength))
+        (d: IGraphData) => (d.value = trimString(d.value, trimLength))
       );
 
       const maxLabelLength = Math.max(
-        ...data.map((d: IBarchartRow) => d.value.length)
+        ...data.map((d: IGraphData) => d.value.length)
       );
 
       // prepare static values
@@ -169,7 +173,7 @@ function setXAxis(
 
 function setYAxis(
   y: d3.ScaleBand<string>,
-  data: IBarchartRow[],
+  data: IGraphData[],
   margin: any,
   duration: number = 500
 ) {
@@ -197,7 +201,7 @@ function setYAxis(
 
 function setBars(
   container: any,
-  data: IBarchartRow[],
+  data: IGraphData[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleBand<string>,
   color: string,
@@ -217,21 +221,21 @@ function setBars(
     .attr("height", y.bandwidth())
     .transition()
     .duration(duration)
-    .attr("width", (d: IBarchartRow) => x(d.precent) - x(0));
+    .attr("width", (d: IGraphData) => x(d.precent) - x(0));
 
   bars
     .transition()
     .duration(duration)
     .attr("x", x(0))
     .attr("y", (_d: any, i: number) => y(i.toString()))
-    .attr("width", (d: IBarchartRow) => x(d.precent) - x(0));
+    .attr("width", (d: IGraphData) => x(d.precent) - x(0));
 
   bars.exit().remove();
 }
 
 function setLabels(
   container: any,
-  data: IBarchartRow[],
+  data: IGraphData[],
   x: d3.ScaleLinear<number, number, never>,
   y: d3.ScaleBand<string>,
   format: (
@@ -263,7 +267,7 @@ function setLabels(
     .attr("dx", -4)
     .call((text: any) =>
       text
-        .filter((d: IBarchartRow) => x(d.precent) - x(0) < 42) // short bars
+        .filter((d: IGraphData) => x(d.precent) - x(0) < 42) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("text-anchor", "start")
@@ -272,8 +276,8 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr("x", (d: IBarchartRow) => x(d.precent))
-    .text((d: IBarchartRow) =>
+    .attr("x", (d: IGraphData) => x(d.precent))
+    .text((d: IGraphData) =>
       Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
     );
 
@@ -287,7 +291,7 @@ function setLabels(
     .attr("dx", -4)
     .call((text: any) =>
       text
-        .filter((d: IBarchartRow) => x(d.precent) - x(0) < 42) // short bars
+        .filter((d: IGraphData) => x(d.precent) - x(0) < 42) // short bars
         .attr("class", styles.labelSmall)
         //* download "style" values
         .style("text-anchor", "start")
@@ -296,13 +300,13 @@ function setLabels(
     )
     .transition()
     .duration(duration)
-    .attr("x", (d: IBarchartRow) => x(d.precent))
+    .attr("x", (d: IGraphData) => x(d.precent))
     .attr(
       "y",
       (_d: any, i: number) => (y(i.toString()) as number) + y.bandwidth() / 2
     )
     .attr("dy", "0.35em")
-    .text((d: IBarchartRow) =>
+    .text((d: IGraphData) =>
       Math.floor(d.frequency / 1000) === 0 ? d.frequency : format(d.frequency)
     );
 

@@ -1,19 +1,41 @@
 @import "assets/definitions.scss";
 
 .container {
-  display: block;
+  display: flex;
+}
+
+.body {
+  flex: 1;
+  max-height: calc(100vh - 67px);
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $color-gray-100;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-gray-500;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .layout {
-  display: flex;
-  flex-direction: column;
+  margin: $spacing-8;
+  flex-grow: 2;
 }
 
 .sidebar {
   display: flex;
   flex-direction: column-reverse;
   & > div:first-child {
-    margin-top: $spacing-16;
     & > button {
       width: 100%;
       min-width: none;
@@ -55,7 +77,6 @@
     flex-direction: column;
     & > div:first-child {
       order: 2;
-      margin-top: $spacing-16;
       & > button {
         width: 100%;
         min-width: none;

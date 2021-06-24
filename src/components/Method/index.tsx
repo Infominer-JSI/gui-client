@@ -1,15 +1,25 @@
-// import interfaces
-import { IMethod, IMethodComponent, EMethodTypes } from "Interfaces";
-// import modules
-import React from "react";
-
+// import components
 import MethodAggregates from "components/Method/MethodAggregates";
 import MethodKMeans from "components/Method/MethodKMeans";
 
-export default function Method(props: IMethodComponent) {
-  const { methodId, dataset } = props;
+// import global state
+import { getMethod } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+import { IMethod, IComponentMethod, EMethodTypes } from "Interfaces";
+
+//===============================================
+// Define the component
+//===============================================
+
+export default function Method(props: IComponentMethod) {
+  const { store, methodId } = props;
+
   // get the method parameters and use them to visualize the results
-  const { method } = dataset.getMethod(methodId) as IMethod;
+  const { method } = getMethod(store, methodId) as IMethod;
 
   let Component: any = null;
   switch (method) {
@@ -23,5 +33,5 @@ export default function Method(props: IMethodComponent) {
       break;
   }
 
-  return Component ? <Component methodId={methodId} dataset={dataset} /> : null;
+  return Component ? <Component store={store} methodId={methodId} /> : null;
 }

@@ -1,8 +1,7 @@
-// import interfaces
-import { IGraphBarchart } from "Interfaces";
 // import modules
 import React from "react";
 import { Story } from "@storybook/react/types-6-0";
+
 // import the component
 import GraphBarchart from "./index";
 
@@ -21,7 +20,8 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-const Template: Story<IGraphBarchart> = (args: IGraphBarchart) => (
+type GraphBarchartProps = React.ComponentProps<typeof GraphBarchart>;
+const Template: Story<GraphBarchartProps> = (args: GraphBarchartProps) => (
   <div style={{ height: "700px" }}>
     <GraphBarchart {...args} />
   </div>

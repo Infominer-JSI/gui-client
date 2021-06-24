@@ -1,23 +1,36 @@
-// import interfaces
-import {
-  IBarchartRow,
-  IHierarchy,
-  IMethod,
-  IMethodComponent,
-} from "Interfaces";
 // import modules
-import React from "react";
-import ResponsiveGrid from "components/ResponsiveGrid";
+import ResponsiveGrid from "components/Layouts/ResponsiveGrid";
 import AggregateComponent from "./AggregateComponent";
 
-export default function MethodAggregates(props: IMethodComponent) {
-  const { methodId, dataset } = props;
+// import global state
+import { getDataset, getMethod } from "utils/GlobalState";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+import { IGraphData, IDataset, IMethod, IComponentMethod } from "Interfaces";
+
+interface IHierarchy {
+  name: string;
+  frequency: number;
+  precent: number;
+  children?: IHierarchy[];
+}
+
+//===============================================
+// Define the component
+//===============================================
+
+export default function MethodAggregates(props: IComponentMethod) {
+  const { store, methodId } = props;
+
   // get the method parameters and use them to visualize the results
-  const method1 = dataset.getMethod(methodId) as IMethod;
-  const datasetId = dataset.getDataset().id;
+  const method1 = getMethod(store, methodId) as IMethod;
+  const datasetId = getDataset(store) as IDataset;
 
   // normalize the other methods based on the first aggregate values
-  const method0 = dataset.getMethod(0) as IMethod;
+  const method0 = getMethod(store, 0) as IMethod;
   // add additional information to the aggregate values
   for (let i = 0; i < method1.result.aggregates.length; i++) {
     const type = method1.result.aggregates[i].type;
@@ -34,7 +47,7 @@ export default function MethodAggregates(props: IMethodComponent) {
         // add all of the possible values to the submethod
         statistics0 = method0.result.aggregates[i].statistics;
         keys = statistics0.values
-          .map((c: IBarchartRow) => c.value)
+          .map((c: IGraphData) => c.value)
           .concat("other");
         method1.result.aggregates[i].statistics.keys = keys;
         break;

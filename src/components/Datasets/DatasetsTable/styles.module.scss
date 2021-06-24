@@ -1,0 +1,15 @@
+@import "assets/definitions.scss";
+
+.list {
+  padding: $spacing-24;
+  background: $color-white;
+  border-radius: $border-radius-4;
+  @include shadow-box-default();
+
+  & > a:nth-child(even) {
+    background: $color-gray-50;
+    &:hover {
+      background: $color-gray-100;
+    }
+  }
+}

@@ -1,41 +1,13 @@
 @import "assets/definitions.scss";
 
 .website {
+  display: flex;
   width: 100%;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background: $color-gray-100;
 }
 
-.content {
-  flex-grow: 1;
-  margin: $spacing-24;
-}
-
-@media (min-width: $breakpoint-screen-md) {
-  .content {
-    margin: $spacing-24 auto;
-    min-width: $breakpoint-screen-md;
-  }
-}
-
-@media (min-width: $breakpoint-screen-lg) {
-  .content {
-    min-width: $breakpoint-screen-lg;
-  }
-}
-
-@media (min-width: $breakpoint-screen-xl) {
-  .content {
-    min-width: $breakpoint-screen-xl;
-  }
-}
-
-@media (min-width: $breakpoint-screen-2xl) {
-  .content {
-    min-width: $breakpoint-screen-2xl;
-    width: 95%;
-  }
+.main {
+  flex: 2;
 }

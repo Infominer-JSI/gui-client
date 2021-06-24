@@ -1,21 +1,33 @@
-// import interfaces
-import { IAggregateComponent } from "Interfaces";
-
 // import modules
 import React, { useState, useEffect, useRef } from "react";
 import { convertData, trimString, convertSVG, download } from "utils/utils";
 import { Canvg, RenderingContext2D } from "canvg";
-
+import { getGraphOptions } from "utils/analysis";
 import classnames from "classnames";
 
 // import components
 import Graph from "components/Graph";
-import DropdownButton from "components/DropdownButton";
-import DownloadButton from "components/DownloadButton";
-import DeleteButton from "components/DeleteButton";
+import Dropdown from "components/Inputs/Dropdown";
+import Button from "components/Inputs/Button";
 
 // import styles
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the component interfaces
+//===============================================
+
+interface IAggregateComponent {
+  field: string;
+  type: string;
+  statistics: { [key: string]: any };
+  onDeleteItem: () => void;
+  className?: any;
+}
+
+//===============================================
+// Define the component
+//===============================================
 
 export default function MethodAggregates(props: IAggregateComponent) {
   const { className, field, type, statistics, onDeleteItem } = props;
@@ -48,6 +60,8 @@ export default function MethodAggregates(props: IAggregateComponent) {
       ? field
       : width < 310
       ? trimString(field, 8)
+      : width < 330
+      ? trimString(field, 11)
       : field;
 
   function changeGraph(id: number) {
@@ -82,22 +96,28 @@ export default function MethodAggregates(props: IAggregateComponent) {
       <div className={headerClass} ref={headerRef}>
         <h2 className={styles.field}>{attributeName}</h2>
         <div className={styles.actions}>
-          <DropdownButton
+          <Dropdown
             className={styles.types}
             selectedId={graphId}
             options={graphOptions}
             onClick={changeGraph}
           />
-          <DownloadButton
-            className={styles.download}
+          <Button
+            type="outline"
+            size="small"
+            color="gray"
+            icon="download"
+            intensity="light"
             onClick={downloadGraph}
+          />
+          <Button
+            type="outline"
             size="small"
-          ></DownloadButton>
-          <DeleteButton
-            className={styles.delete}
+            color="gray"
+            icon="delete"
+            intensity="light"
             onClick={onDeleteItem.bind(undefined, field)}
-            size="small"
-          ></DeleteButton>
+          />
         </div>
       </div>
       <Graph
@@ -108,28 +128,4 @@ export default function MethodAggregates(props: IAggregateComponent) {
       />
     </React.Fragment>
   );
-}
-
-/**
- * Prepares the primary and optional visualizations.
- * @param type - The aggregate type.
- */
-function getGraphOptions(type: string) {
-  switch (type) {
-    case "keywords":
-      return { primaryId: 0, options: ["keywords", "wordcloud"] };
-    case "hierarchy":
-      return { primaryId: 0, options: ["sunburst"] };
-    case "count":
-      // TODO: set the graph options
-      return { primaryId: 0, options: ["barchart", "piechart"] };
-    case "histogram":
-      // TODO: set the graph options
-      return { primaryId: 0, options: ["histogram"] };
-    case "timeline":
-      // TODO: set the graph options
-      return { primaryId: 0, options: ["timeline"] };
-    default:
-      return { primaryId: 0, options: [] };
-  }
 }

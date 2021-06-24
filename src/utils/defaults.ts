@@ -1,6 +1,3 @@
-// import utilities
-import Dataset from "./Dataset";
-
 // ==============================================
 // Storybook Defaults
 // ==============================================
@@ -219,4 +216,8 @@ const methods = [
   },
 ];
 
-export const dataset = new Dataset(datasets, subsets, methods);
+export const storyStore = {
+  datasets,
+  subsets,
+  methods,
+};
