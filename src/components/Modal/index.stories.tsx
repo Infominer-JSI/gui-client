@@ -23,9 +23,25 @@ export default storyComponent;
 type ModalProps = React.ComponentProps<typeof Modal>;
 const Template: Story<ModalProps> = (args: ModalProps) => <Modal {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const Edit = Template.bind({});
+Edit.args = {
+  header: "Edit subset",
+  isOpen: true,
+  type: "edit",
+  children: "Do you really want to update the values?",
+};
+
+export const Delete = Template.bind({});
+Delete.args = {
   isOpen: true,
   type: "delete",
   children: "You will lose of your analysis.",
+};
+
+export const Exec = Template.bind({});
+Exec.args = {
+  header: "Run KMeans Clustering",
+  isOpen: true,
+  type: "exec",
+  children: "You will run the experiment.",
 };

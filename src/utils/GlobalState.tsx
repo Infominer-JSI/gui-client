@@ -37,6 +37,7 @@ const initialStore: IStoreContext = {
 // define the dataset reducer
 const stateReducer = (state: IStoreContext, action: IStoreAction) => {
   console.log(action);
+  let newState: IStoreContext;
   switch (action.type) {
     //! TODO: INIT_DATASET
     case "INIT":
@@ -46,11 +47,13 @@ const stateReducer = (state: IStoreContext, action: IStoreAction) => {
     //! TODO: ADD_SUBSET
 
     //! TODO: UPDATE_SUBSET
-
+    case "UPDATE_SUBSET":
+      newState = updateSubset(state, action.payload.id, action.payload);
+      console.log(newState);
+      return newState;
     //! TODO: REMOVE_SUBSET
     case "REMOVE_SUBSET":
-      const removeId = action.payload;
-      const newState = removeSubset(state, removeId);
+      newState = removeSubset(state, action.payload.id);
       console.log(newState);
       return newState;
     //! TODO: ADD_METHOD
@@ -178,5 +181,13 @@ function removeMethod(store: IStoreContext, id: number) {
       ...currentState.subsets.filter((s) => s.id !== method.appliedOn),
       subset,
     ],
+  };
+}
+
+function updateSubset(store: IStoreContext, id: number, subset: ISubset) {
+  // get the subset that will have the metadata updated
+  return {
+    ...store,
+    subsets: [...store.subsets.filter((s) => s.id !== id), subset],
   };
 }

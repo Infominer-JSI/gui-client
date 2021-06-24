@@ -1,7 +1,6 @@
 // import modules
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { formatNumber } from "utils/format";
 import { download } from "utils/utils";
 
 // import components
@@ -19,6 +18,8 @@ import {
   getSubset,
   IStoreContext,
 } from "utils/GlobalState";
+
+import { useInput } from "utils/hooks";
 
 //===============================================
 // Define the component interfaces
@@ -44,12 +45,44 @@ export default function Metadata(props: INavigationMetadata) {
   // get the gobal store
   const { setStore } = useStore();
 
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const toggleDeleteModal = () => setDeleteOpen((prevMode) => !prevMode);
-
   // get dataset and subset metadata
   const { id: datasetId } = getDataset(store) as IDataset;
   const { label } = getSubset(store, subsetId) as ISubset;
+
+  // modal states
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalHeader, setModalHeader] = useState("");
+  const [modalType, setModalType] = useState<"delete" | "exec" | "edit">(
+    "delete"
+  );
+  const [updatedLabel, setUpdatedLabel, labelInput] = useInput({
+    className: styles.input,
+    name: "flabel",
+    value: label,
+    type: "text",
+  });
+
+  //=============================================
+  // Define the modal helper functions
+  //=============================================
+
+  // modal helper functions
+  const activateDeleteModal = () => {
+    setModalType("delete");
+    setModalHeader("Delete Subset");
+    setModalIsOpen(true);
+  };
+
+  const activateEditModal = () => {
+    setModalType("edit");
+    setModalHeader("Edit Subset");
+    setModalIsOpen(true);
+    (setUpdatedLabel as React.Dispatch<React.SetStateAction<string>>)(label);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   async function deleteSubset() {
     const response = await fetch(
@@ -63,15 +96,48 @@ export default function Metadata(props: INavigationMetadata) {
     } = await response.json();
 
     // toggle the delete modal and move
-    toggleDeleteModal();
+    closeModal();
     history.push(`/datasets/${datasetId}/subsets/0`);
 
     if (isDeleted) {
       // delete the subset from the global context
-      setStore({ type: "REMOVE_SUBSET", payload: id });
+      setStore({ type: "REMOVE_SUBSET", payload: { id } });
     } else {
       //! TODO: handle on error
     }
+  }
+
+  async function updateSubset() {
+    const response = await fetch(
+      `/api/v1/datasets/${datasetId}/subsets/${subsetId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          subsets: {
+            label: updatedLabel,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const { subsets: subset } = await response.json();
+    closeModal();
+    // update the subset from the global context
+    setStore({ type: "UPDATE_SUBSET", payload: subset });
+  }
+
+  let modalContent: React.ReactNode;
+  let execFunction: () => void = () => {};
+  switch (modalType) {
+    case "delete":
+      modalContent = deleteModalContent(label);
+      execFunction = deleteSubset;
+      break;
+    case "edit":
+      modalContent = editModalContent(labelInput);
+      execFunction = updateSubset;
   }
 
   // set the download function
@@ -116,7 +182,7 @@ export default function Metadata(props: INavigationMetadata) {
             color="green"
             icon="edit"
             intensity="dark"
-            onClick={() => {}}
+            onClick={activateEditModal}
           />
           {subsetId !== 0 ? (
             <Button
@@ -125,22 +191,43 @@ export default function Metadata(props: INavigationMetadata) {
               color="red"
               icon="delete"
               intensity="dark"
-              onClick={toggleDeleteModal}
+              onClick={activateDeleteModal}
             />
           ) : null}
         </div>
       </div>
       <Modal
-        type="delete"
-        isOpen={deleteOpen}
-        backClick={toggleDeleteModal}
-        execClick={deleteSubset}
+        type={modalType}
+        isOpen={modalIsOpen}
+        header={modalHeader}
+        backClick={closeModal}
+        execClick={execFunction}
       >
-        Are you sure? This action cannot be reversed!
-        <br />
-        <br />
-        Do you really wish to delete <b>{label}</b>?
+        {modalContent}
       </Modal>
+    </React.Fragment>
+  );
+}
+
+function deleteModalContent(label: string) {
+  return (
+    <React.Fragment>
+      <p>Are you sure? This action cannot be reversed!</p>
+      <p>
+        Do you really wish to delete <b>{label}</b>?
+      </p>
+    </React.Fragment>
+  );
+}
+
+function editModalContent(InputElement: React.ReactNode) {
+  return (
+    <React.Fragment>
+      <h3 className={styles.heading}>Update subset content</h3>
+      <div className={styles.section}>
+        <label htmlFor="flabel">Subset Label</label>
+        {InputElement}
+      </div>
     </React.Fragment>
   );
 }

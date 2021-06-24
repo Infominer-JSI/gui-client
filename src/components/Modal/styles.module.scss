@@ -11,6 +11,7 @@ $content-width: calc(100% - 30px);
   right: 0;
   bottom: 0;
   background: $background-color;
+  z-index: 3000;
 }
 
 .modal {
@@ -100,7 +101,7 @@ $content-width: calc(100% - 30px);
 }
 
 @media (min-width: $breakpoint-screen-sm) {
-  $content-width: 360px;
+  $content-width: 400px;
   .modal {
     width: $content-width;
     .content {

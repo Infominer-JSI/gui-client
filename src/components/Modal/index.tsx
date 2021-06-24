@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 //===============================================
 
 interface IModal {
+  header?: string;
   isOpen: boolean;
   type: "delete" | "edit" | "exec";
   backClick: () => void;
@@ -26,22 +27,25 @@ export default function ModalBasic(props: IModal) {
   ReactModal.setAppElement(document.body);
 
   // extract the component props
-  const { type, isOpen, backClick, execClick, children } = props;
+  const { header, type, isOpen, backClick, execClick, children } = props;
 
   // get the header title
   let headerTitle: string;
-  switch (type) {
-    case "delete":
-      headerTitle = "Delete";
-      break;
-    case "edit":
-      headerTitle = "Edit";
-      break;
-    case "exec":
-      headerTitle = "Execute method";
-      break;
+  if (header) {
+    headerTitle = header;
+  } else {
+    switch (type) {
+      case "delete":
+        headerTitle = "Delete";
+        break;
+      case "edit":
+        headerTitle = "Edit";
+        break;
+      case "exec":
+        headerTitle = "Run method";
+        break;
+    }
   }
-
   // get the
   const modalStyle = classnames(styles.modal, {
     [styles.delete]: type === "delete",

@@ -65,3 +65,28 @@ export function useContainerSize(reference: React.RefObject<any>, ms = 200) {
 
   return containerSize;
 }
+
+//===============================================
+// Define the useInput hook
+//===============================================
+
+interface IInput {
+  className?: any;
+  value?: string;
+  name?: string;
+  type: string;
+}
+
+export function useInput(settings: IInput) {
+  const [value, setValue] = useState(settings.value || "");
+  const inputElement = (
+    <input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      className={settings.className}
+      type={settings.type}
+      name={settings.name}
+    />
+  );
+  return [value, setValue, inputElement];
+}
