@@ -1,4 +1,5 @@
 @import "assets/definitions.scss";
+@import "assets/defaults.scss";
 
 .metadata {
   display: flex;
@@ -25,8 +26,5 @@
 
 .input {
   width: 100%;
-  padding: $spacing-8 $spacing-12;
   margin: $spacing-8 0;
-  box-sizing: border-box;
-  @include text-body();
 }

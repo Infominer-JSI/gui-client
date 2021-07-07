@@ -3,10 +3,29 @@
 .container {
   display: flex;
   justify-content: center;
-  margin: 10vh 0;
+  margin: 8vh 15px;
+}
+
+.content {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: $spacing-12;
 }
 
 .dropzone {
   background: $color-gray-200;
   padding: 50px 120px;
+  text-align: center;
+}
+
+.status {
+  text-align: center;
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .content {
+    width: clamp($breakpoint-screen-sm, 60vw, $breakpoint-screen-lg);
+  }
 }

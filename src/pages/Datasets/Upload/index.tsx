@@ -1,6 +1,12 @@
 // import components
 import React, { useState } from "react";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
+import ProgressBar from "components/ProgressBar";
+import UploadForm from "./UploadForm";
+
+// import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
 
 // get default supported upload types
 import { SUPPORTED_UPLOAD_TYPES } from "utils/defaults";
@@ -10,6 +16,32 @@ import axios from "axios";
 
 // import styles
 import styles from "./styles.module.scss";
+
+//===============================================
+// Define the state interfaces
+//===============================================
+
+//
+type fieldType = "number" | "datetime" | "category" | "class" | "text";
+interface IFileDataset {
+  id: number;
+  filename: string;
+  delimiter: string;
+  fields: {
+    name: string;
+    type: fieldType;
+    included: boolean;
+  }[];
+}
+interface IFileMetadata {
+  types: fieldType[];
+  stopwords: {
+    languages: {
+      label: string;
+      value: string;
+    }[];
+  };
+}
 
 //===============================================
 // Define the helper functions
@@ -35,8 +67,8 @@ export default function Upload() {
   const [fileInfo, setFileInfo] = useState<any>();
   const [progress, setProgress] = useState(0);
   // set the dataset info
-  const [dataset, setDataset] = useState<any>();
-  const [metadata, setMetadata] = useState<any>();
+  const [dataset, setDataset] = useState<IFileDataset | null>();
+  const [metadata, setMetadata] = useState<IFileMetadata>();
 
   // uploads the file to infominer
   async function onDrop(files: File[]) {
@@ -80,14 +112,26 @@ export default function Upload() {
   console.log(metadata);
   return (
     <div className={styles.container}>
-      <div>
-        <h1>Upload</h1>
-        <div {...getRootProps({ className: styles.dropzone })}>
-          <input {...getInputProps()} />
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        </div>
-        <div>Upload progress: {progress}%</div>
-        {progress === 100 ? <div>processing file</div> : null}
+      <div className={styles.content}>
+        <h1 className={styles.header}>Upload</h1>
+        {dataset && metadata ? (
+          <UploadForm dataset={dataset} metadata={metadata} />
+        ) : (
+          <React.Fragment>
+            <div {...getRootProps({ className: styles.dropzone })}>
+              <input {...getInputProps()} />
+              <p>
+                Drag 'n' drop the dataset file here, or click to select file
+              </p>
+            </div>
+            <ProgressBar progress={progress} />
+            {progress === 100 && !dataset ? (
+              <div className={styles.loading}>
+                <FontAwesomeIcon icon={faSync} size="3x" spin />
+              </div>
+            ) : null}
+          </React.Fragment>
+        )}
       </div>
     </div>
   );
