@@ -1,0 +1,12 @@
+@import "assets/definitions.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 10vh 0;
+}
+
+.dropzone {
+  background: $color-gray-200;
+  padding: 50px 120px;
+}

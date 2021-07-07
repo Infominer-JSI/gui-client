@@ -2,6 +2,9 @@
 import { IDatasets } from "Interfaces";
 // import modules
 import React, { useState, useEffect } from "react";
+
+import axios from "axios";
+
 // import components
 import DatasetsTable from "components/Datasets/DatasetsTable";
 
@@ -12,9 +15,8 @@ export default function Datasets() {
 
   useEffect(() => {
     async function fetchData() {
-      // get the datasetsa
-      const response = await fetch("/api/v1/datasets");
-      const data: IDatasets = await response.json();
+      // get the datasets
+      const { data }: { data: IDatasets } = await axios("/api/v1/datasets");
       setDatasets(data);
     }
     fetchData();

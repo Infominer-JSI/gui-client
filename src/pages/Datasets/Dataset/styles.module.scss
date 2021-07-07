@@ -4,10 +4,22 @@
   display: flex;
 }
 
+.body,
+.loading {
+  height: 100vh;
+  max-height: calc(100vh - 67px);
+}
+
+.loading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-blue-800;
+}
+
 .body {
   flex: 1;
-  max-height: calc(100vh - 67px);
-  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   &::-webkit-scrollbar {

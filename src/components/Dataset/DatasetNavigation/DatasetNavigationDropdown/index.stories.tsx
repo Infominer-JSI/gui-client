@@ -3,7 +3,7 @@ import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 
 // import the component
-import MethodHeader from "./index";
+import DatasetNavigationDropdown from "./index";
 
 // import static values
 import { storyStore } from "utils/storybookDefaults";
@@ -13,8 +13,8 @@ import { storyStore } from "utils/storybookDefaults";
 // ==============================================
 
 const storyComponent = {
-  component: MethodHeader,
-  title: "Method/Header",
+  component: DatasetNavigationDropdown,
+  title: "Dataset/Dataset Navigation/Dropdown",
 };
 
 export default storyComponent;
@@ -23,25 +23,21 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-type MethodHeaderProps = React.ComponentProps<typeof MethodHeader>;
-const Template: Story<MethodHeaderProps> = (args: MethodHeaderProps) => (
-  <MethodHeader {...args} />
+type DropdownProps = React.ComponentProps<typeof DatasetNavigationDropdown>;
+const Template: Story<DropdownProps> = (args: DropdownProps) => (
+  <DatasetNavigationDropdown {...args} />
 );
 
-export const Header1 = Template.bind({});
-Header1.args = {
+export const Dropdown1 = Template.bind({});
+Dropdown1.args = {
   store: storyStore,
-  methodId: 0,
+  selectedId: 0,
+  hidden: false,
 };
 
-export const Header2 = Template.bind({});
-Header2.args = {
+export const Dropdown2 = Template.bind({});
+Dropdown2.args = {
   store: storyStore,
-  methodId: 1,
-};
-
-export const Header3 = Template.bind({});
-Header3.args = {
-  store: storyStore,
-  methodId: 5,
+  selectedId: 2,
+  hidden: true,
 };

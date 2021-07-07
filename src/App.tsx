@@ -40,6 +40,7 @@ export default function App() {
               {/* Datasets Routes */}
               <Route exact path="/datasets" component={Datasets} />
               <Route exact path="/datasets/upload" component={Upload} />
+
               <Redirect
                 exact
                 from="/datasets/:datasetId"

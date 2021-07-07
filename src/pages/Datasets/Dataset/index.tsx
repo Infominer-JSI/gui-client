@@ -3,13 +3,17 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // import components
-import Navigation from "components/Dataset/Navigation";
+import DatasetNavigation from "components/Dataset/DatasetNavigation";
 import ActionSidebar from "components/ActionSidebar";
 import Subset from "components/Subset";
 import Footer from "components/Footer";
 
+import axios from "axios";
+
 // import styles
 import styles from "./styles.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
 
 // import global state
 import { useStore } from "utils/GlobalState";
@@ -49,17 +53,16 @@ export default function Datasets() {
     async function fetchData() {
       // start loading
       setLoading(true);
-      // get the datasetsa
-      const response = await fetch(`/api/v1/datasets/${datasetId}`);
+      // get the datasets
       const {
-        datasets,
-        subsets,
-        methods,
+        data: { datasets, subsets, methods },
       }: {
-        datasets: IDataset;
-        subsets: ISubset[];
-        methods: IMethod[];
-      } = await response.json();
+        data: {
+          datasets: IDataset;
+          subsets: ISubset[];
+          methods: IMethod[];
+        };
+      } = await axios(`/api/v1/datasets/${datasetId}`);
       // set the store
       setStore({
         type: "INIT",
@@ -78,7 +81,9 @@ export default function Datasets() {
   return (
     <div className={styles.container}>
       {loading ? (
-        <span>Loading dataset...</span>
+        <div className={styles.loading}>
+          <FontAwesomeIcon icon={faSync} size="3x" spin />
+        </div>
       ) : (
         <React.Fragment>
           <ActionSidebar
@@ -87,7 +92,7 @@ export default function Datasets() {
           />
           <div className={styles.body}>
             <div className={styles.content}>
-              <Navigation
+              <DatasetNavigation
                 store={store}
                 selectedId={subsetId}
                 handleToggleSidebar={handleToggleSidebar}

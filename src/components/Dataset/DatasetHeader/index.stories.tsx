@@ -12,7 +12,7 @@ import DatasetHeader from "./index";
 
 const storyComponent = {
   component: DatasetHeader,
-  title: "Dataset/Header",
+  title: "Dataset/Dataset Header",
 };
 
 export default storyComponent;

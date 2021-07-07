@@ -11,7 +11,7 @@ import NavigationButton from "./index";
 
 const storyComponent = {
   component: NavigationButton,
-  title: "Dataset/Navigation/Button",
+  title: "Dataset/Dataset Navigation/Button",
 };
 
 export default storyComponent;

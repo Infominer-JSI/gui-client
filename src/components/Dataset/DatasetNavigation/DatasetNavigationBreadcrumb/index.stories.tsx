@@ -3,18 +3,18 @@ import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 
 // import the component
-import NavigationDropdown from "./index";
+import Breadcrumbs from "./index";
 
 // import static values
-import { storyStore } from "utils/defaults";
+import { storyStore } from "utils/storybookDefaults";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: NavigationDropdown,
-  title: "Dataset/Navigation/Dropdown",
+  component: Breadcrumbs,
+  title: "Dataset/Dataset Navigation/Breadcrumbs",
 };
 
 export default storyComponent;
@@ -23,21 +23,19 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-type DropdownProps = React.ComponentProps<typeof NavigationDropdown>;
-const Template: Story<DropdownProps> = (args: DropdownProps) => (
-  <NavigationDropdown {...args} />
+type BreadcrumbsProps = React.ComponentProps<typeof Breadcrumbs>;
+const Template: Story<BreadcrumbsProps> = (args: BreadcrumbsProps) => (
+  <Breadcrumbs {...args} />
 );
 
-export const Dropdown1 = Template.bind({});
-Dropdown1.args = {
+export const Breadcrumbs1 = Template.bind({});
+Breadcrumbs1.args = {
   store: storyStore,
   selectedId: 0,
-  hidden: false,
 };
 
-export const Dropdown2 = Template.bind({});
-Dropdown2.args = {
+export const Breadcrumbs2 = Template.bind({});
+Breadcrumbs2.args = {
   store: storyStore,
-  selectedId: 2,
-  hidden: true,
+  selectedId: 4,
 };
