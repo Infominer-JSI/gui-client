@@ -25,8 +25,14 @@ const Template: Story<DropdownProps> = (args: DropdownProps) => (
   <Dropdown {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {
+export const Dropdown0 = Template.bind({});
+Dropdown0.args = {
   selectedId: 0,
   options: ["sunburst"],
+};
+
+export const Dropdown1 = Template.bind({});
+Dropdown1.args = {
+  selectedId: 0,
+  options: ["number", "datetime", "category", "class", "text"],
 };

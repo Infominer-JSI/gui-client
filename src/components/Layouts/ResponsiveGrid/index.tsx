@@ -6,7 +6,7 @@ import Toolbox from "./Toolbox";
 import cn from "classnames";
 // import defaults
 import {
-  responsivePb,
+  responsiveBp,
   responsiveCp,
   responsiveCols,
   generateGrid,
@@ -46,7 +46,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
     const defaultGrid = getFromLS(layoutKey, "layouts") ?? {};
     if (Object.keys(defaultGrid).length === 0) {
       // generate the default grid from scrach
-      for (const bp in responsivePb) {
+      for (const bp in responsiveBp) {
         // set the breakpoints for the new grid layout
         defaultGrid[bp] = generateGrid(props.children, bp);
       }
@@ -69,7 +69,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
     const defaultGrid = getFromLS(layoutKey, "layouts") ?? {};
     if (Object.keys(defaultGrid).length === 0) {
       // generate the default grid from scrach
-      for (const bp in responsivePb) {
+      for (const bp in responsiveBp) {
         // set the breakpoints for the new grid layout
         defaultGrid[bp] = generateGrid(props.children, bp);
       }
@@ -86,6 +86,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
   }
 
   function onDeleteItem(item: any, label: string) {
+    console.log(item, label);
     setToolbox((prevToolbox) => [...prevToolbox, [item, label]]);
     setLayouts((prevLayouts) => {
       for (const bp in prevLayouts) {
@@ -98,6 +99,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
   }
 
   function onAddItem(item: any) {
+    console.log(item);
     setToolbox((prevToolbox) =>
       // remove the item from the toolbox
       prevToolbox.filter((xitem: any) => xitem[0].i !== item.i)
@@ -133,7 +135,7 @@ export default function ResponsiveGrid(props: IResponsiveGrid) {
         className={className}
         onBreakpointChange={onBreakpointChange}
         containerPadding={responsiveCp}
-        breakpoints={responsivePb}
+        breakpoints={responsiveBp}
         cols={responsiveCols}
         layouts={layouts}
         isBounded={true}

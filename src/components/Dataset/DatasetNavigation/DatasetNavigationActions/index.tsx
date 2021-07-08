@@ -5,6 +5,7 @@ import { download } from "utils/utils";
 
 // import components
 import Button from "components/Inputs/Button";
+import Input from "components/Inputs/Input";
 import Modal from "components/Modal";
 
 import axios from "axios";
@@ -19,8 +20,6 @@ import {
   getSubset,
   IStoreContext,
 } from "utils/GlobalState";
-
-import { useInput } from "utils/hooks";
 
 //===============================================
 // Define the component interfaces
@@ -54,12 +53,7 @@ export default function Metadata(props: INavigationMetadata) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalHeader, setModalHeader] = useState("");
   const [modalType, setModalType] = useState<"delete" | "edit">("delete");
-  const [updatedLabel, setUpdatedLabel, labelInput] = useInput({
-    className: styles.input,
-    name: "flabel",
-    value: label,
-    type: "text",
-  });
+  const [updatedLabel, setUpdatedLabel] = useState(label);
 
   //=============================================
   // Define the modal helper functions
@@ -105,13 +99,17 @@ export default function Metadata(props: INavigationMetadata) {
 
   // update the subset
   async function updateSubset() {
+    // check if the updated label is not empty
+    if (updatedLabel.length === 0) {
+      // TODO: add notification
+      return;
+    }
+
     const {
       data: { subsets: subset },
     } = await axios.put(`/api/v1/datasets/${datasetId}/subsets/${subsetId}`, {
-      body: {
-        subsets: {
-          label: updatedLabel,
-        },
+      subsets: {
+        label: updatedLabel,
       },
     });
     closeModal();
@@ -127,7 +125,10 @@ export default function Metadata(props: INavigationMetadata) {
       execFunction = deleteSubset;
       break;
     case "edit":
-      modalContent = editModalContent(labelInput);
+      modalContent = editModalContent({
+        label: updatedLabel,
+        onChange: (e) => setUpdatedLabel(e.target.value),
+      });
       execFunction = updateSubset;
   }
 
@@ -199,13 +200,26 @@ function deleteModalContent(label: string) {
   );
 }
 
-function editModalContent(InputElement: React.ReactNode) {
+function editModalContent(props: {
+  label: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  const { label, onChange } = props;
+
   return (
     <React.Fragment>
       <h3 className={styles.heading}>Update subset content</h3>
       <div className={styles.section}>
-        <label htmlFor="flabel">Subset Label</label>
-        {InputElement}
+        <Input
+          type="text"
+          name="subset"
+          value={label}
+          placeholder="Insert subset label"
+          label="Subset Label"
+          onChange={onChange}
+          invalid={label.length === 0}
+          message={"Subset label cannot be empty"}
+        />
       </div>
     </React.Fragment>
   );
