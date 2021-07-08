@@ -30,7 +30,14 @@ Default.args = {
     id: 1,
     filename: "dataset.txt",
     delimiter: ";",
-    fields: [{ name: "field", type: "number", included: true }],
+    fields: [
+      { name: "field0", type: "number", included: true },
+      { name: "field1", type: "number", included: true },
+      { name: "field2", type: "number", included: true },
+      { name: "field3", type: "number", included: true },
+      { name: "field4", type: "number", included: true },
+      { name: "field5", type: "number", included: true },
+    ],
   },
   metadata: {
     types: ["number", "datetime", "category", "class", "text"],

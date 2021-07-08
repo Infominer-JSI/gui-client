@@ -1,5 +1,5 @@
 // import components
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import ProgressBar from "components/ProgressBar";
 import UploadForm from "./UploadForm";
@@ -11,10 +11,13 @@ import { faSync } from "@fortawesome/free-solid-svg-icons";
 // get default supported upload types
 import { SUPPORTED_UPLOAD_TYPES } from "utils/defaults";
 
+import { useDocumentTitle } from "utils/hooks";
+
 // import request library
 import axios from "axios";
 
 // import styles
+import cn from "classnames";
 import styles from "./styles.module.scss";
 
 //===============================================
@@ -63,16 +66,37 @@ function validator(file: File) {
 //===============================================
 
 export default function Upload() {
-  // set the dataset state container
-  const [fileInfo, setFileInfo] = useState<any>();
+  const [file, setFile] = useState<File | null>(null);
+  const [dataset, setDataset] = useState<IFileDataset | null>(null);
+  const [metadata, setMetadata] = useState<IFileMetadata | null>(null);
   const [progress, setProgress] = useState(0);
-  // set the dataset info
-  const [dataset, setDataset] = useState<IFileDataset | null>();
-  const [metadata, setMetadata] = useState<IFileMetadata>();
+
+  // update document title
+  useDocumentTitle("Dataset Upload | Infominer");
+
+  const onReset = useCallback(async () => {
+    if (dataset) {
+      const {
+        data: {
+          datasets: { isDeleted },
+        },
+      } = await axios.delete(`/api/v1/datasets/${dataset.id}`);
+
+      if (isDeleted) {
+        setProgress(0);
+        setDataset(null);
+        setMetadata(null);
+        setFile(null);
+      } else {
+        // TODO: handler error on deletion
+      }
+    }
+  }, [dataset]);
 
   // uploads the file to infominer
   async function onDrop(files: File[]) {
     if (files.length === 1) {
+      setFile(files[0]);
       try {
         const formData = new FormData();
         formData.append("file", files[0]);
@@ -89,7 +113,7 @@ export default function Upload() {
         setDataset(datasets);
         setMetadata(metadata);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   }
@@ -101,24 +125,27 @@ export default function Upload() {
   }
 
   // initialize the dropzone
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
     validator,
     onDrop,
     onDropRejected,
+    disabled: file ? true : false,
   });
 
-  console.log(dataset);
-  console.log(metadata);
+  const dropzoneClass = cn(styles.dropzone, {
+    [styles.disabled]: file ? true : false,
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <h1 className={styles.header}>Upload</h1>
         {dataset && metadata ? (
-          <UploadForm dataset={dataset} metadata={metadata} />
+          <UploadForm dataset={dataset} metadata={metadata} onReset={onReset} />
         ) : (
           <React.Fragment>
-            <div {...getRootProps({ className: styles.dropzone })}>
+            <div {...getRootProps({ className: dropzoneClass })}>
               <input {...getInputProps()} />
               <p>
                 Drag 'n' drop the dataset file here, or click to select file
@@ -127,7 +154,8 @@ export default function Upload() {
             <ProgressBar progress={progress} />
             {progress === 100 && !dataset ? (
               <div className={styles.loading}>
-                <FontAwesomeIcon icon={faSync} size="3x" spin />
+                <FontAwesomeIcon icon={faSync} size="2x" spin />
+                <div>Extracting Metadata...</div>
               </div>
             ) : null}
           </React.Fragment>

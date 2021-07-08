@@ -15,6 +15,8 @@ import styles from "./styles.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 
+import { useDocumentTitle } from "utils/hooks";
+
 // import global state
 import { useStore } from "utils/GlobalState";
 
@@ -31,6 +33,8 @@ import { IDataset, ISubset, IMethod } from "Interfaces";
 export default function Datasets() {
   // get the gobal store
   const { store, setStore } = useStore();
+
+  useDocumentTitle("Dataset Analysis | Infominer");
 
   // get URL parameters
   const params = useParams<{ datasetId: string; subsetId: string }>();

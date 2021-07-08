@@ -1,64 +1,84 @@
 @import "assets/definitions.scss";
-@import "assets/defaults.scss";
+
+section:not(:first-of-type) {
+  margin: $spacing-32 0;
+}
 
 .dataset {
   @include text-small();
   > * {
     margin-bottom: $spacing-12;
   }
-
   .name {
-    position: relative;
     width: clamp(200px, 40vw, 300px);
-  }
-  .description {
-    position: relative;
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    position: relative;
-    padding: $spacing-24 $spacing-12 $spacing-8;
-  }
-
-  label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: $spacing-8 $spacing-12;
-    @include text-tiny();
-    color: $color-blue-700;
   }
 }
 
-.fields {
-  .header {
-    @include text-title-6();
+.header {
+  @include text-title-6();
+}
+
+.table {
+  width: 100%;
+  border-spacing: 0;
+  thead {
+    th {
+      border-bottom: 1px solid $color-gray-500;
+      padding: $spacing-4 $spacing-8;
+      @include text-small();
+      &.field {
+        text-align: left;
+        width: max-content;
+      }
+      &.type {
+        width: 150px;
+      }
+      &.included {
+        width: 50px;
+      }
+    }
   }
-  .table {
-    width: 100%;
-    border-spacing: 0;
-    thead {
-      th {
-        border-bottom: 1px solid $color-gray-500;
-        padding: $spacing-4 $spacing-8;
-        &.field {
-          text-align: left;
-          width: max-content;
-        }
-        &.type {
-          width: 150px;
-        }
-        &.included {
-          width: 50px;
-        }
-      }
+  tbody {
+    td {
+      text-align: center;
+      padding: $spacing-8;
+      vertical-align: baseline;
     }
-    tbody {
-      td {
-        padding: $spacing-4 $spacing-8;
-      }
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.dropdown {
+  width: 100%;
+  button:hover {
+    background: none !important;
+  }
+}
+
+.stopwords {
+  .options {
+    display: grid;
+    grid-template-columns: 140px auto;
+    grid-template-rows: auto;
+    grid-template-areas: "dropdown textarea";
+    grid-gap: $spacing-16;
+
+    .dropdown {
+      grid-area: dropdown;
     }
+    .textarea {
+      grid-area: textarea;
+    }
+  }
+}
+
+.actions {
+  margin-top: $spacing-32;
+  text-align: right;
+  > * {
+    margin-left: $spacing-12;
   }
 }

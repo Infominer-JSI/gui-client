@@ -5,12 +5,16 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
+import { useDocumentTitle } from "utils/hooks";
+
 // import components
 import DatasetsTable from "components/Datasets/DatasetsTable";
 
 import styles from "./styles.module.scss";
 
 export default function Datasets() {
+  useDocumentTitle("Datasets | Infominer");
+
   const [datasets, setDatasets] = useState<IDatasets>({ datasets: [] });
 
   useEffect(() => {
