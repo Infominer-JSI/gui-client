@@ -2,19 +2,25 @@
 import { IDatasets } from "Interfaces";
 // import modules
 import React, { useState, useEffect } from "react";
+
+import axios from "axios";
+
+import { useDocumentTitle } from "utils/hooks";
+
 // import components
 import DatasetsTable from "components/Datasets/DatasetsTable";
 
 import styles from "./styles.module.scss";
 
 export default function Datasets() {
+  useDocumentTitle("Datasets | Infominer");
+
   const [datasets, setDatasets] = useState<IDatasets>({ datasets: [] });
 
   useEffect(() => {
     async function fetchData() {
-      // get the datasetsa
-      const response = await fetch("/api/v1/datasets");
-      const data: IDatasets = await response.json();
+      // get the datasets
+      const { data }: { data: IDatasets } = await axios("/api/v1/datasets");
       setDatasets(data);
     }
     fetchData();

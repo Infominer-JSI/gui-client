@@ -3,18 +3,18 @@ import React from "react";
 import { Story } from "@storybook/react/types-6-0";
 
 // import the component
-import Navigation from "./index";
+import DatasetNavigation from "./index";
 
 // import static values
-import { storyStore } from "utils/defaults";
+import { storyStore } from "utils/storybookDefaults";
 
 // ==============================================
 // Configure Story
 // ==============================================
 
 const storyComponent = {
-  component: Navigation,
-  title: "Dataset/Navigation",
+  component: DatasetNavigation,
+  title: "Dataset/Dataset Navigation",
 };
 
 export default storyComponent;
@@ -23,9 +23,9 @@ export default storyComponent;
 // Configure Story Versions
 // ==============================================
 
-type NavigationProps = React.ComponentProps<typeof Navigation>;
+type NavigationProps = React.ComponentProps<typeof DatasetNavigation>;
 const Template: Story<NavigationProps> = (args: NavigationProps) => (
-  <Navigation {...args} />
+  <DatasetNavigation {...args} />
 );
 
 export const Navigation1 = Template.bind({});

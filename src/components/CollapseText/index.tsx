@@ -55,7 +55,7 @@ export default function Collapse(props: ICollapse) {
   const showButton = showMore ? (
     <Button
       className={styles.button}
-      type="full"
+      type="outline"
       size="small"
       color="gray"
       intensity="light"

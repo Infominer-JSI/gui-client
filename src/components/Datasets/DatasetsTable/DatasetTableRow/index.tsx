@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { formatNumber, formatDate } from "utils/format";
 import { sleep } from "utils/utils";
 
+import axios from "axios";
+
 // import styles and images
 import styles from "./styles.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,8 +28,7 @@ export default function DatasetsTableRow(props: IDataset) {
   useEffect(() => {
     async function checkDataset(): Promise<void> {
       // get the dataset status
-      const response = await fetch(`/api/v1/datasets/${id}/status`);
-      const dataset = await response.json();
+      const { data: dataset } = await axios(`/api/v1/datasets/${id}/status`);
       if (dataset.status === "LOADING") {
         // the dataset is still loading
         // wait for 5 seconds and then check again

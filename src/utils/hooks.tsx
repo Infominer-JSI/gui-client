@@ -70,23 +70,12 @@ export function useContainerSize(reference: React.RefObject<any>, ms = 200) {
 // Define the useInput hook
 //===============================================
 
-interface IInput {
-  className?: any;
-  value?: string;
-  name?: string;
-  type: string;
-}
+export function useDocumentTitle(title: string) {
+  const [docTitle, setDocTitle] = useState(title);
 
-export function useInput(settings: IInput) {
-  const [value, setValue] = useState(settings.value || "");
-  const inputElement = (
-    <input
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      className={settings.className}
-      type={settings.type}
-      name={settings.name}
-    />
-  );
-  return [value, setValue, inputElement];
+  useEffect(() => {
+    document.title = docTitle;
+  }, [docTitle]);
+
+  return [docTitle, setDocTitle];
 }

@@ -1,0 +1,68 @@
+@import "assets/definitions.scss";
+
+.container {
+  position: relative;
+  display: inline-block;
+  @include text-body();
+  cursor: pointer;
+
+  &.labelled {
+    padding-left: 35px;
+    padding-top: 1px;
+  }
+
+  input[type="checkbox"] {
+    visibility: hidden;
+    height: 17px;
+    width: 16px;
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background: $color-white;
+    border-radius: $border-radius-4;
+    border: 1px solid $color-blue-700;
+    cursor: pointer;
+  }
+
+  & input:active ~ label,
+  & input:checked ~ label {
+    background-color: $color-blue-700;
+  }
+
+  label:after {
+    content: "";
+    position: absolute;
+    display: none;
+    cursor: pointer;
+  }
+
+  & label:after {
+    left: 7px;
+    bottom: 6px;
+    width: 4px;
+    height: 8px;
+    border: solid $color-white;
+    border-width: 0px 3px 3px 0px;
+    transform: rotate(45deg);
+  }
+
+  & input:active ~ label:after,
+  & input:checked ~ label:after,
+  &:hover input ~ label:after {
+    display: block;
+  }
+
+  &:hover input ~ label:after {
+    border-color: $color-blue-700;
+  }
+
+  &:hover input:active ~ label:after,
+  &:hover input:checked ~ label:after {
+    border-color: $color-white;
+  }
+}

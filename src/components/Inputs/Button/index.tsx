@@ -18,6 +18,7 @@ interface IButton {
   size: "small" | "medium" | "large";
   color: "blue" | "green" | "yellow" | "red" | "gray";
   intensity: "light" | "dark";
+  disabled?: boolean;
   text?: string;
 }
 
@@ -34,6 +35,7 @@ export default function Button(props: IButton) {
     intensity = "dark",
     icon,
     text,
+    disabled,
     className,
     onClick,
   } = props;
@@ -56,10 +58,11 @@ export default function Button(props: IButton) {
     className,
     {
       [styles.justIcon]: !text,
+      [styles.disabled]: disabled,
     }
   );
   return (
-    <button className={buttonStyle} onClick={onClick}>
+    <button className={buttonStyle} onClick={onClick} disabled={disabled}>
       {text} {iconComponent}
     </button>
   );

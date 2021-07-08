@@ -7,6 +7,8 @@ import { formatNumber, formatDate } from "utils/format";
 import Button from "components/Inputs/Button";
 import Modal from "components/Modal";
 
+import axios from "axios";
+
 // import styles and images
 import styles from "./styles.module.scss";
 
@@ -26,10 +28,7 @@ export default function DatasetHeader(props: IDataset) {
 
   const toggleDeleteModal = () => setDeleteOpen((prevMode) => !prevMode);
   const deleteDataset = async () => {
-    const response = await fetch(`/api/v1/datasets/${id}`, {
-      method: "DELETE",
-    });
-    const data = await response.json();
+    const data = await axios.delete(`/api/v1/datasets/${id}`);
     console.log(data);
     toggleDeleteModal();
     history.push("/datasets");

@@ -1,0 +1,46 @@
+@import "assets/definitions.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 8vh 15px;
+}
+
+.content {
+  width: 100%;
+}
+
+.header {
+  margin-bottom: $spacing-12;
+}
+
+.dropzone {
+  background: $color-gray-200;
+  padding: 50px 120px;
+  text-align: center;
+  cursor: pointer;
+  &.disabled {
+    cursor: no-drop;
+  }
+}
+
+.status {
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $color-blue-700;
+  > * {
+    margin-top: $spacing-16;
+  }
+}
+
+@media (min-width: $breakpoint-screen-sm) {
+  .content {
+    width: clamp($breakpoint-screen-sm, 60vw, $breakpoint-screen-lg);
+  }
+}

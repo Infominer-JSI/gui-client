@@ -27,11 +27,11 @@ $content-width: calc(100% - 30px);
       background-color: $color-red-400;
       color: $color-red-50;
       button {
-        color: $color-blue-50;
-        border-color: $color-blue-50;
+        color: $color-blue-600;
+        border-color: $color-blue-600;
         &:hover {
           color: $color-blue-50;
-          border-color: $color-blue-50;
+          border-color: $color-red-50;
           background-color: $color-blue-600;
         }
       }
@@ -42,11 +42,11 @@ $content-width: calc(100% - 30px);
       background-color: $color-yellow-600;
       color: $color-yellow-50;
       button {
-        color: $color-blue-50;
-        border-color: $color-blue-50;
+        color: $color-blue-600;
+        border-color: $color-blue-600;
         &:hover {
           color: $color-blue-50;
-          border-color: $color-blue-50;
+          border-color: $color-red-50;
           background-color: $color-blue-600;
         }
       }
@@ -57,11 +57,11 @@ $content-width: calc(100% - 30px);
       background-color: $color-green-600;
       color: $color-green-50;
       button {
-        color: $color-blue-50;
-        border-color: $color-blue-50;
+        color: $color-blue-600;
+        border-color: $color-blue-600;
         &:hover {
           color: $color-blue-50;
-          border-color: $color-blue-50;
+          border-color: $color-red-50;
           background-color: $color-blue-600;
         }
       }

@@ -1,0 +1,32 @@
+@import "assets/definitions.scss";
+
+.container {
+  position: relative;
+  textarea {
+    width: 100%;
+    position: relative;
+    resize: none;
+    padding: $spacing-8 $spacing-12;
+    box-sizing: border-box;
+    @include text-body();
+    border-radius: $border-radius-4;
+    border-width: 1px;
+    &:disabled {
+      color: $color-gray-400;
+      border-color: $color-gray-400;
+    }
+  }
+
+  &.labelled textarea {
+    padding-top: $spacing-28;
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: $spacing-8 $spacing-12;
+    @include text-tiny();
+    color: $color-blue-700;
+  }
+}

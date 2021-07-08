@@ -27,7 +27,7 @@ export default function MethodAggregates(props: IComponentMethod) {
 
   // get the method parameters and use them to visualize the results
   const method1 = getMethod(store, methodId) as IMethod;
-  const datasetId = getDataset(store) as IDataset;
+  const dataset = getDataset(store) as IDataset;
 
   // normalize the other methods based on the first aggregate values
   const method0 = getMethod(store, 0) as IMethod;
@@ -57,7 +57,7 @@ export default function MethodAggregates(props: IComponentMethod) {
   }
 
   // create the grid layout key
-  const gridLayoutKey = `D${datasetId}/AGGREGATES`;
+  const gridLayoutKey = `D${dataset.id}/AGGREGATES`;
 
   return (
     <ResponsiveGrid layoutKey={gridLayoutKey} hasToolbox={true}>

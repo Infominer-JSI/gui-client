@@ -1,8 +1,9 @@
 // import modules and components
 import { useState, useEffect, useRef } from "react";
-import NavigationButton from "./NavigationButton";
-import NavigationDropdown from "./NavigationDropdown";
-import NavigationMetadata from "./NavigationMetadata";
+import DatasetNavigationButton from "./DatasetNavigationButton";
+import DatasetNavigationDropdown from "./DatasetNavigationDropdown";
+import DatasetNavigationMetadata from "./DatasetNavigationMetadata";
+import DatasetNavigationActions from "./DatasetNavigationActions";
 
 // import styles
 import styles from "./styles.module.scss";
@@ -30,7 +31,7 @@ interface INavigation {
 
 export default function Navigation(props: INavigation) {
   // get the metadata for creating the navigation dropdown
-  const { store, selectedId, handleToggleSidebar } = props;
+  const { store, selectedId, handleToggleSidebar = () => {} } = props;
 
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,8 +64,8 @@ export default function Navigation(props: INavigation) {
         </div>
       </div>
       <div className={styles.navigation} ref={containerRef}>
-        <NavigationButton selected={selected} onClick={toggleDropdown} />
-        <NavigationDropdown
+        <DatasetNavigationButton selected={selected} onClick={toggleDropdown} />
+        <DatasetNavigationDropdown
           store={store}
           selectedId={selectedId}
           onClick={toggleDropdown}
@@ -72,7 +73,10 @@ export default function Navigation(props: INavigation) {
         />
       </div>
       <div className={styles.metadata}>
-        <NavigationMetadata store={store} subsetId={selectedId} />
+        <DatasetNavigationMetadata store={store} subsetId={selectedId} />
+      </div>
+      <div className={styles.actions}>
+        <DatasetNavigationActions store={store} subsetId={selectedId} />
       </div>
     </div>
   );

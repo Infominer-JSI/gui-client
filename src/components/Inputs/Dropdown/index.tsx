@@ -4,6 +4,7 @@ import Button from "components/Inputs/Button";
 import DropdownList from "./DropdownList";
 
 // import styles
+import cn from "classnames";
 import styles from "./styles.module.scss";
 
 //===============================================
@@ -13,8 +14,12 @@ import styles from "./styles.module.scss";
 interface IDropdown {
   className?: any;
   selectedId: number;
+  disabled?: boolean;
   options: string[];
   onClick?: (id: number) => void;
+  buttonSize?: "small" | "medium" | "large";
+  buttonType?: "full" | "outline";
+  buttonIntensity?: "light" | "dark";
 }
 
 //===============================================
@@ -23,7 +28,16 @@ interface IDropdown {
 
 export default function Dropdown(props: IDropdown) {
   // get the metadata for creating the navigation dropdown
-  const { className, selectedId, options, onClick } = props;
+  const {
+    className,
+    selectedId,
+    options,
+    disabled,
+    onClick,
+    buttonSize = "small",
+    buttonType = "outline",
+    buttonIntensity = "light",
+  } = props;
   const [hidden, setHidden] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -45,15 +59,18 @@ export default function Dropdown(props: IDropdown) {
     setHidden(!hidden);
   };
 
+  const containerName = cn(styles.container, className);
+
   return (
-    <div className={styles.container} ref={containerRef}>
+    <div className={containerName} ref={containerRef}>
       <Button
-        className={className}
-        type="outline"
-        size="small"
+        className={styles.button}
+        disabled={disabled}
+        type={buttonType}
+        size={buttonSize}
         color="gray"
-        intensity="light"
-        onClick={toggleDropdown}
+        intensity={buttonIntensity}
+        onClick={disabled ? () => {} : toggleDropdown}
         text={options[selectedId]}
       />
       <DropdownList

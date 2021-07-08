@@ -16,11 +16,11 @@ const breakpointValues: {
   { label: "xxs", cols: 3, breakpoint: 0, padding: [16, 16] },
 ];
 
-export const responsivePb: { [key: string]: number } = {};
+export const responsiveBp: { [key: string]: number } = {};
 export const responsiveCp: { [key: string]: [number, number] } = {};
 export const responsiveCols: { [key: string]: number } = {};
 for (const value of breakpointValues) {
-  responsivePb[value.label] = value.breakpoint;
+  responsiveBp[value.label] = value.breakpoint;
   responsiveCp[value.label] = value.padding;
   responsiveCols[value.label] = value.cols;
 }

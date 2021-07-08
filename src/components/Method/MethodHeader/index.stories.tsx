@@ -6,7 +6,7 @@ import { Story } from "@storybook/react/types-6-0";
 import MethodHeader from "./index";
 
 // import static values
-import { storyStore } from "utils/defaults";
+import { storyStore } from "utils/storybookDefaults";
 
 // ==============================================
 // Configure Story
